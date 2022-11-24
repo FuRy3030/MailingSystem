@@ -1,0 +1,55 @@
+.Drawer {
+    z-index: 2;
+    position: fixed;
+    right: 0px;
+    width: calc(77% + 12px);
+    height: auto;
+    padding: clamp(14px, 2.5vh, 60px) clamp(16px, 3vw, 70px);
+    background-color: white;
+    -webkit-box-shadow: 0px 3px 5px -1px rgb(237, 239, 241);
+    -moz-box-shadow: 0px 3px 5px -1px rgb(237, 239, 241);
+    box-shadow: 0px 3px 5px -1px rgb(237, 239, 241);
+    border-top: 1px solid rgb(243, 243, 247);
+}
+
+.DrawerHeader {
+    font-family: var(--standard-font);
+    font-weight: 800;
+    font-size: clamp(10px, 1.5vw, 50px);
+    color: var(--dark-font-color);
+    width: 100%;
+    text-align: start;
+    cursor: default;
+    margin-bottom: 1vh;
+    margin-left: 1.15vw;
+}
+
+.DrawerSubHeader {
+    font-family: var(--standard-font);
+    font-weight: 600;
+    font-size: clamp(6px, 0.95vw, 35px);
+    color: var(--grey-font-color);
+    width: 100%;
+    text-align: start;
+    cursor: default;
+    margin-bottom: 0px;
+    padding-bottom: clamp(14px, 2.5vh, 60px);
+    margin-left: 1.15vw;
+}
+
+.DrawerSubHeader span {
+    margin-left: 0.35vw;
+}
+
+.DrawerSyncButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(11px, 1.1vw, 47px);
+    padding: 0.9vh 1vw;
+    margin-left: 2vw;
+    font-weight: 800;
+}
+
+.DrawerSyncButton > svg {
+    margin-left: 0.75vw;
+}

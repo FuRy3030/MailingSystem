@@ -1,0 +1,36 @@
+.userAvatarWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0px clamp(10px, 2.25vw, 60px);
+}
+
+.avatar {
+    width: 2.75vw !important;
+    height: auto !important;
+}
+
+.textWrapper {
+    display: flex;
+    flex-direction: column;
+    padding-left: clamp(7px, 1vw, 35px);
+}
+
+.name {
+    position: relative;
+    font-family: var(--standard-font);
+    font-weight: 700;
+    font-size: clamp(9.5px, 1.15vw, 45px);
+    color: var(--dark-font-color);
+    margin-bottom: 0px;
+}
+
+.organization {
+    position: relative;
+    font-family: var(--standard-font);
+    font-weight: 500;
+    font-size: clamp(6.5px, 0.85vw, 30px);
+    color: var(--dark-font-color);
+    margin-bottom: 0px;
+}

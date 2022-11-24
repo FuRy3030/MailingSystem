@@ -1,0 +1,71 @@
+.LandingPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.LandingPage video {
+    position: absolute; 
+    right: 0; 
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto; 
+    height: auto; 
+    z-index: -100;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.LandingPageContent {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 90%;
+    margin-left: auto; 
+    margin-right: auto;
+    top: 25%;
+    left: 5%;
+}
+
+.Icon {
+    position: relative;
+    cursor: default;
+    color: white;
+    font-size: clamp(12px, 3.5vw, 60px);
+    margin-top: clamp(50px, 12vh, 200px);
+    margin-bottom: clamp(8px, 2vh, 30px);
+}
+
+.Header {
+    position: relative;
+    cursor: default;
+    font-family: var(--standard-font);
+    font-weight: 800;
+    font-size: clamp(20px, 5vw, 100px);
+    color: white;
+    margin-bottom: clamp(15px, 4vh, 60px);
+    text-align: center;
+}
+
+.SubHeader {
+    position: relative;
+    cursor: default;
+    font-family: var(--standard-font);
+    font-weight: 600;
+    font-size: clamp(8px, 2vw, 40px);
+    color: white;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.IMGLogo {
+    width: 3vw;
+    height: auto;
+    margin-top: clamp(50px, 12vh, 200px);
+    margin-bottom: clamp(8px, 2vh, 30px);
+}

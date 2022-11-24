@@ -1,0 +1,114 @@
+.NavBar {
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    z-index: 6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.4s ease;
+    -webkit-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    -moz-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: clamp(5px, 0.75vh, 50px);
+    padding-bottom: clamp(5px, 0.75vh, 50px);
+}
+
+.NavBarTransparent {
+    position: fixed;
+    background-color: transparent;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.IMGNavbar {
+    width: 12.5vw;
+    height: auto;
+    padding: clamp(6px, 1vh, 20px) clamp(12px, 2vw, 50px) clamp(6px, 1vh, 20px) clamp(12px, 2vw, 50px);
+    cursor: pointer;
+}
+
+.NavBarHeader {
+    font-family: var(--standard-font);
+    font-weight: 800;
+    font-size: clamp(10px, 2.5vw, 50px);
+    color: black;
+    margin-bottom: 0px;
+    padding: clamp(10px, 2vh, 30px) clamp(12px, 2vw, 50px) clamp(10px, 2vh, 30px) clamp(12px, 2vw, 50px);
+    cursor: pointer;
+    margin-top: 0px !important;
+}
+
+.NavBarTransparent .NavBarHeader {
+    color: white;
+}
+
+.NavBarContent {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    align-items: center;
+}
+
+.NavBarLink {
+    position: relative;
+    cursor: pointer;
+    font-family: var(--standard-font);
+    font-weight: 800;
+    font-size: clamp(8px, 1.35vw, 40px);
+    color: var(--blue-site-dark-color);
+    padding: clamp(8px, 1.5vh, 30px) clamp(8px, 1.25vw, 50px);
+    margin: 0px clamp(10px, 2.25vw, 60px);
+    transition: all 0.5s ease-in-out;
+    text-decoration: none;
+}
+
+.NavBarLink > svg {
+    margin-left: clamp(7px, 1vw, 45px);
+}
+
+.NavBarTransparent .NavBarLink {
+    color: white;
+}
+
+.NavBarLink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+    width: 100%;
+    height: 2px;
+    background: var(--blue-site-dark-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.5s ease;
+}
+
+.NavBarTransparent .NavBarLink::after {
+    background: white;
+}
+
+.NavBarIcon {
+    padding: 1.5vw;
+    border-radius: 50%;
+    margin: clamp(10px, 2vh, 30px) clamp(10px, 3.25vw, 60px);
+    background-color: white;
+    color: var(--dark-font-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(8px, 1.25vw, 40px);
+    cursor: pointer;
+}
+
+@media (hover) {
+    .NavBarLink:hover:after {
+        transform: scaleX(1);
+    }
+}

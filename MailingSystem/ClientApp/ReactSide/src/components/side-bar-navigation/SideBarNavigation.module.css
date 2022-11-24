@@ -1,0 +1,68 @@
+.SideBar {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: 100%;
+    height: auto;
+    position: sticky;
+    left: 0px;
+    background-color: #fafbfd;
+    padding-top: 5vh;
+    -webkit-box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
+    -moz-box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
+    box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
+    border-right: 1px solid rgb(243, 243, 247);
+}
+
+.SideBarLink {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    position: relative;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: clamp(12px, 1.3vw, 60px);
+    color: var(--grey-font-color);
+    padding: clamp(8px, 1.4vh, 30px) clamp(8px, 1.15vw, 35px);
+    margin: clamp(10px, 1.75vh, 50px) auto;
+    transition: all 0.5s ease-in-out;
+    text-decoration: none;
+    background-color: transparent;
+    border-radius: 14px;
+}
+
+.SideBarLink > span {
+    flex: 1;
+    font-family: var(--standard-font);
+}
+
+.SideBarLink > svg {
+    padding: 0px 1.5vw 0px 1.25vw;
+    color: var(--grey-font-color);
+}
+
+.SideBarLink:hover {
+    color: var(--dark-font-color);
+    background-color: white;
+    transform: scale(1.05);
+    -webkit-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    -moz-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    box-shadow: 0px 2px 5px -1px rgb(228, 228, 228);
+}
+
+.SideBarLink:hover > svg {
+    color: var(--blue-site-color);
+}
+
+.SideBarLinkActive {
+    color: var(--dark-font-color);
+    background-color: white;
+    transform: scale(1.05);
+    -webkit-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    -moz-box-shadow: 0px 3px 5px -1px rgb(243, 243, 246);
+    box-shadow: 0px 2px 5px -1px rgb(228, 228, 228);
+}
+
+.SideBarLinkActive > svg {
+    color: var(--blue-site-color);
+}

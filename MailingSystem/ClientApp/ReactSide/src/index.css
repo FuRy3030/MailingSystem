@@ -1,0 +1,176 @@
+:root {
+  --standard-font: 'Quicksand', sans-serif;
+  --dark-font-color: #303545;
+  --grey-font-color: #96a2b0;
+  --grey2-font-color: #717171;
+  --vibrant-blue: #00A4FF;
+  --blue-site-color: #2563eb;
+  --blue-site-dark-color: #134ECD;
+  --blue-site-light-color: #5787EF;
+  --rich-purple-color: #6501e5;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fbfbfd;
+  scrollbar-width: thin;          
+  scrollbar-color: white #040628;  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;               
+}
+
+body::-webkit-scrollbar-track {
+  background: white;        
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #040628;    
+  border-radius: 20px;       
+  border: 3px solid white;  
+}
+
+.flexHorizontal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageWrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+#SignUpButton {
+  padding: 0px;
+  border: none;
+  border-radius: 4px;
+}
+
+.site-button {
+  font-family: var(--standard-font);
+  font-weight: 700;
+  border: 2px solid var(--vibrant-blue);
+  outline: none;
+  color: var(--blue-site-dark-color);
+  background: white;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 12px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: 0.6s all ease-in-out;
+}
+
+.site-button::before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(7.5px);
+  -webkit-filter: blur(7.5px);
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  animation: glowing-site-button 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 12px;
+}
+
+@keyframes glowing-site-button {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.site-button::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  left: 0;
+  top: 0;
+  border-radius: 12px;
+  transition: 0.6s all ease-in-out;
+}
+
+.site-button:hover {
+  background: black;
+  color: white;
+  border: 2px solid black;
+}
+
+.site-button:hover::after {
+  background: black;
+}
+
+.site-modal .modal-dialog {
+ max-width: 45%;
+}
+
+.site-modal .modal-dialog .modal-content {
+  padding: 2vw;
+  border-radius: 35px;
+  outline: 7px solid var(--blue-site-color);
+  outline-offset: 3.5px;
+}
+
+.site-modal .modal-dialog .modal-content .modal-footer {
+ padding-top: clamp(20px, 4.5vh, 100px);
+}
+
+.site-modal .modal-dialog .modal-content .modal-body {
+  font-family: var(--standard-font);
+  font-weight: 600;
+  font-size: clamp(12px, 1.65vw, 50px);
+  cursor: default;
+  color: var(--dark-font-color);
+}
+
+.site-modal .modal-dialog .modal-content .modal-header .modal-title {
+  font-family: var(--standard-font);
+  font-weight: 800 !important;
+  font-size: clamp(16px, 2.25vw, 75px) !important;
+  cursor: default;
+  color: var(--dark-font-color);
+}
+
+.site-modal button {
+  font-size: clamp(7px, 1.5vw, 35px);
+  padding: clamp(7px, 1.25vh, 30px) clamp(12px, 2vw, 50px)
+}
+
