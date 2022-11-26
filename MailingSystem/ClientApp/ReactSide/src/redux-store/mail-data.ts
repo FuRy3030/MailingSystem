@@ -19,7 +19,7 @@ export const GetRecentMails = createAsyncThunk(
 )
 
 interface IMailsData {
-    RecentMails: List<IRecentEmail> | void;
+    RecentMails: Array<IRecentEmail> | void;
     HTTPStates: {
         GetRecentMails: {
             isLoading: boolean;
@@ -29,7 +29,7 @@ interface IMailsData {
 };
 
 const InitialMailsState: IMailsData = { 
-    RecentMails: new List<IRecentEmail>(),
+    RecentMails: new Array<IRecentEmail>(),
     HTTPStates: {
         GetRecentMails: {
             isLoading: false,

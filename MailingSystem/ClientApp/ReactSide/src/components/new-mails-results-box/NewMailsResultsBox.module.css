@@ -1,0 +1,72 @@
+.Box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin-top: 1vh;
+}
+
+.BoxAlert {
+    font-family: var(--standard-font) !important;
+    font-size: clamp(5.5px, 0.75vw, 30px) !important;
+    font-weight: 600 !important;
+    cursor: default !important;
+    border-radius: 15px !important;
+    margin-bottom: 1.25vh !important;
+}
+
+.BoxAlert svg {
+    position: relative !important;
+    margin-top: 0.25vh !important;
+    width: 2.15vw !important;
+    height: 2.15vw !important;
+}
+
+.BoxAlertTitle {
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    font-size: clamp(7px, 1.05vw, 34px) !important;
+}
+
+.BoxMailsSpace {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: clamp(3px, 0.5vh, 15px);
+    border: 1px solid ghostwhite;
+    border-radius: 15px;
+    padding: 0.5vh 0.75vw;
+}
+
+.BoxMailsChip {
+    font-size: clamp(8px, 0.9vw, 39px) !important;
+    margin: 0.5vh 0.5vw !important;
+    padding: 1vh 1vw !important;
+    border-radius: 5vw !important;
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    height: auto !important;
+}
+
+.BoxMailsSpaceHeader {
+    font-family: var(--standard-font);
+    font-size: clamp(6.5px, 0.9vw, 30px);
+    font-weight: 800;
+    cursor: default;
+    color: var(--dark-font-color);
+    margin-top: clamp(6px, 1vh, 30px);
+}
+
+.BoxMailsCopyButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(8px, 1.1vw, 47px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    font-weight: 800;
+    margin-top: 1.5vh;
+}
+
+.BoxMailsCopyButton > svg {
+    margin-left: 0.75vw;
+}

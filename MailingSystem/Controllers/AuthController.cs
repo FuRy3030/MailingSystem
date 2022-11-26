@@ -23,8 +23,8 @@ namespace MailingSystem.Controllers
         }
 
         [AllowAnonymous]
-        [Route("googleverification")]
         [HttpPost]
+        [Route("googleverification")]
         public async Task<IActionResult> GoogleVerification(string Token)
         {
             try

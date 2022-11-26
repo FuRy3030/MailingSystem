@@ -6,7 +6,7 @@ import SideBarNavigation from '../../components/side-bar-navigation/SideBarNavig
 
 const ContentWrapper = styled.div`
     width: 77%;
-    padding: 7vh 4vw 0 4vw;
+    padding: 5vh 4vw 0vh 4vw;
     height: auto;
     min-height: 140vh;
 `;

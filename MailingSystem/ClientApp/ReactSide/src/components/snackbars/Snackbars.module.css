@@ -1,0 +1,19 @@
+.CustomSnackbar {
+    font-family: var(--standard-font) !important;
+    font-size: clamp(6.5px, 1vw, 35px) !important;
+    font-weight: 600 !important;
+    cursor: default !important;
+}
+
+.CustomSnackbar svg {
+    position: relative !important;
+    margin-top: 0.25vh !important;
+    width: 2.15vw !important;
+    height: 2.15vw !important;
+}
+
+.CustomSnackbarTitle {
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    font-size: clamp(10px, 1.6vw, 45px) !important;
+}

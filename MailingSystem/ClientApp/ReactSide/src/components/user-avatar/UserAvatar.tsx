@@ -11,11 +11,9 @@ interface IWebsiteUser {
     email: string;
     exp: number;
     given_name: string;
-    hd: string;
     iat: number;
     iss: string;
     jti: string;
-    name: string;
     nbf: number;
     unique_name: string;
 };
@@ -26,6 +24,7 @@ function UserAvatar() {
 
     if (Ctx?.accessToken.token != undefined) {
         const WebsiteUser: IWebsiteUser = jwt_decode(Ctx?.accessToken.token);
+        console.log(WebsiteUser);
         var { given_name } = WebsiteUser;
         Name = given_name;
     }

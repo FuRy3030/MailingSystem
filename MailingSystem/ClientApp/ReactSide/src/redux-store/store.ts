@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import MeasurementsReducer from './html-measurements';
 import MailsReducer from './mail-data';
+import UIReducer from './ui';
 
 const ReduxStore = configureStore({
   reducer: { 
     Measurements: MeasurementsReducer,
-    Mails: MailsReducer
+    Mails: MailsReducer,
+    UI: UIReducer
   },
 });
 

@@ -7,7 +7,7 @@ import { faBuildingNgo } from "@fortawesome/free-solid-svg-icons";
 
 type LandingPageProps = {
     updateNavBarStyle: (isCurrentlyIntersecting: boolean) => void
-}
+};
 
 const LandingPage = React.forwardRef<HTMLButtonElement, LandingPageProps>(({updateNavBarStyle}, buttonRef) => {
     const LandingPageBackgroundElement: any = useRef(null);
