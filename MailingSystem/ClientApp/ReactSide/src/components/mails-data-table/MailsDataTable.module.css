@@ -1,0 +1,33 @@
+.DataTableWrapper {
+    margin: clamp(16px, 5.25vh, 70px) 0px;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.DataTableWrapper svg {
+    font-size: clamp(16px, 1.6vw, 75px) !important;
+}
+
+.ToolbarContainerButton {
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    color: var(--blue-site-dark-color) !important;
+    font-size: clamp(12.5px, 1.25vw, 50px) !important;
+    margin: clamp(8px, 1vh, 35px) clamp(10px, 1vw, 40px) !important;
+}
+
+.ToolbarContainerButton > svg {
+    font-size: clamp(12.5px, 1.25vw, 50px) !important;
+}
+
+.DataTableHeader {
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    color: var(--dark-font-color) !important;
+    font-size: clamp(10px, 1vw, 40px) !important;
+}
+
+.DataTableHeader div {
+    font-weight: 800 !important;
+}

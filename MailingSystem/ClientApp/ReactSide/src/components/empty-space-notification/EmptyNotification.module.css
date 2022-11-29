@@ -1,0 +1,25 @@
+.EmptyNotification {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.EmptyNotification img {
+    width: 40%;
+    height: auto;
+    margin-bottom: 1vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.EmptyNotification span {
+    width: 100%;
+    text-align: center;
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    font-size: 1.35vw;
+}

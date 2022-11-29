@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MailingSystem.Interfaces;
 
 namespace MailingSystem.Entities
 {
-    public class OrganizationMail
+    public class OrganizationMail : IRecentEmail
     {
         [Key]
         [Required]
@@ -11,11 +12,13 @@ namespace MailingSystem.Entities
         public int MailId { get; set; }
 
         [Required]
+        [MinLength(1)]
         public string MailAddress { get; set; }
 
         public string? OrganizationName { get; set; }
 
         [Required]
+        [MinLength(1)]
         public string UserWhoAdded { get; set;}
 
         [Required]

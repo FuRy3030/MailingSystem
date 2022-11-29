@@ -1,6 +1,7 @@
 import styles from './AddMailsDrawer.module.css';
 import { MeasurementsActions } from '../../redux-store/html-measurements';
 import { UIActions } from '../../redux-store/ui';
+import { MailsActions } from '../../redux-store/mail-data';
 
 import Button from 'react-bootstrap/Button';
 import AdditionInput from '../addition-input/AdditionInput';
@@ -21,9 +22,14 @@ import Config from '../../config/config';
 import React from 'react';
 import NewMailsResultsBox from '../new-mails-results-box/NewMailsResultsBox';
 
-type MailsDrawerProps = {};
+const moment = require('moment-timezone');
 
-const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(({}, MailsDrawerContentRefExternal) => {
+type MailsDrawerProps = {
+    UpdateWrapperClass: (isWrapperExtended: boolean) => void;
+};
+
+const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(
+    (DrawerProps, MailsDrawerContentRefExternal) => {
     const MailsDrawerContentRef = useRef<HTMLDivElement | null>(null);
     const MailsDrawerRef = useRef<HTMLDivElement | null>(null);
     const EmailsInputRef = useRef<HTMLInputElement | null>(null);
@@ -82,6 +88,7 @@ const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(({}, M
     };
 
     const AddEmailsHandleClick = () => {
+        DrawerProps.UpdateWrapperClass(true);
         setStateOfResultsBox('loading');
 
         try {
@@ -128,6 +135,24 @@ const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(({}, M
                     setValidatedEmails(ValidatedEmailsResponse);
                     setStateOfResultsBox('success');
 
+                    const NewMails: IRecentEmail[] = ValidatedEmailsResponse.NewUniqueEmails.Items.map(
+                        (RecentMail: IRecentEmail, index: number) => {
+                        return { 
+                            id: 1000000000 + index, 
+                            MailId: RecentMail.MailId, 
+                            MailAddress: RecentMail.MailAddress,
+                            OrganizationName: RecentMail.OrganizationName,
+                            UserWhoAdded: RecentMail.UserWhoAdded,
+                            UserVerificatiorName: RecentMail.UserVerificatiorName,
+                            NumberOfEmailsSent: RecentMail.NumberOfEmailsSent,
+                            DateOfLastEmailSent: moment.utc(RecentMail.DateOfLastEmailSent)
+                                .local().format('YYYY-MM-DD HH:mm:ss')
+                        }
+                    });
+
+                    NewMails.forEach(Email => {
+                        Dispatch(MailsActions.AddRecentMail(Email));
+                    });
                 }).catch((err) => {
                     console.log('aaa');
                     setStateOfResultsBox('error');

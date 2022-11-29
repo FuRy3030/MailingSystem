@@ -24,7 +24,6 @@ function UserAvatar() {
 
     if (Ctx?.accessToken.token != undefined) {
         const WebsiteUser: IWebsiteUser = jwt_decode(Ctx?.accessToken.token);
-        console.log(WebsiteUser);
         var { given_name } = WebsiteUser;
         Name = given_name;
     }

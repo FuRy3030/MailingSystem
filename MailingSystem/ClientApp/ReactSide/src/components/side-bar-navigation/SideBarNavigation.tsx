@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useAppSelector } from '../../hooks/Hooks';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGrip, faSync } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelopeOpenText, faGrip, faReplyAll, faSync } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 
 function SideBarNavigation() {
     const NavigationBarHeight = useAppSelector((state) => state.Measurements.NavigationBarHeight);
@@ -25,12 +25,35 @@ function SideBarNavigation() {
                 <FontAwesomeIcon icon={faGrip} />
                 <span>Przegląd</span>
             </NavLink>
+            <NavLink to={"/mails/send"}
+                className={({ isActive }) => isActive ? 
+                `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
+                `${styles.SideBarLink}`}
+            >
+                <FontAwesomeIcon icon={faPaperPlane} />
+                <span>Wyślij Maila</span>
+            </NavLink>
+            <NavLink to={"/mails/followups"}
+                className={({ isActive }) => isActive ? 
+                `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
+                `${styles.SideBarLink}`}
+            >
+                <FontAwesomeIcon icon={faReplyAll} />
+                <span>Follow-Upy</span>
+            </NavLink>
             <NavLink to="/mails/recent" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
                 `${styles.SideBarLink}`}
             >
                 <FontAwesomeIcon icon={faEnvelope} />
                 <span>Ostatnie Maile</span>
+            </NavLink>
+            <NavLink to="/mails/templates" className={({ isActive }) => isActive ? 
+                `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
+                `${styles.SideBarLink}`}
+            >
+                <FontAwesomeIcon icon={faEnvelopeOpenText} />
+                <span>Szablony</span>
             </NavLink>
             <NavLink to="/mails/change-log" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 

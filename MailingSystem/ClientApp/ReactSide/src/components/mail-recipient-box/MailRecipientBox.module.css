@@ -1,0 +1,93 @@
+.MailRecipientBox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin: clamp(12.5px, 4.75vh, 60px) -4vw clamp(12.5px, 3.5vh, 50px) calc(-4vw - 12px);
+    height: auto;
+    /* background-color: var(--blue-color-background);
+    box-shadow: 0px 0px 16px 0px rgba(12, 60, 166, 1); */
+    border: 1px solid rgb(240, 240, 245);
+    padding: clamp(6.5px, 2.25vh, 35px) clamp(10px, 2vw, 60px);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.Header {
+    width: 100%;
+    text-align: left;
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    font-size: 1.5vw;
+    margin-bottom: 0.95vh;
+    cursor: default;
+}
+
+.WhiteDivider {
+    height: 1.25px;
+    background: #dddddd;
+    width: 100%;
+    margin-bottom: 0.5vh;
+}
+
+.PartWhenEmpty {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%
+}
+
+.MailRecipientEmptyBoxButton {
+    font-size: 1.15vw;
+    padding: 0.65vh 1.75vw;
+    margin: 0px 2vw
+}
+
+.MailRecipientEmptyBoxButton > svg {
+    margin-left: 1vw;
+}
+
+.RecipientsList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1.5vh;
+    height: auto;
+    width: 100%;
+    align-items: center;
+}
+
+.RecipientChip {
+    font-size: clamp(7.5px, 1.05vw, 30px) !important;
+    margin: clamp(5px, 0.75vh, 20px) clamp(7px, 1vw, 30px) !important;
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 0 1px rgb(251 188 4) inset !important;
+    background: rgb(254, 247, 224) !important;
+    color: var(--dark-font-color) !important;
+    padding: clamp(5px, 0.9vw, 20px) !important;
+}
+
+.RecipientsListIntro {
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    font-size: clamp(10px, 1.5vw, 47px);
+    margin-right: clamp(7px, 1vw, 30px);
+    cursor: default;
+}
+
+.RecipientContinueButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(8px, 1.1vw, 47px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    font-weight: 800;
+    margin-right: 1.5vw;
+}
+
+.RecipientContinueButton > svg {
+    margin-left: 0.75vw;
+}

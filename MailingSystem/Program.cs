@@ -56,12 +56,12 @@ builder.Services.AddAuthentication(options =>
     }
 );
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.WriteIndented = true;
-        options.JsonSerializerOptions.Converters.Add(new CustomJsonConverterForType());
-    });
+builder.Services.AddControllers();
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.WriteIndented = true;
+//        options.JsonSerializerOptions.Converters.Add(new CustomJsonConverterForType());
+//    });
 
 builder.Services.AddAuthorization();
 

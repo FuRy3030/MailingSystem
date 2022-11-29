@@ -6,6 +6,9 @@ interface IUIState {
             SuccessSnackbarIsVisible: boolean;
             ErrorSnackbarIsVisible: boolean;
             InfoSnackbarIsVisible: boolean;
+            EditDataTableSuccessSnackbarIsVisible: boolean;
+            EditDataTableErrorSnackbarIsVisible: boolean;
+            DeleteDataTableErrorSnackbarIsVisible: boolean;
         }
     };
 };
@@ -15,7 +18,10 @@ const InitialUIState: IUIState = {
         RecentMails: {
             SuccessSnackbarIsVisible: false,
             ErrorSnackbarIsVisible: false,
-            InfoSnackbarIsVisible: false
+            InfoSnackbarIsVisible: false,
+            EditDataTableSuccessSnackbarIsVisible: false,
+            EditDataTableErrorSnackbarIsVisible: false,
+            DeleteDataTableErrorSnackbarIsVisible: false
         }
     } 
 };
@@ -34,6 +40,18 @@ const UISlice = createSlice({
                     break;
                 case 'Info':
                     State.SnackbarsStates.RecentMails.InfoSnackbarIsVisible = Action.payload.isVisible;
+                    break;
+                case 'DataTableSuccess':
+                    State.SnackbarsStates.RecentMails.EditDataTableSuccessSnackbarIsVisible = 
+                        Action.payload.isVisible;
+                    break;
+                case 'DataTableError':
+                    State.SnackbarsStates.RecentMails.EditDataTableErrorSnackbarIsVisible = 
+                        Action.payload.isVisible;
+                    break;
+                case 'DataTableErrorDelete':
+                    State.SnackbarsStates.RecentMails.DeleteDataTableErrorSnackbarIsVisible = 
+                        Action.payload.isVisible;
                     break;
             }
 		},
