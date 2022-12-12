@@ -9,8 +9,34 @@ export interface IRecentEmail {
     DateOfLastEmailSent: string;
 };
 
-export interface MailBuilder {
+export interface IMailBuilder {
     Recipients: Array<string>;
+    Topic: string;
+    Content: string;
+};
+
+export interface ITemplateBuilder {
+    Name: string;
+    Type: number;
+    Topic: string;
+    Content: string;
+};
+
+export interface IUserTemplate {
+    TemplateId: number;
+    OwnerEmail: string;
+    Name: string;
+    Type: number;
+    Topic: string;
+    Content: string;
+    CreationDate: string;
+    TimePassedInDays: number;
+};
+
+export interface IUserTemplateForEdit {
+    TemplateId: number;
+    Name: string;
+    Type: number;
     Topic: string;
     Content: string;
 };

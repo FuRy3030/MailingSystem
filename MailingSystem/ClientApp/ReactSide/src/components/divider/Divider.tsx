@@ -10,6 +10,12 @@ const DividerHorizontalAlteration = () => {
     )
 };
 
-export default Divider;
+const DividerExtendedVersion = () => {
+    return (
+        <div className="divider-extended"></div>
+    )
+};
 
+export default Divider;
 export const DividerHorizontal = DividerHorizontalAlteration; 
+export const DividerExtended = DividerExtendedVersion;

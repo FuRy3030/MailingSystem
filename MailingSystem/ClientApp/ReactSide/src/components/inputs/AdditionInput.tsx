@@ -1,4 +1,4 @@
-import styles from './AdditionInput.module.css';
+import styles from './Input.module.css';
 import React, { useState } from 'react';
 
 import Form from 'react-bootstrap/Form';
@@ -13,7 +13,7 @@ type AdditionInputProps = {
 };
 
 const AdditionInput = React.forwardRef<HTMLInputElement, AdditionInputProps>(({updateEmailsString}, inputRef) => {
-    const [isInputGroupFocused, setIsInputGroupFocused] = useState(false);
+    const [isInputGroupFocused, setIsInputGroupFocused] = useState<boolean>(false);
     const InputValueChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateEmailsString(event.currentTarget.value);
     };

@@ -5,12 +5,12 @@
     width: auto;
     margin: clamp(12.5px, 4.75vh, 60px) -4vw clamp(12.5px, 3.5vh, 50px) calc(-4vw - 12px);
     height: auto;
-    /* background-color: var(--blue-color-background);
-    box-shadow: 0px 0px 16px 0px rgba(12, 60, 166, 1); */
-    border: 1px solid rgb(240, 240, 245);
     padding: clamp(6.5px, 2.25vh, 35px) clamp(10px, 2vw, 60px);
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    border: 1px solid rgb(237, 237, 237);
+    background-color: rgba(249, 250, 251, 1);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 .Header {
@@ -41,7 +41,8 @@
 .MailRecipientEmptyBoxButton {
     font-size: 1.15vw;
     padding: 0.65vh 1.75vw;
-    margin: 0px 2vw
+    margin: 0px 2vw;
+    cursor: default !important;
 }
 
 .MailRecipientEmptyBoxButton > svg {

@@ -22,6 +22,43 @@ namespace MailingSystem.Migrations.MailsDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MailingSystem.Entities.MailStatistics", b =>
+                {
+                    b.Property<int>("StatisticsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatisticsId"));
+
+                    b.Property<int>("CurrentMailId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateOfLastClick")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateOfLastOpen")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateOfLastReply")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("HasClickedLink")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasOpenedCampaign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasReplied")
+                        .HasColumnType("bit");
+
+                    b.HasKey("StatisticsId");
+
+                    b.HasIndex("CurrentMailId")
+                        .IsUnique();
+
+                    b.ToTable("MailStatistics");
+                });
+
             modelBuilder.Entity("MailingSystem.Entities.OrganizationMail", b =>
                 {
                     b.Property<int>("MailId")
@@ -54,6 +91,88 @@ namespace MailingSystem.Migrations.MailsDb
                     b.HasKey("MailId");
 
                     b.ToTable("OrganizationMails");
+                });
+
+            modelBuilder.Entity("MailingSystem.Entities.SentMailCampaign", b =>
+                {
+                    b.Property<int>("LocalId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocalId"));
+
+                    b.Property<int>("CampaignId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CampaignName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfFollowUps")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderMailAddress")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LocalId");
+
+                    b.ToTable("SentMailCampaigns");
+                });
+
+            modelBuilder.Entity("OrganizationMailSentMailCampaign", b =>
+                {
+                    b.Property<int>("OrganizationMailsMailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SentMailCampaignsLocalId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrganizationMailsMailId", "SentMailCampaignsLocalId");
+
+                    b.HasIndex("SentMailCampaignsLocalId");
+
+                    b.ToTable("OrganizationMailSentMailCampaign");
+                });
+
+            modelBuilder.Entity("MailingSystem.Entities.MailStatistics", b =>
+                {
+                    b.HasOne("MailingSystem.Entities.OrganizationMail", "CurrentMail")
+                        .WithOne("CurrentMailStatistics")
+                        .HasForeignKey("MailingSystem.Entities.MailStatistics", "CurrentMailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrentMail");
+                });
+
+            modelBuilder.Entity("OrganizationMailSentMailCampaign", b =>
+                {
+                    b.HasOne("MailingSystem.Entities.OrganizationMail", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationMailsMailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MailingSystem.Entities.SentMailCampaign", null)
+                        .WithMany()
+                        .HasForeignKey("SentMailCampaignsLocalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MailingSystem.Entities.OrganizationMail", b =>
+                {
+                    b.Navigation("CurrentMailStatistics")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

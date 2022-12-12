@@ -63,6 +63,9 @@ builder.Services.AddControllers();
 //        options.JsonSerializerOptions.Converters.Add(new CustomJsonConverterForType());
 //    });
 
+builder.Services.AddHttpClient();
+
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

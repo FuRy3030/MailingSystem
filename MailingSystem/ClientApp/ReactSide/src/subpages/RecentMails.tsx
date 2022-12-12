@@ -15,15 +15,7 @@ function RecentMails() {
     const DrawerHeight = useAppSelector((state) => state.Measurements.AddMailsDrawerHeight);  
 
     const Dispatch = useAppDispatch();
-    const IsSuccessSnackbarVisible = useAppSelector((state) => {
-        return state.UI.SnackbarsStates.RecentMails.SuccessSnackbarIsVisible
-    });
-    const IsErrorSnackbarVisible = useAppSelector((state) => {
-        return state.UI.SnackbarsStates.RecentMails.ErrorSnackbarIsVisible
-    });
-    const IsInfoSnackbarVisible = useAppSelector((state) => {
-        return state.UI.SnackbarsStates.RecentMails.InfoSnackbarIsVisible
-    });
+
     const IsDataTableSuccessSnackbarVisible = useAppSelector((state) => {
         return state.UI.SnackbarsStates.RecentMails.EditDataTableSuccessSnackbarIsVisible
     });
@@ -33,18 +25,6 @@ function RecentMails() {
     const IsDataTableDeleteErrorSnackbarVisible = useAppSelector((state) => {
         return state.UI.SnackbarsStates.RecentMails.EditDataTableErrorSnackbarIsVisible
     });
-
-    const updateIsSnackbarSuccessVisible = (isVisible: boolean) => {
-        Dispatch(UIActions.setRecentMailsSnackbarVisibility({type: 'Success', isVisible: isVisible}));
-    };
-
-    const updateIsSnackbarErrorVisible = (isVisible: boolean) => {
-        Dispatch(UIActions.setRecentMailsSnackbarVisibility({type: 'Error', isVisible: isVisible}));
-    };
-
-    const updateIsSnackbarInfoVisible = (isVisible: boolean) => {
-        Dispatch(UIActions.setRecentMailsSnackbarVisibility({type: 'Info', isVisible: isVisible}));
-    };
 
     const updateIsSnackbarDataTableSuccessVisible = (isVisible: boolean) => {
         Dispatch(UIActions.setRecentMailsSnackbarVisibility({
@@ -104,15 +84,6 @@ function RecentMails() {
                 <DividerHorizontal />
                 <MailsDataTable />
             </div>
-            <AdjustableSnackbar type={'success'} title={'Zapisano Zmiany'} isOpen={IsSuccessSnackbarVisible}
-                content={'Twoje zmiany zostały zapisane i zsynchronizowane. Możesz teraz dodać kolejne elementy.'} 
-                updateStateInStore={updateIsSnackbarSuccessVisible} />
-            <AdjustableSnackbar type={'error'} title={'Wystąpił błąd!'} isOpen={IsErrorSnackbarVisible}
-                content={'Twoje zmiany nie zostały zapisane. Sprawdź czy lista twoich adresów e-mail jest poprawnie sformatowana i spróbuj ponownie później.'} 
-                updateStateInStore={updateIsSnackbarErrorVisible} />
-            <AdjustableSnackbar type={'info'} title={'Skopiowano do schowka'} isOpen={IsInfoSnackbarVisible}
-                content={'Nowe maile oddzielone przecinkiem i spacją zostały skopiowane do twojego schowka.'} 
-                updateStateInStore={updateIsSnackbarInfoVisible} />
             <AdjustableSnackbar type={'success'} title={'Zapisano Zmiany'} isOpen={IsDataTableSuccessSnackbarVisible}
                 content={'Twoje modyfikacje we wspólnej bazie maili zostały poprawnie zaimplementowane.'} 
                 updateStateInStore={updateIsSnackbarDataTableSuccessVisible} />

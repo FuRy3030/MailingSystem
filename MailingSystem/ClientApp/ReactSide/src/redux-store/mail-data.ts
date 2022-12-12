@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit';
-import { IRecentEmail, MailBuilder } from './redux-entities/types';
+import { IRecentEmail, IMailBuilder } from './redux-entities/types';
 import Config from '../config/config';
 
 const moment = require('moment-timezone');
@@ -44,16 +44,20 @@ export const GetRecentMails = createAsyncThunk(
             return new Array<IRecentEmail>;
         }
     }
-)
+);
 
 interface IMailsData {
-    MailBuilder: MailBuilder;
+    MailBuilder: IMailBuilder;
     RecentMails: Array<IRecentEmail>;
     HTTPStates: {
         GetRecentMails: {
             isLoading: boolean;
             Error: boolean;
         };
+    };
+    CurrentCampaignConiguration: {
+        Name: string;
+        FollowUps: number;
     };
 };
 
@@ -69,7 +73,11 @@ const InitialMailsState: IMailsData = {
             isLoading: false,
             Error: false
         }
-    }
+    },
+    CurrentCampaignConiguration: {
+        Name: '',
+        FollowUps: 0
+    },
 };
 
 const MailsSlice = createSlice({
@@ -103,7 +111,24 @@ const MailsSlice = createSlice({
 		},
         UpdateRecipients(State, Action: PayloadAction<string[]>) {
             State.MailBuilder.Recipients = [...Action.payload];
-        }
+        },
+        UpdateMailTitle(State, Action: PayloadAction<string>) {
+            State.MailBuilder.Topic = Action.payload;
+        },
+        UpdateMailContent(State, Action: PayloadAction<string>) {
+            State.MailBuilder.Content = Action.payload;
+        },
+        ClearMailContent(State) {
+            State.MailBuilder.Recipients = [];
+            State.MailBuilder.Content = '';
+            State.MailBuilder.Topic = '';
+        },
+        UpdateCampaignName(State, Action: PayloadAction<string>) {
+            State.CurrentCampaignConiguration.Name = Action.payload;
+        },
+        UpdateCampaignFollowUpsNumber(State, Action: PayloadAction<number>) {
+            State.CurrentCampaignConiguration.FollowUps = Action.payload;
+        },
 	},
     extraReducers: (builder) => {
         builder.addCase(GetRecentMails.pending, (state) => {

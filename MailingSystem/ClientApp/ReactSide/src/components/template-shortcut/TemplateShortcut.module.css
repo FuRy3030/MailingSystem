@@ -1,0 +1,145 @@
+.TemplateShortcut {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: auto;
+    border-radius: 24px;
+    cursor: default;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    transition: all 0.5s ease-in-out;
+    margin: 2.5vh 0px;
+}
+
+.TemplateShortcut:hover {
+    transform: scale(1.05);
+}
+
+.TemplateShortcutIMG {
+    width: 100%;
+    height: 22vh;
+    border-top-right-radius: 24px;
+    border-top-left-radius: 24px;
+}
+
+.TemplateShortcutTimePassed {
+    font-size: clamp(7px, 1.05vw, 33px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--rich-purple-color);
+    margin-bottom: clamp(1px, 0.15vh, 10px);
+    margin-top: clamp(8px, 1.8vh, 40px);
+    cursor: default;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.TemplateShortcutName {
+    font-size: clamp(8.5px, 1.3vw, 43px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: clamp(7px, 1.3vh, 30px);
+    cursor: default;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.TemplateShortcutTopic {
+    font-size: clamp(6px, 0.85vw, 30px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--grey-font-color);
+    margin: 0px;
+    cursor: default;
+    width: 90%;
+    text-align: start;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5vh;
+}
+
+.TemplateShortcutContent {
+    font-size: clamp(4px, 0.55vw, 18px);
+    font-family: var(--standard-font);
+    font-weight: 600;
+    color: var(--grey-font-color);
+    margin: 0px;
+    cursor: default;
+    width: 90%;
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: clamp(36px, 4.95vw, 162px);
+    max-height: clamp(36px, 4.95vw, 162px);
+    line-height: 1.5;
+}
+
+.TemplateShortcutButtons {
+    margin-top: 1vh;
+    display: flex;
+    background-color: var(--blue-site-color);
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    width: 100%;
+}
+
+.TemplateShortcutButtons button {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.1vh 0.75vw;
+    font-size: clamp(7px, 1vw, 30px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: white;
+    background-color: var(--blue-site-color);
+    border-top: 2px solid var(--blue-site-dark-color);
+    transition: all 0.4s ease;
+}
+
+.TemplateShortcutButtons button svg {
+    margin-left: 0.75vw;
+}
+
+.TemplateShortcutButtons button:nth-child(1) {
+    border-bottom-left-radius: 24px;
+    border-right: 1px solid var(--blue-site-dark-color);
+}
+
+.TemplateShortcutButtons button:nth-child(2) {
+    border-bottom-right-radius: 24px;
+    border-left: 1px solid var(--blue-site-dark-color);
+}
+
+.TemplateShortcutButtons button:hover {
+    background-color: white;
+    color: var(--blue-site-dark-color);
+}
+
+.TemplateShortcutType {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: clamp(5px, 0.8vw, 20px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--blue-site-color);
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(205, 205, 205, 1);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(205, 205, 205, 1);
+    box-shadow: 0px 0px 6px 0px rgba(205, 205, 205, 1);
+    padding: 0.5vh 0.75vw;
+    border-radius: 2.5vw;
+    background-color: white;
+}

@@ -1,0 +1,29 @@
+.EditTemplateForm {
+    margin: clamp(10px, 4.5vh, 50px) 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.EditTemplateFormAttributes {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1.5vh 0px clamp(10px, 4.35vh, 45px) 0px;
+}
+
+.EditTemplateButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(10px, 1.3vw, 55px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    font-weight: 800;
+    margin-right: 1.5vw;
+    margin-top: 3.5vh;
+}
+
+.EditTemplateButton > svg {
+    margin-left: 0.75vw;
+}

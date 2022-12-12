@@ -1,0 +1,6 @@
+.FollowUpFormInputs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: clamp(12px, 5.5vh, 60px) 0px 2.25vh 0px;
+}

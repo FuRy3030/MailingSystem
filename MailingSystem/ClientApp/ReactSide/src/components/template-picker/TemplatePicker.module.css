@@ -1,0 +1,73 @@
+.TemplatePicker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: auto;
+    margin: clamp(10.5px, 4vh, 50px) -4vw clamp(14px, 5.75vh, 70px) calc(-4vw - 12px);
+    height: auto;
+    padding: clamp(8.5px, 3.25vh, 42.5px) clamp(10px, 2vw, 60px);
+    border: 1px solid rgb(237, 237, 237);
+    background-color: rgba(249, 250, 251, 1);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.TemplatePickerDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+    cursor: default;
+}
+
+.TemplatePickerDescriptionIcon {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: clamp(15px, 2.25vw, 60px);
+    color: var(--dark-font-color);
+    margin-bottom: 0.95vh;
+}
+
+.TemplateTextBig {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(10px, 1.5vw, 40px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: 0.2vh;
+}
+
+.TemplateTextSmall {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(7px, 0.92vw, 25px);
+    font-family: var(--standard-font);
+    font-weight: 600;
+    color: var(--grey-font-color);
+}
+
+.PartWhenEmpty {
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.NavigateToTemplatesButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(8px, 1.1vw, 47px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 800;
+    margin-top: 1.25vh;
+}
+
+.NavigateToTemplatesButton > svg {
+    margin-left: 0.75vw;
+}

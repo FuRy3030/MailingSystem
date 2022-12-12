@@ -4,7 +4,7 @@ import { UIActions } from '../../redux-store/ui';
 import { MailsActions } from '../../redux-store/mail-data';
 
 import Button from 'react-bootstrap/Button';
-import AdditionInput from '../addition-input/AdditionInput';
+import AdditionInput from '../inputs/AdditionInput';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';

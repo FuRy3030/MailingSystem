@@ -1,0 +1,63 @@
+.TemplatesBrowseList {
+    margin: clamp(10px, 4.25vh, 50px) 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.NavigateToAddTemplatesButton {
+    display: flex;
+    align-items: stretch;
+    font-size: clamp(8px, 1.1vw, 47px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 800;
+    margin-top: 1.25vh;
+}
+
+.NavigateToAddTemplatesButton > svg {
+    margin-left: 0.75vw;
+}
+
+.AddTemplateCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    border-radius: 24px;
+    cursor: default;
+    background-color: var(--blue-color-background);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(9, 41, 108, 1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(9, 41, 108, 1);
+    box-shadow: 0px 0px 10px 0px rgba(9, 41, 108, 1);
+    transition: all 0.5s ease-in-out;
+    margin: 2.5vh 0px;
+}
+
+.AddTemplateCard:hover {
+    transform: scale(1.05);
+}
+
+.AddTemplateCard > svg {
+    color: white;
+    font-size: clamp(29px, 6.5vw, 140px);
+}
+
+.AddTemplateCard button {
+    display: flex;
+    align-items: center;
+    font-size: clamp(10px, 1.3vw, 55px);
+    padding: 0.9vh 1vw;
+    font-weight: 800;
+    margin-top: 6.5vh;
+    align-items: center !important;
+}
+
+.AddTemplateCard button > svg {
+    margin-left: 0.75vw;
+}

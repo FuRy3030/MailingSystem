@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import MeasurementsReducer from './html-measurements';
 import MailsReducer from './mail-data';
 import UIReducer from './ui';
+import TemplatesReducer from './templates-data';
 
 const ReduxStore = configureStore({
   reducer: { 
     Measurements: MeasurementsReducer,
     Mails: MailsReducer,
-    UI: UIReducer
+    UI: UIReducer,
+    Templates: TemplatesReducer
   },
 });
 

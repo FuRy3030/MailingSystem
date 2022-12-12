@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using MailingSystem.Interfaces;
+using Newtonsoft.Json;
 
 namespace MailingSystem.Entities
 {
@@ -30,10 +31,18 @@ namespace MailingSystem.Entities
         [Required]
         public DateTime DateOfLastEmailSent { get; set; }
 
+        [Required]
+        [JsonIgnore]
+        public MailStatistics CurrentMailStatistics { get; set; }
+
+        [Required]
+        [JsonIgnore]
+        public List<SentMailCampaign> SentMailCampaigns { get; set; }
+
         public OrganizationMail() { }
 
         public OrganizationMail(string mailAddress, string? organizationName, string userWhoAdded, 
-            string userVerificatiorName, int numberOfEmailsSent, DateTime dateOfLastEmailSent) 
+            string userVerificatiorName, int numberOfEmailsSent, DateTime dateOfLastEmailSent, MailStatistics statistics) 
         {
             MailAddress = mailAddress;
             OrganizationName = organizationName;
@@ -41,6 +50,8 @@ namespace MailingSystem.Entities
             UserVerificatiorName = userVerificatiorName;
             NumberOfEmailsSent = numberOfEmailsSent;
             DateOfLastEmailSent = dateOfLastEmailSent;
+            SentMailCampaigns = new List<SentMailCampaign>();
+            CurrentMailStatistics = statistics;
         }
     }
 }

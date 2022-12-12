@@ -10,7 +10,7 @@ import { Button } from 'react-bootstrap';
 import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-function MailRecipientBox() {
+function MailRecipientBox(props: any) {
     const CurrentRecipients: string[] = useAppSelector(state => state.Mails.MailBuilder.Recipients);
 
     return (
@@ -45,7 +45,7 @@ function MailRecipientBox() {
             {CurrentRecipients.length > 0 ?
                 <div className='flexHorizontal' style={{width: '100%'}}>
                     <Button variant="primary" className={`site-button ${styles.RecipientContinueButton}`}
-                        onClick={() => {}}>
+                        onClick={props.ScrollIntoViewMailForm}>
                         Kontynuuj <FontAwesomeIcon icon={faArrowDownWideShort} />
                     </Button>
                 </div>

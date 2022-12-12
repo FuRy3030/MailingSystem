@@ -59,6 +59,12 @@ body::-webkit-scrollbar-thumb {
   background: #dddddd;
 }
 
+.divider-extended {
+  width: 1.5px;
+  height: calc(3.1vh + 1vw);
+  background: #dddddd;
+}
+
 .flexHorizontal {
   display: flex;
   justify-content: center;
@@ -245,9 +251,141 @@ body::-webkit-scrollbar-thumb {
   text-align: justify;
 }
 
+.siteTabMenu {
+  background-color: transparent !important;
+  margin: 1vh 0px;
+}
+
+.siteTabMenu ul {
+  justify-content: space-evenly;
+  background-color: transparent !important;
+}
+
+.siteTabMenu ul li {
+  font-size: clamp(9.5px, 1.35vw, 50px);
+  font-family: var(--standard-font);
+  font-weight: 800;
+  background: transparent !important;
+}
+
+.siteTabMenu ul li a {
+  background: transparent !important;
+}
+
+.siteTabMenu ul li a svg {
+  margin-right: 1vw;
+}
+
+.defaultSiteInputField {
+  flex: 1 !important;
+  border-radius: 7vw !important;
+  height: 100% !important;
+  border: 2px solid #183153;
+  transition: 0.15s all ease-in-out;
+}
+
+.defaultSiteInputField:hover {
+  border: 2px solid transparent;
+}
+
+.defaultSiteInputField label {
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  left: 1.5vw !important;
+}
+
+.defaultSiteInputField input {
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  color: var(--dark-font-color) !important;
+  padding: clamp(6px, 1.5vh, 25px) clamp(9px, 1.25vw, 40px) !important;
+  border-radius: 7vw !important;
+  width: 100% !important;
+}
+
+.defaultSiteInputField svg {
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+}
+
+.defaultSiteSelectField {
+  border: 2px solid #183153;
+  transition: 0.15s all ease-in-out;
+  border-radius: 7vw !important;
+}
+
+.defaultSiteSelectField:hover {
+  border: 2px solid transparent;
+}
+
+.defaultSiteSelectField > div {
+  height: 100% !important;
+  border-radius: 7vw !important;
+  width: 100% !important;
+}
+
+.defaultSiteSelectField label {
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  left: 1.5vw !important;
+}
+
+.defaultSiteSelectField > div > span {
+  padding: clamp(6px, 1.5vh, 25px) clamp(18px, 3.75vw, 80px) !important;
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  color: var(--dark-font-color) !important;
+}
+
+.defaultSiteCalendarField {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.defaultSiteCalendarField > span {
+  border-radius: 7vw !important;
+}
+
+.defaultSiteCalendarField > span > input {
+  padding: clamp(6px, 1.5vh, 25px) clamp(9px, 1.25vw, 40px) !important;
+  font-size: clamp(9px, 1.15vw, 40px) !important;
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  color: var(--dark-font-color) !important;
+  border-top-left-radius: 7vw !important;
+  border-bottom-left-radius: 7vw !important;
+}
+
+.defaultSiteCalendarField > span > button {
+  border-top-right-radius: 7vw !important;
+  border-bottom-right-radius: 7vw !important;
+  padding: clamp(6px, 1.5vh, 25px) clamp(9px, 1.25vw, 40px) !important;
+  width: auto !important;
+}
+
+.defaultSiteCalendarField > span > button > span {
+  font-size: clamp(10px, 1.25vw, 45px) !important;
+}
+
 /* Fixes */
 
 .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: 0px !important;
+}
+
+.tox-statusbar__branding {
+  display: none !important;
+}
+
+.tox-promotion {
+  display: none !important;
+}
+
+.p-float-label input:focus ~ label, .p-float-label input:-webkit-autofill ~ label, .p-float-label input.p-filled ~ label, .p-float-label textarea:focus ~ label, .p-float-label textarea.p-filled ~ label, .p-float-label .p-inputwrapper-focus ~ label, .p-float-label .p-inputwrapper-filled ~ label {
+  top: -2vh !important;
 }
 

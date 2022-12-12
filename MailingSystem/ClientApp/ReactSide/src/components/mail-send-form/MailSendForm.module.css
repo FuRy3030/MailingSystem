@@ -1,0 +1,20 @@
+.MailSendForm {
+    margin: clamp(7px, 3.5vh, 40px) 0px;
+    width: 100%;
+    height: auto;
+}
+
+.SendMailButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(10px, 1.3vw, 55px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    font-weight: 800;
+    margin-right: 1.5vw;
+    margin-top: 3.5vh;
+}
+
+.SendMailButton > svg {
+    margin-left: 0.75vw;
+}

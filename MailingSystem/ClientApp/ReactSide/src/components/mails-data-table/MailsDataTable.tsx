@@ -149,21 +149,19 @@ function MailsDataTable() {
     const [RowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
     useEffect(() => {
-        if (AllRecentMails === null || AllRecentMails === undefined || AllRecentMails.length == 0) {
-            let isSend: boolean = false;
-            if (Ctx?.accessToken.token != undefined && Ctx?.accessToken.token != '' && isSend == false) {
-                Dispatch(GetRecentMails(Ctx?.accessToken.token));
-            }      
-            else if (isSend == false) {
-                const TokenObject: string | null = sessionStorage.getItem('accessToken');
-                if (TokenObject != null) {
-                    Dispatch(GetRecentMails((JSON.parse(TokenObject)).token));
-                }
+        let isSend: boolean = false;
+        if (Ctx?.accessToken.token != undefined && Ctx?.accessToken.token != '' && isSend == false) {
+            Dispatch(GetRecentMails(Ctx?.accessToken.token));
+        }      
+        else if (isSend == false) {
+            const TokenObject: string | null = sessionStorage.getItem('accessToken');
+            if (TokenObject != null) {
+                Dispatch(GetRecentMails((JSON.parse(TokenObject)).token));
             }
-            
-            return () => {
-                isSend = true;
-            }
+        }
+        
+        return () => {
+            isSend = true;
         }
     }, []);
 

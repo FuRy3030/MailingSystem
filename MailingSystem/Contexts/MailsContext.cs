@@ -8,7 +8,9 @@ namespace MailingSystem.Contexts
 {
     public class MailsDbContext : DbContext
     {
+        public DbSet<MailStatistics> MailStatistics { get; set; }
         public DbSet<OrganizationMail> OrganizationMails { get; set; }
+        public DbSet<SentMailCampaign> SentMailCampaigns { get; set; }
 
         public MailsDbContext() : base()
         {
@@ -35,8 +37,16 @@ namespace MailingSystem.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<OrganizationMail>()
+               .HasMany(OrganizationMail => OrganizationMail.SentMailCampaigns)
+               .WithMany(SentMailCampaign => SentMailCampaign.OrganizationMails);
+
+            modelBuilder.Entity<OrganizationMail>()
+               .HasOne<MailStatistics>(OrganizationMail => OrganizationMail.CurrentMailStatistics)
+               .WithOne(MailStatistics => MailStatistics.CurrentMail)
+               .HasForeignKey<MailStatistics>(MailStatistics => MailStatistics.CurrentMailId);
         }
     }
 }

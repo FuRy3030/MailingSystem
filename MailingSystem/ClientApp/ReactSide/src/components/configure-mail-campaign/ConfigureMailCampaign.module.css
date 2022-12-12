@@ -1,0 +1,6 @@
+.ConfigurationForm {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: clamp(12px, 5.5vh, 60px) 0px clamp(12px, 5.5vh, 60px) 0px;
+}

@@ -71,13 +71,16 @@ namespace MailingSystem.Controllers
                             string OrganizationAlias = PartialOrganizationAlias
                                 .Substring(0, PartialOrganizationAlias.IndexOf('.'));
 
+                            MailStatistics CurrentMailStatistics = new MailStatistics(true);
+
                             OrganizationMail CurrentMail = new OrganizationMail(
                                 TrimmedEmail,
                                 string.Concat(OrganizationAlias[0].ToString().ToUpper(), OrganizationAlias.AsSpan(1)),
                                 RealName,
                                 Username,
-                                1,
-                                DateTime.UtcNow
+                                0,
+                                DateTime.UtcNow,
+                                CurrentMailStatistics
                             );
 
                             CurrentCheckGroup.NewMails.Add(CurrentMail);
