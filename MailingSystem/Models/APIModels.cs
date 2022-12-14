@@ -19,4 +19,11 @@
         public string? subject { get; set; }
         public object? statistics { get; set; }
     }
+
+    public class OpenResponseEntity
+    {
+        public string emailAddress { get; set; }
+        public int openCount { get; set; }
+        public DateTime lastOpenTime { get; set; }
+    }
 }

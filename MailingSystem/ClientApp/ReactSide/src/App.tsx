@@ -16,6 +16,7 @@ import SendMail from './subpages/SendMail';
 import Templates from './subpages/Templates';
 import TemplatesAdd from './subpages/TemplatesAdd';
 import TemplatesEdit from './subpages/TemplatesEdit';
+import Reminders from './subpages/Reminders';
 
 interface IGoogleUser {
   aud: string;
@@ -109,6 +110,7 @@ function App() {
           <Route path="/mails/templates" element={<Templates />} />
           <Route path="/mails/templates/add" element={<TemplatesAdd />} />
           <Route path="/mails/templates/edit/:TemplateId" element={<TemplatesEdit />} />
+          <Route path="/mails/reminders" element={<Reminders />} />
         </Route>
       </Routes>
       <UpdateTokenModal />

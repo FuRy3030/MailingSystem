@@ -16,6 +16,41 @@
     margin: 2.5vh 0px;
 }
 
+.TemplateShortcutSmall {
+    width: auto !important;
+    margin: 3.5vh 0 2.5vh 0 !important;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px !important;
+    -webkit-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px !important;
+    -moz-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px !important;
+    cursor: pointer !important;
+}
+
+.TemplateShortcutSmall .TemplateShortcutName {
+    cursor: pointer !important;
+}
+
+.TemplateShortcutSmall .TemplateShortcutTopic {
+    cursor: pointer !important;
+}
+
+.TemplateShortcutSmall .TemplateShortcutContent {
+    margin-bottom: 1.5vh !important;
+    cursor: pointer !important;
+}
+
+.TemplateShortcutSmall .TemplateShortcutTimePassed {
+    cursor: pointer !important;
+}
+
+
+.TemplateShortcutSmall .TemplateShortcutIMG {
+    height: 20vh !important;
+}
+
+.CarouselLayoutMargin {
+    margin: 0vh 1.5vw;
+}
+
 .TemplateShortcut:hover {
     transform: scale(1.05);
 }

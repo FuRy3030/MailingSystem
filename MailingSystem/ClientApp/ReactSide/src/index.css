@@ -371,6 +371,17 @@ body::-webkit-scrollbar-thumb {
   font-size: clamp(10px, 1.25vw, 45px) !important;
 }
 
+.CustomDataTableHeader {
+  font-family: var(--standard-font) !important;
+  font-weight: 800 !important;
+  color: var(--dark-font-color) !important;
+  font-size: clamp(10px, 1vw, 40px) !important;
+}
+
+.CustomDataTableHeader div {
+  font-weight: 800 !important;
+}
+
 /* Fixes */
 
 .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {

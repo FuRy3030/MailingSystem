@@ -40,6 +40,7 @@
     font-weight: 800;
     color: var(--dark-font-color);
     margin-bottom: 0.2vh;
+    cursor: default;
 }
 
 .TemplateTextSmall {
@@ -49,6 +50,7 @@
     font-family: var(--standard-font);
     font-weight: 600;
     color: var(--grey-font-color);
+    cursor: default;
 }
 
 .PartWhenEmpty {
@@ -70,4 +72,47 @@
 
 .NavigateToTemplatesButton > svg {
     margin-left: 0.75vw;
+}
+
+.TemplatePickerActiveLayout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.PickerCarousel {
+    border: 0px !important;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.TemplatePickerDescriptionActive {
+    width: auto;
+    display: flex;
+    align-items: center;
+}
+
+.TemplatePickerDescriptionActive .TemplatePickerDescriptionIcon {
+    font-size: clamp(25px, 4vw, 110px);
+    margin-bottom: 0vh !important;
+}
+
+.TemplatePickerDescriptionActiveText {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2.5vw;
+}
+
+.TemplatePickerDescriptionActiveText .TemplateTextBig {
+    text-align: left !important;
+    font-size: clamp(12.5px, 2vw, 50px) !important;
+}
+
+.TemplatePickerDescriptionActiveText .TemplateTextSmall {
+    text-align: left !important;
+    font-size: clamp(9px, 1.15vw, 34px) !important;
 }

@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit';
-import { IRecentEmail, IMailBuilder } from './redux-entities/types';
+import { 
+    IRecentEmail, 
+    IMailBuilder, 
+    IMailAggregateStatistics, 
+    IMailStatisticsBasic, 
+    IMailStatisticsEngaged, 
+    IMailStatisticsSmallActivity 
+} from './redux-entities/types';
 import Config from '../config/config';
 
 const moment = require('moment-timezone');
@@ -46,11 +53,94 @@ export const GetRecentMails = createAsyncThunk(
     }
 );
 
+export const GetMailsStatistics = createAsyncThunk(
+    'mails/getmailstatistics',
+    async (Token: string) => {
+        try {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Token}` },
+            };
+
+            const Response = await fetch(`${Config.sourceURL}/Reminders/getmailstatistics?Token=${Token}`, requestOptions);
+
+            if (Response.ok) {
+                const ParsedResponse = await Response.json();
+
+                const MailsWithStatistics = ParsedResponse.MailsWithStatisticsBasic.map((Mail: any, index: number) => {
+                    return { 
+                        id: index, 
+                        NumberOfEmailsSent: Mail.NumberOfEmailsSent, 
+                        MailAddress: Mail.MailAddress,
+                        HasReplied: Mail.HasReplied,
+                        HasOpenedCampaign: Mail.HasOpenedCampaign,
+                        HasClickedLink: Mail.HasClickedLink,
+                        DateOfLastEmailSent: moment.utc(Mail.DateOfLastEmailSent)
+                            .local().format('YYYY-MM-DD HH:mm:ss')
+                    }
+                });
+
+                const MailsWithStatisticsSmallActivity = ParsedResponse.MailsWithStatisticsSmallActivity.map((Mail: any, index: number) => {
+                    return { 
+                        id: index, 
+                        NumberOfEmailsSent: Mail.NumberOfEmailsSent, 
+                        MailAddress: Mail.MailAddress,
+                        HasOpenedCampaign: Mail.HasOpenedCampaign,
+                        DateOfLastOpen: moment.utc(Mail.DateOfLastOpen)
+                            .local().format('YYYY-MM-DD HH:mm:ss')
+                    }
+                });
+
+                const MailsWithStatisticsEngaged = ParsedResponse.MailsWithStatisticsEngaged.map((Mail: any, index: number) => {
+                    return { 
+                        id: index, 
+                        NumberOfEmailsSent: Mail.NumberOfEmailsSent, 
+                        MailAddress: Mail.MailAddress,
+                        HasReplied: Mail.HasReplied,
+                        HasClickedLink: Mail.HasClickedLink,
+                        DateOfLastClick: moment.utc(Mail.DateOfLastClick)
+                            .local().format('YYYY-MM-DD HH:mm:ss'),
+                        DateOfLastReply: moment.utc(Mail.DateOfLastReply)
+                            .local().format('YYYY-MM-DD HH:mm:ss')
+                    }
+                });
+
+                const FormattedResponse = {
+                    MailsWithStatistics: MailsWithStatistics,
+                    MailsWithStatisticsEngaged: MailsWithStatisticsEngaged,
+                    MailsWithStatisticsSmallActivity: MailsWithStatisticsSmallActivity
+                };
+                
+                return FormattedResponse as IMailAggregateStatistics;
+            }
+            else {
+                return {
+                    MailsWithStatistics: new Array<IMailStatisticsBasic>(),
+                    MailsWithStatisticsEngaged: new Array<IMailStatisticsEngaged>(),
+                    MailsWithStatisticsSmallActivity: new Array<IMailStatisticsSmallActivity>()
+                } as IMailAggregateStatistics;
+            }
+        }
+        catch {
+            return {
+                MailsWithStatistics: new Array<IMailStatisticsBasic>(),
+                MailsWithStatisticsEngaged: new Array<IMailStatisticsEngaged>(),
+                MailsWithStatisticsSmallActivity: new Array<IMailStatisticsSmallActivity>()
+            } as IMailAggregateStatistics;
+        }
+    }
+);
+
 interface IMailsData {
     MailBuilder: IMailBuilder;
     RecentMails: Array<IRecentEmail>;
+    MailStatistics: IMailAggregateStatistics;
     HTTPStates: {
         GetRecentMails: {
+            isLoading: boolean;
+            Error: boolean;
+        };
+        GetMailsStatistics: {
             isLoading: boolean;
             Error: boolean;
         };
@@ -68,8 +158,17 @@ const InitialMailsState: IMailsData = {
         Content: ''
     },
     RecentMails: new Array<IRecentEmail>(),
+    MailStatistics: {
+        MailsWithStatistics: new Array<IMailStatisticsBasic>(),
+        MailsWithStatisticsEngaged: new Array<IMailStatisticsEngaged>(),
+        MailsWithStatisticsSmallActivity: new Array<IMailStatisticsSmallActivity>()
+    },
     HTTPStates: {
         GetRecentMails: {
+            isLoading: false,
+            Error: false
+        },
+        GetMailsStatistics: {
             isLoading: false,
             Error: false
         }
@@ -122,6 +221,8 @@ const MailsSlice = createSlice({
             State.MailBuilder.Recipients = [];
             State.MailBuilder.Content = '';
             State.MailBuilder.Topic = '';
+            State.CurrentCampaignConiguration.Name = '';
+            State.CurrentCampaignConiguration.FollowUps = 0;
         },
         UpdateCampaignName(State, Action: PayloadAction<string>) {
             State.CurrentCampaignConiguration.Name = Action.payload;
@@ -146,6 +247,23 @@ const MailsSlice = createSlice({
         builder.addCase(GetRecentMails.rejected, (state) => {
             state.HTTPStates.GetRecentMails.isLoading = false;
             state.HTTPStates.GetRecentMails.Error = true;
+        });
+
+        builder.addCase(GetMailsStatistics.pending, (state) => {
+            state.HTTPStates.GetMailsStatistics.isLoading = true;
+            state.HTTPStates.GetMailsStatistics.Error = false;
+        });
+
+        builder.addCase(GetMailsStatistics.fulfilled, (state, action) => {
+            state.HTTPStates.GetMailsStatistics.isLoading = false;
+            state.HTTPStates.GetMailsStatistics.Error = false;
+            console.log(action);
+            state.MailStatistics = action.payload;
+        });
+
+        builder.addCase(GetMailsStatistics.rejected, (state) => {
+            state.HTTPStates.GetMailsStatistics.isLoading = false;
+            state.HTTPStates.GetMailsStatistics.Error = true;
         });
     }
 });

@@ -30,6 +30,9 @@ namespace MailingSystem.Entities
         [Required]
         public int NumberOfFollowUps { get; set; }
 
+        [Required]
+        public DateTime CampaignCreationDate { get; set; }
+
         [JsonIgnore]
         [Required]
         public List<OrganizationMail> OrganizationMails { get; set; }
@@ -49,6 +52,7 @@ namespace MailingSystem.Entities
             CampaignName = campaignName;
             SenderMailAddress = senderMailAddress;
             NumberOfFollowUps = numberOfFollowUps;
+            CampaignCreationDate = DateTime.UtcNow;
         }
     }
 }

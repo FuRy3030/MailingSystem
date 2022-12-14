@@ -40,3 +40,37 @@ export interface IUserTemplateForEdit {
     Topic: string;
     Content: string;
 };
+
+export interface IMailStatisticsBasic {
+    id: number;
+    MailAddress: string;
+    NumberOfEmailsSent: number;
+    DateOfLastEmailSent: string;
+    HasReplied: boolean;
+    HasOpenedCampaign: boolean;
+    HasClickedLink: boolean;
+};
+
+export interface IMailStatisticsEngaged {
+    id: number;
+    MailAddress: string;
+    NumberOfEmailsSent: number;
+    HasOpenedCampaign: boolean;
+    DateOfLastOpen: string | null;
+}
+
+export interface IMailStatisticsSmallActivity {
+    id: number;
+    MailAddress: string;
+    NumberOfEmailsSent: number;
+    HasReplied: boolean;
+    HasClickedLink: boolean;
+    DateOfLastClick: string | null;
+    DateOfLastReply: string | null;
+}
+
+export interface IMailAggregateStatistics {
+    MailsWithStatistics: Array<IMailStatisticsBasic>;
+    MailsWithStatisticsEngaged: Array<IMailStatisticsEngaged>;
+    MailsWithStatisticsSmallActivity: Array<IMailStatisticsSmallActivity>;
+}

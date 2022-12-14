@@ -1,12 +1,14 @@
 import styles from './SideBarNavigation.module.css';
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from '../../hooks/Hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelopeOpenText, faGrip, faReplyAll, faSync } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelopeOpenText, faGrip, faSync } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEnvelope, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { MailsActions } from '../../redux-store/mail-data';
 
 function SideBarNavigation() {
+    const Dispatch = useAppDispatch();
     const NavigationBarHeight = useAppSelector((state) => state.Measurements.NavigationBarHeight);
     const SideBarHeight = window.innerHeight - NavigationBarHeight;
 
@@ -25,7 +27,7 @@ function SideBarNavigation() {
                 <FontAwesomeIcon icon={faGrip} />
                 <span>Przegląd</span>
             </NavLink>
-            <NavLink to={"/mails/send"}
+            <NavLink to={"/mails/send"} onClick={() => Dispatch(MailsActions.ClearMailContent())}
                 className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
                 `${styles.SideBarLink}`}
@@ -33,13 +35,13 @@ function SideBarNavigation() {
                 <FontAwesomeIcon icon={faPaperPlane} />
                 <span>Wyślij Maila</span>
             </NavLink>
-            <NavLink to={"/mails/followups"}
+            <NavLink to={"/mails/reminders"} onClick={() => Dispatch(MailsActions.ClearMailContent())}
                 className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
                 `${styles.SideBarLink}`}
             >
-                <FontAwesomeIcon icon={faReplyAll} />
-                <span>Follow-Upy</span>
+                <FontAwesomeIcon icon={faBell} />
+                <span>Przypominajki</span>
             </NavLink>
             <NavLink to="/mails/recent" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 

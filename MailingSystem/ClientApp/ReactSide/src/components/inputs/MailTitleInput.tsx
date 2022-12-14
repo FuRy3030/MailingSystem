@@ -10,7 +10,7 @@ import { faAt, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from '../../hooks/Hooks';
 import { MailsActions } from '../../redux-store/mail-data';
 
-const MailTitleInput = (() => {
+const MailTitleInput = React.forwardRef<HTMLInputElement, {}>(({}, inputRef) => {
     const [isInputGroupFocused, setIsInputGroupFocused] = useState<boolean>(false);
     const Dispatch = useAppDispatch();
 
@@ -33,7 +33,7 @@ const MailTitleInput = (() => {
                 <FontAwesomeIcon icon={faAt} className={styles.addonIcon} />
             </InputGroup.Text>
             <Divider />
-            <Form.Control onFocus={InputFocusHandler} className={styles.input} 
+            <Form.Control onFocus={InputFocusHandler} className={styles.input} ref={inputRef}
                 placeholder="Temat maila" onBlur={InputLostFocusHandler} onChange={UpdateMailTitle} />
             <Divider />
             <InputGroup.Text className={styles.addon}>

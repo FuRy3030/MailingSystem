@@ -7,7 +7,7 @@ import { Editor as TinyMCEEditor } from 'tinymce';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileWord, faPaperPlane } from '@fortawesome/free-regular-svg-icons';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Config from '../../config/config';
 import AuthContext from '../../context-store/auth-context';
 import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
@@ -42,6 +42,7 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
 
     const Ctx = useContext(AuthContext);
     const EditorRef = useRef<TinyMCEEditor | null>(null);
+    const MailTitleInputRef = useRef<HTMLInputElement | null>(null);
     const Dispatch = useAppDispatch();
     const FollowUpsCount = useAppSelector((state) => state.Mails.CurrentCampaignConiguration.FollowUps);
     const CamapignName = useAppSelector((state) => state.Mails.CurrentCampaignConiguration.Name);
@@ -176,6 +177,15 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
         });
     };
 
+    useEffect(() => {
+        if (EditorRef.current != null) {
+            EditorRef.current.setContent(CurrentMail.Content);         
+        }
+        if (MailTitleInputRef.current) {
+            MailTitleInputRef.current.value = CurrentMail.Topic;
+        }
+    }, [CurrentMail.Content, CurrentMail.Topic]);
+
     return (
         <React.Fragment>
             {CurrentMail.Recipients.length > 0 && 
@@ -189,12 +199,12 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
                 </p>
                 <DividerHorizontal />
                 <div className={styles.MailSendForm}>
-                    <MailTitleInput />
+                    <MailTitleInput ref={MailTitleInputRef} />
                     <TemplatePicker />
                     <Editor
                         tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
                         onInit={(evt, editor) => {
-                            if (EditorRef.current) {
+                            if (EditorRef.current == null) {
                                 EditorRef.current = editor;
                             };                  
                         }}
