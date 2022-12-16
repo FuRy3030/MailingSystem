@@ -9,6 +9,16 @@
     font-size: clamp(16px, 1.6vw, 75px) !important;
 }
 
+.DataTableWrapperSuggestions {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.DataTableWrapperSuggestions svg {
+    font-size: clamp(16px, 1.6vw, 75px) !important;
+}
+
 .ToolbarContainerButton {
     font-family: var(--standard-font) !important;
     font-weight: 800 !important;
@@ -30,4 +40,16 @@
 
 .DataTableHeader div {
     font-weight: 800 !important;
+}
+
+.ToolbarContainerButtonSmaller {
+    font-family: var(--standard-font) !important;
+    font-weight: 800 !important;
+    color: var(--blue-site-dark-color) !important;
+    font-size: clamp(10.5px, 1.05vw, 43px) !important;
+    margin: clamp(8px, 1vh, 35px) clamp(7.5px, 0.75vw, 30px) !important;
+}
+
+.ToolbarContainerButtonSmaller > svg {
+    font-size: clamp(10.5px, 1.05vw, 43px) !important;
 }

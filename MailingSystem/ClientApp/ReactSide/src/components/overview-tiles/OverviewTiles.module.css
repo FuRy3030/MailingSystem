@@ -1,0 +1,148 @@
+.OverviewTiles {
+    width: 39%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.OverviewTilesHeader {
+    display: flex;
+    align-items: center;
+    font-size: clamp(12px, 1.75vw, 48px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: 1.5vh;
+    cursor: default;
+    width: 100%;
+    text-align: start;
+    margin-left: 1.25vw;
+}
+
+.OverviewTilesHeader .OverviewTilesHeaderAdditionSmall {
+    margin-left: auto;
+    color: var(--grey-font-color);
+    font-size: clamp(7.5px, 1.15vw, 30px) !important;
+    margin-bottom: 0px !important;
+    font-weight: 800 !important;
+    margin-right: 0px !important;
+}
+
+.OverviewTilesHeader span {
+    margin-left: auto;
+    color: var(--grey-font-color);
+    font-size: clamp(8px, 1.25vw, 32px);
+    margin-right: 2.5vw;
+}
+
+.OverviewTile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1vh 0px;
+    width: 47.5%;
+    padding: clamp(7px, 1.75vh, 25px) clamp(10px, 1.5vw, 45px);
+    border-radius: 2vw;
+    cursor: default;
+}
+
+.OverviewTileFullSize {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2vh 0px;
+    width: 100%;
+    padding: clamp(15px, 4vh, 50px) clamp(20px, 3vw, 90px);
+    border-radius: 2vw;
+    cursor: default;
+}
+
+.OverviewTileFullSizeAlt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2vh 0px;
+    width: 45%;
+    padding: clamp(7px, 1.75vh, 25px) clamp(10px, 1.5vw, 45px);
+    border-radius: 2vw;
+    cursor: default;
+}
+
+.OverviewTileIcon {
+    font-size: clamp(6.5px, 0.9vw, 25px);
+    padding: 0.8vw;
+    border-radius: 50%;
+    margin-bottom: 1vh;
+    color: white;
+}
+
+.OverviewTileFullSize .OverviewTileIcon {
+    font-size: clamp(13px, 1.8vw, 50px);
+    padding: 1.6vw;
+    margin-bottom: 0vh !important;
+}
+
+.OverviewTileFullSizeAlt .OverviewTileIcon {
+    font-size: clamp(11px, 1.5vw, 43px);
+    padding: 1.35vw;
+    margin-bottom: 2.5vh !important;
+    margin-top: 2vh;
+}
+
+.OverviewTileNumber {
+    font-size: clamp(10px, 1.5vw, 40px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    margin-bottom: 0.5vh;
+    text-align: center;
+}
+
+.OverviewTileFullSize .OverviewTileNumber {
+    font-size: clamp(18px, 2.7vw, 65px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    margin-bottom: 0.5vh;
+    text-align: center;
+}
+
+.OverviewTileFullSizeAlt .OverviewTileNumber {
+    font-size: clamp(20px, 3vw, 70px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    margin-bottom: 0vh;
+    text-align: center;
+}
+
+.OverviewTileText {
+    font-size: clamp(7px, 1vw, 28px);
+    font-family: var(--standard-font);
+    font-weight: 700;
+}
+
+.OverviewTileFullSize .OverviewTileText {
+    font-size: clamp(10px, 1.45vw, 34px);
+    font-family: var(--standard-font);
+    font-weight: 700;
+}
+
+.OverviewTileFullSizeAlt .OverviewTileText {
+    font-size: clamp(12px, 1.7vw, 42px);
+    font-family: var(--standard-font);
+    font-weight: 700;
+}
+
+.OverviewTileContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.FlexHorizontalTiles {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}

@@ -1,18 +1,20 @@
 import styles from './NavigationBar.module.css';
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/Hooks';
 import { MeasurementsActions } from '../../redux-store/html-measurements';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faEnvelopesBulk } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faEnvelopesBulk, faGear } from "@fortawesome/free-solid-svg-icons";
 import UserAvatar from '../user-avatar/UserAvatar';
 import { useContext } from "react";
 import AuthContext from "../../context-store/auth-context";
+import { useNavigate } from 'react-router-dom';
 
 function NavigationBar(props: any) {
     const NavigationBarRef = useRef<HTMLDivElement | null>(null);
     const Ctx = useContext(AuthContext);
     const Dispatch = useAppDispatch();
+    const Navigate = useNavigate();
 
     const NavBarHeightHandler: () => void = () => {
         if (NavigationBarRef.current) {
@@ -21,22 +23,42 @@ function NavigationBar(props: any) {
         };
     };
 
+    const OptionsClickHandler = () => {
+        Navigate("/settings");
+    };
+
+    const MailsClickHandler = () => {
+        Navigate("/mails/home");
+    };
+
+    const HomeClickHandler = () => {
+        Navigate("/home");
+    };
+
     return (
         <div className={props.isLandingScreenVisible == false ? 
         `${styles.NavBar}` : `${styles.NavBar} ${styles.NavBarTransparent}`} ref={NavigationBarRef}>
             {
                 props.isLandingScreenVisible == false ? 
-                <img src='/Logo.svg' alt='logo' className={styles.IMGNavbar} onLoad={NavBarHeightHandler} /> :
-                <img src='/LogoWhite.svg' alt='logo' className={styles.IMGNavbar} />
+                <img src='/Logo.svg' alt='logo' className={styles.IMGNavbar} onLoad={NavBarHeightHandler} 
+                    onClick={HomeClickHandler} /> 
+                :
+                <img src='/LogoWhite.svg' alt='logo' className={styles.IMGNavbar} 
+                    onClick={HomeClickHandler} />
             }
             <div className={styles.NavBarContent}>
-                <span className={styles.NavBarLink}>
+                <span className={styles.NavBarLink} onClick={MailsClickHandler}>
                     Baza Maili <FontAwesomeIcon icon={faEnvelopesBulk} />
                 </span>
-                {/* <div className={styles.NavBarIcon}>
-                    <FontAwesomeIcon icon={faBars} />
-                </div> */}
-                {Ctx?.isLoggedIn == true ? <UserAvatar /> : <></>}
+                {Ctx?.isLoggedIn == true ? 
+                    <React.Fragment>
+                        <FontAwesomeIcon icon={faGear} className={styles.NavBarIcon} 
+                            style={{marginRight: '1vw'}} onClick={OptionsClickHandler} />
+                        <UserAvatar isLandingScreenVisible={props.isLandingScreenVisible} />                       
+                    </React.Fragment>
+                    : 
+                    <></>
+                }
             </div>
         </div>
     )

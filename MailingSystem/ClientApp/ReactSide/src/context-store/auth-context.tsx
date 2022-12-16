@@ -14,6 +14,7 @@ interface AuthCtx {
     setLoggedStatus: (isLoggedIn: boolean) => void;
     setTimeToUpdateAccessToken: (time: number) => void;
     setPictureSource: (pictureSource: string) => void;
+    Logout: () => void;
 }
 
 const AuthContext = React.createContext<AuthCtx | null>(null);
@@ -67,27 +68,43 @@ export const AuthContextProvider = (props: any) => {
     const LoggedStatusHandler = (isLoggedIn: boolean) => {
         sessionStorage.setItem('isLoggedIn', `${isLoggedIn}`);
         setIsLoggedIn(isLoggedIn);
-    }
+    };
 
     const RefreshTokenHandler = (refreshToken: string) => {
         sessionStorage.setItem('refreshToken', refreshToken);
         setRefreshToken(refreshToken);
-    }
+    };
 
     const AccessTokenHandler = (accessToken: { token: string; expirationDate: Date; }) => {
         sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
         setAccessToken(accessToken);
-    }
+    };
 
     const MillisecondsToUpdateHandler = (milliseconds: number) => {
         sessionStorage.setItem('timeToTokenRefresh', milliseconds.toString());
         setMillisecondsToUpdateAccessToken(milliseconds);
-    }
+    };
 
     const PictureSourceHandler = (userPictureSource: string) => {
         sessionStorage.setItem('pictureSource', userPictureSource);
         setPictureSource(userPictureSource);
-    }
+    };
+
+    const LogoutHandler = () => {
+        setIsLoggedIn(false);
+        setRefreshToken('');
+        setAccessToken({
+            token: '',
+            expirationDate: new Date()
+        });
+        setMillisecondsToUpdateAccessToken(0);
+        setPictureSource('');
+        sessionStorage.setItem('isLoggedIn', `${false}`);
+        sessionStorage.setItem('refreshToken', '');
+        sessionStorage.setItem('accessToken', '');
+        sessionStorage.setItem('timeToTokenRefresh', '');
+        sessionStorage.setItem('pictureSource', '');
+    };
 
     const InitialAuthContext: AuthCtx = {
         isLoggedIn: isLoggedIn,
@@ -99,7 +116,8 @@ export const AuthContextProvider = (props: any) => {
         setRefreshToken: RefreshTokenHandler,
         setAccessToken: AccessTokenHandler,
         setTimeToUpdateAccessToken: MillisecondsToUpdateHandler,
-        setPictureSource: PictureSourceHandler
+        setPictureSource: PictureSourceHandler,
+        Logout: LogoutHandler
     };
 
     return (

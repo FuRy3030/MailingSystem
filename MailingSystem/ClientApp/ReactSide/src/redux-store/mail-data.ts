@@ -5,7 +5,10 @@ import {
     IMailAggregateStatistics, 
     IMailStatisticsBasic, 
     IMailStatisticsEngaged, 
-    IMailStatisticsSmallActivity 
+    IMailStatisticsSmallActivity, 
+    IOverview,
+    ISuggestedMail,
+    IChartData
 } from './redux-entities/types';
 import Config from '../config/config';
 
@@ -131,7 +134,106 @@ export const GetMailsStatistics = createAsyncThunk(
     }
 );
 
+export const GetOverview = createAsyncThunk(
+    'overview/getoverview',
+    async (Token: string) => {
+        try {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Token}` },
+            };
+
+            const Response = await fetch(`${Config.sourceURL}/Dashboard/getoverview?Token=${Token}`, requestOptions);
+
+            if (Response.ok) {
+                const ParsedResponse = await Response.json();
+
+                const SuggestedMails = ParsedResponse.SuggestedMails.map((RecentMail: any, index: number) => {
+                    return { 
+                        id: index, 
+                        MailAddress: RecentMail.MailAddress,
+                        NumberOfEmailsSent: RecentMail.NumberOfEmailsSent,
+                        DateOfLastEmailSent: moment.utc(RecentMail.DateOfLastEmailSent)
+                            .local().format('YYYY-MM-DD HH:mm:ss')
+                    }
+                });
+
+                const FormattedResponse = {
+                    SuggestedMails: SuggestedMails,
+                    UserStatistics:
+                    {
+                        UniqueUserCampaigns: ParsedResponse.UserStatistics.UniqueUserCampaigns,
+                        UniqueUserOpens: ParsedResponse.UserStatistics.UniqueUserOpens,
+                        UniqueUserClicks: ParsedResponse.UserStatistics.UniqueUserClicks,
+                        UniqueUserReplies: ParsedResponse.UserStatistics.UniqueUserReplies
+                    },
+                    UserMailsChartData: ParsedResponse.UserMailsChartData,
+                    TeamStatistics:
+                    {
+                        UniqueCampaigns: ParsedResponse.TeamStatistics.UniqueCampaigns,
+                        UniqueOpens: ParsedResponse.TeamStatistics.UniqueOpens,
+                        UniqueClicks: ParsedResponse.TeamStatistics.UniqueClicks,
+                        UniqueReplies: ParsedResponse.TeamStatistics.UniqueReplies
+                    },
+                    TeamMailsChartData: ParsedResponse.TeamMailsChartData,
+                    UserMailCount: ParsedResponse.UserMailCount,
+                    TeamMailCount: ParsedResponse.TeamMailCount
+                };
+                
+                return FormattedResponse as IOverview;
+            }
+            else {
+                return {
+                    SuggestedMails: new Array<ISuggestedMail>(),
+                    UserStatistics:
+                    {
+                        UniqueUserCampaigns: 0,
+                        UniqueUserOpens: 0,
+                        UniqueUserClicks: 0,
+                        UniqueUserReplies: 0
+                    },
+                    UserMailsChartData: new Array<IChartData>(),
+                    TeamStatistics:
+                    {
+                        UniqueCampaigns: 0,
+                        UniqueOpens: 0,
+                        UniqueClicks: 0,
+                        UniqueReplies: 0
+                    },
+                    TeamMailsChartData: new Array<IChartData>(),
+                    UserMailCount: 0,
+                    TeamMailCount: 0
+                } as IOverview;
+            }
+        }
+        catch {
+            return {
+                SuggestedMails: new Array<ISuggestedMail>(),
+                UserStatistics:
+                {
+                    UniqueUserCampaigns: 0,
+                    UniqueUserOpens: 0,
+                    UniqueUserClicks: 0,
+                    UniqueUserReplies: 0
+                },
+                UserMailsChartData: new Array<IChartData>(),
+                TeamStatistics:
+                {
+                    UniqueCampaigns: 0,
+                    UniqueOpens: 0,
+                    UniqueClicks: 0,
+                    UniqueReplies: 0
+                },
+                TeamMailsChartData: new Array<IChartData>(),
+                UserMailCount: 0,
+                TeamMailCount: 0
+            } as IOverview;
+        }
+    }
+);
+
 interface IMailsData {
+    Overview: IOverview;
     MailBuilder: IMailBuilder;
     RecentMails: Array<IRecentEmail>;
     MailStatistics: IMailAggregateStatistics;
@@ -144,6 +246,10 @@ interface IMailsData {
             isLoading: boolean;
             Error: boolean;
         };
+        GetOverview: {
+            isLoading: boolean;
+            Error: boolean;
+        };
     };
     CurrentCampaignConiguration: {
         Name: string;
@@ -152,6 +258,26 @@ interface IMailsData {
 };
 
 const InitialMailsState: IMailsData = { 
+    Overview: {
+        SuggestedMails: [],
+        UserStatistics: {
+            UniqueUserCampaigns: 0,
+            UniqueUserOpens: 0,
+            UniqueUserClicks: 0,
+            UniqueUserReplies: 0
+        },
+        UserMailsChartData: [],
+        TeamStatistics:
+        {
+            UniqueCampaigns: 0,
+            UniqueOpens: 0,
+            UniqueClicks: 0,
+            UniqueReplies: 0
+        },
+        TeamMailsChartData: [],
+        UserMailCount: 0,
+        TeamMailCount: 0
+    },
     MailBuilder: {
         Recipients: [],
         Topic: '',
@@ -169,6 +295,10 @@ const InitialMailsState: IMailsData = {
             Error: false
         },
         GetMailsStatistics: {
+            isLoading: false,
+            Error: false
+        },
+        GetOverview: {
             isLoading: false,
             Error: false
         }
@@ -264,6 +394,23 @@ const MailsSlice = createSlice({
         builder.addCase(GetMailsStatistics.rejected, (state) => {
             state.HTTPStates.GetMailsStatistics.isLoading = false;
             state.HTTPStates.GetMailsStatistics.Error = true;
+        });
+
+        builder.addCase(GetOverview.pending, (state) => {
+            state.HTTPStates.GetOverview.isLoading = true;
+            state.HTTPStates.GetOverview.Error = false;
+        });
+
+        builder.addCase(GetOverview.fulfilled, (state, action) => {
+            state.HTTPStates.GetOverview.isLoading = false;
+            state.HTTPStates.GetOverview.Error = false;
+            console.log(action);
+            state.Overview = action.payload;
+        });
+
+        builder.addCase(GetOverview.rejected, (state) => {
+            state.HTTPStates.GetOverview.isLoading = false;
+            state.HTTPStates.GetOverview.Error = true;
         });
     }
 });

@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin: 0px clamp(10px, 2.25vw, 60px);
+    margin: 0px clamp(10px, 2vw, 50px) 0px clamp(8px, 1vw, 28px);
 }
 
 .avatar {
@@ -17,6 +17,10 @@
     padding-left: clamp(7px, 1vw, 35px);
 }
 
+.userAvatarWrapperTransparent .name {
+    color: white !important;
+}
+
 .name {
     position: relative;
     font-family: var(--standard-font);
@@ -24,6 +28,10 @@
     font-size: clamp(9.5px, 1.15vw, 45px);
     color: var(--dark-font-color);
     margin-bottom: 0px;
+}
+
+.userAvatarWrapperTransparent .organization {
+    color: white !important;
 }
 
 .organization {

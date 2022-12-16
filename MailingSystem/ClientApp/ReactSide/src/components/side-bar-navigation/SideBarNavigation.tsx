@@ -1,16 +1,25 @@
 import styles from './SideBarNavigation.module.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelopeOpenText, faGrip, faSync } from "@fortawesome/free-solid-svg-icons";
+import { faChartPie, faChevronCircleRight, faChevronRight, faEnvelopeOpenText, faGrip, faRightFromBracket, faSync } from "@fortawesome/free-solid-svg-icons";
 import { faBell, faEnvelope, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { MailsActions } from '../../redux-store/mail-data';
+import React, { useContext } from 'react';
+import AuthContext from '../../context-store/auth-context';
 
 function SideBarNavigation() {
+    const Navigate = useNavigate();
     const Dispatch = useAppDispatch();
     const NavigationBarHeight = useAppSelector((state) => state.Measurements.NavigationBarHeight);
     const SideBarHeight = window.innerHeight - NavigationBarHeight;
+    const Ctx = useContext(AuthContext);
+
+    const LogoutClickHandler = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+        Ctx?.Logout();
+        Navigate("/home");
+    };
 
     return (
         <div className={styles.SideBar} style={{
@@ -26,6 +35,7 @@ function SideBarNavigation() {
             >
                 <FontAwesomeIcon icon={faGrip} />
                 <span>Przegląd</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
             <NavLink to={"/mails/send"} onClick={() => Dispatch(MailsActions.ClearMailContent())}
                 className={({ isActive }) => isActive ? 
@@ -34,6 +44,7 @@ function SideBarNavigation() {
             >
                 <FontAwesomeIcon icon={faPaperPlane} />
                 <span>Wyślij Maila</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
             <NavLink to={"/mails/reminders"} onClick={() => Dispatch(MailsActions.ClearMailContent())}
                 className={({ isActive }) => isActive ? 
@@ -42,6 +53,7 @@ function SideBarNavigation() {
             >
                 <FontAwesomeIcon icon={faBell} />
                 <span>Przypominajki</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
             <NavLink to="/mails/recent" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
@@ -49,6 +61,7 @@ function SideBarNavigation() {
             >
                 <FontAwesomeIcon icon={faEnvelope} />
                 <span>Ostatnie Maile</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
             <NavLink to="/mails/templates" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
@@ -56,14 +69,25 @@ function SideBarNavigation() {
             >
                 <FontAwesomeIcon icon={faEnvelopeOpenText} />
                 <span>Szablony</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
+            <a href="https://app.gmass.co/dashboard" target="_blank" className={styles.SideBarLink}>
+                <FontAwesomeIcon icon={faChartPie} />
+                <span>Statystyki</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
+            </a>
             <NavLink to="/mails/change-log" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
                 `${styles.SideBarLink}`}
             >
                 <FontAwesomeIcon icon={faSync} />
                 <span>Lista Zmian</span>
+                <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
+            <button className="LogoutButton" onClick={LogoutClickHandler}>
+                <FontAwesomeIcon icon={faRightFromBracket} />
+                Wyloguj
+            </button>
         </div>
     )
 };

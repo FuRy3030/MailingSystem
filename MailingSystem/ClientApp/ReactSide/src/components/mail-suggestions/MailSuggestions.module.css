@@ -1,0 +1,25 @@
+.Suggestions {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    width: 57.5%;
+    background-color: white;
+    border-radius: 2.5vw;
+    padding: clamp(12px, 3vh, 45px) clamp(10px, 1.4vw, 40px);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    border: 1px solid rgb(246, 246, 249);
+}
+
+.SuggestionsHeader {
+    font-size: clamp(10px, 1.5vw, 40px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: 1.5vh;
+    cursor: default;
+    width: 100%;
+    text-align: start;
+    margin-left: 1.25vw;
+}

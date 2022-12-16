@@ -17,6 +17,7 @@ import Templates from './subpages/Templates';
 import TemplatesAdd from './subpages/TemplatesAdd';
 import TemplatesEdit from './subpages/TemplatesEdit';
 import Reminders from './subpages/Reminders';
+import SettingsPage from './pages/settings/SettingsPage';
 
 interface IGoogleUser {
   aud: string;
@@ -102,7 +103,8 @@ function App() {
         <Route path="/" element={<LandingPage ref={GoogleButtonRef} updateNavBarStyle={updateNavBarStyle} />}>
           <Route path="home" element={<LandingPage ref={GoogleButtonRef} updateNavBarStyle={updateNavBarStyle} />} />
         </Route>
-        <Route path='/mails' element={<Protected> <MailBasePage /> </Protected>}>
+        <Route path="/settings" element={<Protected> <SettingsPage /> </Protected>} />
+        <Route path="/mails" element={<Protected> <MailBasePage /> </Protected>}>
           <Route path="/mails/" element={<Dashboard />} />
           <Route path="/mails/home" element={<Dashboard />} />
           <Route path="/mails/recent" element={<RecentMails />} />

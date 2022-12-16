@@ -57,7 +57,7 @@ export interface IMailStatisticsEngaged {
     NumberOfEmailsSent: number;
     HasOpenedCampaign: boolean;
     DateOfLastOpen: string | null;
-}
+};
 
 export interface IMailStatisticsSmallActivity {
     id: number;
@@ -67,10 +67,56 @@ export interface IMailStatisticsSmallActivity {
     HasClickedLink: boolean;
     DateOfLastClick: string | null;
     DateOfLastReply: string | null;
-}
+};
 
 export interface IMailAggregateStatistics {
     MailsWithStatistics: Array<IMailStatisticsBasic>;
     MailsWithStatisticsEngaged: Array<IMailStatisticsEngaged>;
     MailsWithStatisticsSmallActivity: Array<IMailStatisticsSmallActivity>;
-}
+};
+
+export interface ISuggestedMail {
+    id: number;
+    MailAddress: string;
+    NumberOfEmailsSent: number;
+    DateOfLastEmailSent: string;
+};
+
+export interface IChartData {
+    Value: number;
+    DateLabel: string;
+};
+
+export interface IOverview {
+    SuggestedMails: Array<ISuggestedMail>;
+    UserStatistics: {
+        UniqueUserCampaigns: number;
+        UniqueUserOpens: number;
+        UniqueUserClicks: number;
+        UniqueUserReplies: number;
+    };
+    UserMailsChartData: Array<IChartData>;
+    TeamStatistics: {
+        UniqueCampaigns: number;
+        UniqueOpens: number;
+        UniqueClicks: number;
+        UniqueReplies: number;
+    };
+    TeamMailsChartData: Array<IChartData>;
+    UserMailCount: number;
+    TeamMailCount: number;
+};
+
+export interface SettingsMailsForm {
+    GMassAPIKey: string;
+};
+
+export interface SettingsMailsFormErrors {
+    GMassAPIKey: string;
+};
+
+export interface IUserConfiguration {
+    UserMailsSettings: {
+        GMassAPIKey: string;
+    };
+};

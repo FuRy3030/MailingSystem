@@ -1,18 +1,24 @@
 import styled from 'styled-components';
 import styles from './MailBasePage.module.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Container, Row } from "react-bootstrap";
 import SideBarNavigation from '../../components/side-bar-navigation/SideBarNavigation';
 import AddMailsDrawer from '../../components/add-mails-drawer/AddMailsDrawer';
-import { useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 import { UIActions } from '../../redux-store/ui';
 import React from 'react';
 import AdjustableSnackbar from '../../components/snackbars/AdjustableSnackbar';
 
+import { ScrollTop } from 'primereact/scrolltop';
+import { ScrollPanel } from 'primereact/scrollpanel';
+import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
+import { GetSettings } from '../../redux-store/settings';
+import AuthContext from '../../context-store/auth-context';
+
 const ContentWrapper = styled.div`
-    width: 77%;
+    width: 100%;
     padding: 5vh 4vw 0vh 4vw;
     height: auto;
     min-height: 140vh;
@@ -27,8 +33,35 @@ const SideBarWrapper = styled.div`
 
 function MailBasePage() {
     const [isDrawerResultVisible, setIsDrawerResultVisible] = useState<boolean>(false);
+    const [isConfirmationModalShowed, setIsConfirmationModalShowed] = useState<boolean>(false);
     const MailsDrawerContentRef = useRef<HTMLDivElement | null>(null);
+    const MailSettings = useAppSelector((state) => state.UserConfig.UserConfiguration.UserMailsSettings);
+    const Ctx = useContext(AuthContext);
     const Dispatch = useAppDispatch();
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        if (MailSettings.GMassAPIKey == 'NotLoaded') {
+            let isSend: boolean = false;
+            if (Ctx?.accessToken.token != undefined && Ctx?.accessToken.token != '' && isSend == false) {
+                Dispatch(GetSettings(Ctx?.accessToken.token));
+            }      
+            else if (isSend == false) {
+                const TokenObject: string | null = sessionStorage.getItem('accessToken');
+                if (TokenObject != null) {
+                    Dispatch(GetSettings((JSON.parse(TokenObject)).token));
+                }
+            }
+            
+            return () => {
+                isSend = true;
+            }
+        }
+    }, []);
+
+    if (MailSettings.GMassAPIKey == '') {
+        setIsConfirmationModalShowed(true);
+    }
 
     const UpdateContentWrapper = (areResultsVisible: boolean) => {
         setIsDrawerResultVisible(areResultsVisible);
@@ -82,19 +115,35 @@ function MailBasePage() {
         Dispatch(UIActions.setTemplatesSnackbarVisibility({type: 'EditError', isVisible: isVisible}));
     };
 
+    const CloseModal = () => {
+        setIsConfirmationModalShowed(false);
+    };
+
+    const NavigateToSettings = () => {
+        Navigate("/settings");
+    };
+
     return (
         <React.Fragment>
+            <ScrollTop />
             <Container fluid className="pageWrapper">
                 <Row style={{margin: '0px'}}>
                     <SideBarWrapper style={{zIndex: '4'}}>
                         <SideBarNavigation />
                     </SideBarWrapper> 
-                    <ContentWrapper className={isDrawerResultVisible && styles.WrapperWithGreaterMargin}>
-                        <AddMailsDrawer ref={MailsDrawerContentRef} UpdateWrapperClass={UpdateContentWrapper} />
-                        <Outlet />
-                    </ContentWrapper>
+                    <ScrollPanel style={{width: '77%', overflow: 'hidden'}}>
+                        <ContentWrapper className={isDrawerResultVisible && styles.WrapperWithGreaterMargin}>
+                            <AddMailsDrawer ref={MailsDrawerContentRef} UpdateWrapperClass={UpdateContentWrapper} />
+                            <Outlet />
+                        </ContentWrapper>
+                        <ScrollTop target="parent" threshold={100} className="scrolltop" icon="pi pi-arrow-up" />
+                    </ScrollPanel>
                 </Row>
             </Container>
+            <ConfirmModal Title={'Brak Klucza API'} ButtonText={'Zabierz mnie do ustawień'}
+                Content={`Aby móc korzystać z bazy mailing'owej musisz wpierw ustawić swój klucz API do swojego konta GMass w ustawieniach.`} 
+                isShowed={isConfirmationModalShowed} ConfirmFunction={NavigateToSettings} 
+                CloseModal={CloseModal} />
             <AdjustableSnackbar type={'success'} title={'Zapisano Zmiany'} isOpen={IsSuccessSnackbarDefaultVisible}
                 content={'Twoje zmiany zostały zapisane i zsynchronizowane. Możesz teraz dodać / modyfikować kolejne elementy lub zasoby.'} 
                 updateStateInStore={updateIsSnackbarSuccessDefaultVisible} />

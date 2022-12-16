@@ -7,7 +7,7 @@
     position: sticky;
     left: 0px;
     background-color: #fafbfd;
-    padding-top: 5vh;
+    padding-top: 4vh;
     -webkit-box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
     -moz-box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
     box-shadow: 2px 0px 3px -1px rgb(240, 240, 243);
@@ -29,6 +29,16 @@
     text-decoration: none;
     background-color: transparent;
     border-radius: 14px;
+}
+
+.SideBarLink .PseudoElementIcon {
+    position: absolute;
+    left: -1.85vw;
+    top: 50%;
+    color: var(--grey-font-color);
+    font-size: clamp(10px, 1.1vw, 50px);
+    padding: 0px !important;
+    transform: translateY(-50%);
 }
 
 .SideBarLink > span {
@@ -64,5 +74,9 @@
 }
 
 .SideBarLinkActive > svg {
+    color: var(--blue-site-color);
+}
+
+.SideBarLinkActive .PseudoElementIcon {
     color: var(--blue-site-color);
 }

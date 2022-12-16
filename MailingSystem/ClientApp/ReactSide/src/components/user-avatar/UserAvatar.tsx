@@ -18,7 +18,7 @@ interface IWebsiteUser {
     unique_name: string;
 };
 
-function UserAvatar() {
+function UserAvatar(props: any) {
     const Ctx = useContext(AuthContext);
     let Name: string = '';
 
@@ -29,7 +29,8 @@ function UserAvatar() {
     }
 
     return (
-        <div className={styles.userAvatarWrapper}>
+        <div className={props.isLandingScreenVisible == false ? styles.userAvatarWrapper :
+            `${styles.userAvatarWrapper} ${styles.userAvatarWrapperTransparent}`}>
             <Avatar alt="Zdjęcie" src={`${Ctx?.pictureSource}`} className={styles.avatar} />
             <div className={styles.textWrapper}>
                 <span className={styles.name}>{Name}</span>

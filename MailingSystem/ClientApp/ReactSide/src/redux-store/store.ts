@@ -4,14 +4,16 @@ import MeasurementsReducer from './html-measurements';
 import MailsReducer from './mail-data';
 import UIReducer from './ui';
 import TemplatesReducer from './templates-data';
+import UserConfig from './settings';
 
 const ReduxStore = configureStore({
   reducer: { 
     Measurements: MeasurementsReducer,
     Mails: MailsReducer,
     UI: UIReducer,
-    Templates: TemplatesReducer
-  },
+    Templates: TemplatesReducer,
+    UserConfig: UserConfig
+  }
 });
 
 export type RootState = ReturnType<typeof ReduxStore.getState>;

@@ -23,6 +23,10 @@ interface IUIState {
             DeleteTemplateSuccessSnackbarIsVisible: boolean;
             DeleteTemplateErrorSnackbarIsVisible: boolean;
         };
+        Configuration: {
+            SaveSuccessSnackbar: boolean;
+            ErrorSaveSnackbar: boolean;
+        };
     };
 };
 
@@ -48,6 +52,10 @@ const InitialUIState: IUIState = {
             EditTemplateErrorSnackbarIsVisible: false,
             DeleteTemplateSuccessSnackbarIsVisible: false,
             DeleteTemplateErrorSnackbarIsVisible: false
+        },
+        Configuration: {
+            SaveSuccessSnackbar: false,
+            ErrorSaveSnackbar: false
         }
     } 
 };
@@ -122,6 +130,16 @@ const UISlice = createSlice({
                 case 'DeleteError':
                     State.SnackbarsStates.Templates.DeleteTemplateErrorSnackbarIsVisible = 
                         Action.payload.isVisible;
+                    break;
+            }
+        },
+        setConfigSnackbarVisibility (State, Action: PayloadAction<{isVisible: boolean, type: string}>) {
+            switch (Action.payload.type) {
+                case 'Success':
+                    State.SnackbarsStates.Configuration.SaveSuccessSnackbar = Action.payload.isVisible;
+                    break;
+                case 'Error':
+                    State.SnackbarsStates.Configuration.ErrorSaveSnackbar = Action.payload.isVisible;
                     break;
             }
         }

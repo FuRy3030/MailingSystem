@@ -1,0 +1,51 @@
+.DashboardHeader {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 6vw;
+    padding: clamp(4px, 1vh, 15px) clamp(15px, 3vw, 60px);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    border: 1px solid rgb(246, 246, 249);
+}
+
+.DashboardHeaderWelcome {
+    font-size: clamp(7px, 1.1vw, 28px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: 0px;
+    cursor: default;
+    width: auto;
+    text-align: start;
+    margin-right: 1.5vw;
+}
+
+.DashboardHeaderMailsMonth {
+    font-size: clamp(7px, 1.1vw, 28px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: 0px;
+    cursor: default;
+    width: auto;
+    text-align: start;
+    margin-left: 1.5vw;
+}
+
+.DashboardHeaderMailsMonth span {
+    color: var(--blue-site-dark-color);
+}
+
+.Avatar {
+    width: 2.6vw !important;
+    height: 2.6vw !important;
+    margin-left: auto;
+}
+
+.Logo {
+    width: 6vw;
+    height: auto;
+    margin-left: auto;
+}
