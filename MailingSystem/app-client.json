@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mailingsystem-369204",
+  "private_key_id": "07de81cd99937501ec9400e62138dd29407cde33",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDoWjoTg58bPhEH\nbHDxCi8fgpHbwN2FghrAx2Lp8NUKr94f+BM+X0mZD7U5A7pzwLFu7ziYvCyb/oEv\nevyn8ZQ6JLwf2ZakvTKo+biAr/r2KPOIDmuZBPIBy0AWc1F4pQWjPTFGx2wZQ7Jt\nW3GdVqnqcVwroxoLp37kgL7hvFksfBMetzsHkMD1WCvkWOlKmrg6IkLQHiAGkvGM\n6JafIDStWisOueumj9wiJSoLGdsGRebvhy9dlzmIcEhjeZbG8ZfvoyAbz96z1Ewx\nDEioiYXU42j/YduhYouoIPolEyMJvecjiQaJwynqU/Qt/dZKkO453IGsVSJ+YAJL\nDajglQsRAgMBAAECggEALRlKOXxsNvzykDbPqzF3WQ3eYsGKHb5VlAJ/Y/n/V+4v\n1pOvpIUZQ3DFk5XyLEKEDgy3twmbPQIGsCEWhkCBLVHxA9uXfk1M1nh2A+BkfUAQ\nmOF3qAFKOefp/hGPCDQ7pmYbuOm/RR4bNVew80GdhGhRZBTp2sY9fnuw0R7eTiA+\nZhRwrScs0uJlp1hjlY/xQi0c6pPnX+E6keeun4OJ+sFrH1tNLnxahfJn8CoM5sLW\n5hbwkgycsV0hvhVGK9U1Ovp+O6ooJf/mTpA9k/M5n4Gsgh3qkmxLO4yoUhl8oSWI\nxC/sGq+WmG20YVXHIYZYUvzqy/zvfkqV2j68AYhA2wKBgQD0+QtK7vzS/hmhKJHd\nfzaGVbL6bs2KThiA6Bj6oOjWm7cCdPhDkgzo06Et5hNvxh1FmfwXPCaAvwdpuK7G\np9pUkQTSMauBouqFiqBBE/WWdy8NkxSdYSjup9xWKZGsNqdiqxpbKLswDzj1ZBUs\nYFfYLp/ctDulj39kAUkwAwi5kwKBgQDyz8BPLLdE/sGs9hQqne2xRWZGYkjOuA23\nOsHadQLH7jWXK/8MDilQQgyvsDhG/Tpq4JmpWlHn1FS7i3J9Q8LT1Ufp3r5S0b1n\nfWLcHdq7uHt+X9NkgG0uMiuWabvz7czzyZKOd6CtxeM+KVk0ESKZdqYxvD4/J6YA\nWcFJjma/SwKBgGwfl+pk/VYrLSjCfU8kHO7B2JNMYJAQ1CPhTVUhvGMsq2P8OK+q\nQORqtBNMH3wQF09nHasrs1rT9fOlvg6Ue3sj3trfbXF0dMqoWv8eTiExTaVSK6Ej\nByv/DvNAubknDk4wcxuVKLmXnm5A1E+X3m3edlS1gDYc1f9PyfvU+v7dAoGBAMpJ\naFbN0xVpBGObU2u5zNeeELnckfmeftbC3dOpHhsAiqcZ4U7i0WpqzHTl48zIlQ2L\ndpkPhSMV0023vDc956dhjZr6licbU6dPX7gwKxWveTrsjImzMMKGy6dxCUQMPm5v\n5WhJo5SCQ3J7MjTdfazKm2TeBiHJX1P1csFcIJ+HAoGAPtld9S+14eKmYxzGZcVb\nPwEzdVWvxDQaPe5Yp/DiVS9EiidnyWHG5YBlrKin6vm8B7QrJh1/eqnzG8/OGD2x\nNe/332o5H7wwwTUH91ZCJsF/QtYFP1QoNlcwY8qdLAhtjqijlSCTAoE/Cxi5Nk75\nQsSaLsjdnfc36KLpjVwx9pw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mailyspace-backend-account@mailingsystem-369204.iam.gserviceaccount.com",
+  "client_id": "112454542584175128773",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mailyspace-backend-account%40mailingsystem-369204.iam.gserviceaccount.com"
+}

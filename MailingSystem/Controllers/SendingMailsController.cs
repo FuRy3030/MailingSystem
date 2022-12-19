@@ -1,6 +1,7 @@
 ﻿using MailingSystem.Classes;
 using MailingSystem.Contexts;
 using MailingSystem.Entities;
+using MailingSystem.GoogleAPIIntegration;
 using MailingSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,15 @@ namespace MailingSystem.Controllers
                     var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
                     var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
                     string RecipientsString = "";
+
+                    GoogleSheetForAttachments NewAttachmentsSheet = new GoogleSheetForAttachments(
+                        SentMailModel.Name + " Recipient Sheet",
+                        "14ItApZKT8sqz8AvPibAVsnik5LYnKLXhQyo_FKnXTnk",
+                        SentMailModel.Recipients,
+                        "FajnyPDF.pdf"
+                    );
+
+                    NewAttachmentsSheet.FillSheet();
 
                     foreach (string Recipient in SentMailModel.Recipients)
                     {
