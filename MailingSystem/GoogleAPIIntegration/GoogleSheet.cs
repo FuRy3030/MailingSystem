@@ -8,6 +8,7 @@ using Google.Apis.Util.Store;
 using System.Net.Security;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MailingSystem.GoogleAPIIntegration
 {
@@ -27,7 +28,18 @@ namespace MailingSystem.GoogleAPIIntegration
             // To be determined
         }
 
-        protected void ApplyChangesToSheetAsync(IList<IList<Object>> Records, string NewRange, SheetsService Service)
+        public async Task ClearSheet()
+        {
+            SheetsService CurrentService = GoogleSheet.AuthenticateSheetAccess();
+
+            var ClearRequestBody = new Google.Apis.Sheets.v4.Data.ClearValuesRequest();
+            SpreadsheetsResource.ValuesResource.ClearRequest Request =
+                CurrentService.Spreadsheets.Values.Clear(ClearRequestBody, this.SheetId, "A:A");
+
+            await Request.ExecuteAsync();
+        }
+
+        protected void ApplyChangesToSheetAsync(IList<IList<System.Object>> Records, string NewRange, SheetsService Service)
         {
             SpreadsheetsResource.ValuesResource.AppendRequest Request = Service.Spreadsheets.Values.Append(
                 new ValueRange() { Values = Records }, 

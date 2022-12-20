@@ -41,7 +41,12 @@ namespace MailingSystem.Controllers
                     var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
 
                     using (var Context = new MailsDbContext())
+                    using (var Config = new ConfigurationDbContext())
                     {
+                        MailsUserSettings? UserMailConfig = Config.MailsSettings
+                            .Where(Config => Config.Email == UserEmail)
+                            .FirstOrDefault();
+
                         List<int> CampaignIds = Context.SentMailCampaigns
                             .Where(Campaign => Campaign.SenderMailAddress == UserEmail)
                             .OrderByDescending(Campaign => Campaign.CampaignCreationDate)
@@ -49,12 +54,17 @@ namespace MailingSystem.Controllers
                             .Take(10)
                             .ToList();
 
+                        if (UserMailConfig == null)
+                        {
+                            return BadRequest("Config Error");
+                        }
+
                         foreach (int CampaignId in CampaignIds)
                         {
                             var OpensTask = Task.Run(() =>
                             {
                                 var CurrentClient = ClientFactory.CreateClient();
-                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/opens?apikey=b1d02e85-33cf-4d4e-90e0-17a4b9efca81");
+                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/opens?apikey={UserMailConfig.Email}");
 
                                 var StringResponse = JObject.Parse(Response.Result);
 
@@ -81,7 +91,7 @@ namespace MailingSystem.Controllers
                             var ClicksTask = Task.Run(() =>
                             {
                                 var CurrentClient = ClientFactory.CreateClient();
-                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/clicks?apikey=b1d02e85-33cf-4d4e-90e0-17a4b9efca81");
+                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/clicks?apikey={UserMailConfig.Email}");
 
                                 var StringResponse = JObject.Parse(Response.Result);
 
@@ -107,7 +117,7 @@ namespace MailingSystem.Controllers
                             var RepliesTask = Task.Run(() =>
                             {
                                 var CurrentClient = ClientFactory.CreateClient();
-                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/replies?apikey=b1d02e85-33cf-4d4e-90e0-17a4b9efca81");
+                                var Response = CurrentClient.GetStringAsync($"https://api.gmass.co/api/reports/{CampaignId}/replies?apikey={UserMailConfig.Email}");
 
                                 var StringResponse = JObject.Parse(Response.Result);
 

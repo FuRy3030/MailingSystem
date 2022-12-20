@@ -40,13 +40,14 @@ namespace MailingSystem.Controllers
                         if (FoundEntity != null)
                         {
                             FoundEntity.GMassAPIKey = MailsSettingsUserForm.GMassAPIKey;
+                            FoundEntity.RecipientsSheetId = MailsSettingsUserForm.RecipientsSheetId;
 
                             await Context.SaveChangesAsync();
                         }
                         else
                         {
                             MailsUserSettings NewSettings = new MailsUserSettings(UserEmail,
-                                MailsSettingsUserForm.GMassAPIKey);
+                                MailsSettingsUserForm.GMassAPIKey, MailsSettingsUserForm.RecipientsSheetId);
 
                             Context.Add(NewSettings);
                             await Context.SaveChangesAsync();
@@ -90,7 +91,8 @@ namespace MailingSystem.Controllers
                             .Where(Settings => Settings.Email == UserEmail)
                             .Select(Settings => new
                             {
-                                GMassAPIKey = Settings.GMassAPIKey
+                                GMassAPIKey = Settings.GMassAPIKey,
+                                RecipientsSheetId = Settings.RecipientsSheetId
                             })
                             .FirstOrDefault();
 

@@ -18,7 +18,8 @@ export const GetSettings = createAsyncThunk(
 
                 const FormattedResponse = {
                     UserMailsSettings: {
-                        GMassAPIKey: ParsedResponse.UserMailSettings.GMassAPIKey
+                        GMassAPIKey: ParsedResponse.UserMailSettings.GMassAPIKey,
+                        RecipientsSheetId: ParsedResponse.UserMailSettings.RecipientsSheetId
                     }
                 }
                 
@@ -27,7 +28,8 @@ export const GetSettings = createAsyncThunk(
             else {
                 return {
                     UserMailsSettings: {
-                        GMassAPIKey: ''
+                        GMassAPIKey: '',
+                        RecipientsSheetId: ''
                     }
                 } as IUserConfiguration;
             }
@@ -35,7 +37,8 @@ export const GetSettings = createAsyncThunk(
         catch {
             return {
                 UserMailsSettings: {
-                    GMassAPIKey: ''
+                    GMassAPIKey: '',
+                    RecipientsSheetId: ''
                 }
             } as IUserConfiguration;
         }
@@ -55,7 +58,8 @@ interface IUserConfigState {
 const InitialUserConfigState: IUserConfigState = { 
     UserConfiguration: {
         UserMailsSettings: {
-            GMassAPIKey: 'NotLoaded'
+            GMassAPIKey: 'NotLoaded',
+            RecipientsSheetId: 'NotLoaded'
         }
     },
     HTTPStates: {

@@ -17,16 +17,22 @@ namespace MailingSystem.Entities
         [MaxLength(50)]
         public string GMassAPIKey { get; set; }
 
+        [Required]
+        [MaxLength(55)]
+        public string RecipientsSheetId { get; set; }
+
         public MailsUserSettings()
         {
             Email = "";
             GMassAPIKey = "";
+            RecipientsSheetId = "";
         }
 
-        public MailsUserSettings(string email, string gMassAPIKey)
+        public MailsUserSettings(string email, string gMassAPIKey, string sheetId)
         {
             Email = email;
             GMassAPIKey = gMassAPIKey;
+            RecipientsSheetId = sheetId;
         }
     }
 }

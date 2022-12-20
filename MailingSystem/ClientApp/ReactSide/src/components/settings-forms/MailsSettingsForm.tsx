@@ -42,7 +42,8 @@ function MailsSettingsForm() {
     
     const ValidateForm = (FormData: SettingsMailsForm) => {
         let Errors: SettingsMailsFormErrors = {
-            GMassAPIKey: ''
+            GMassAPIKey: '',
+            RecipientsSheetId: ''
         };
 
         if (!FormData.GMassAPIKey) {
@@ -143,7 +144,10 @@ function MailsSettingsForm() {
                 <span className={styles.FormBoxDescription}>
                     W tym miejscu znajdują się niezbędne dane umożliwiające korzystanie z narzędzia m.in. klucz API do twojego konta GMass jak i pozostałe pola wpływające na dostępne adresy e-mail w sugestiach i innych miejscach.
                 </span>
-                <Form onSubmit={onSubmit} initialValues={{ GMassAPIKey: MailSettings.GMassAPIKey}}
+                <Form onSubmit={onSubmit} initialValues={{ 
+                        GMassAPIKey: MailSettings.GMassAPIKey,
+                        RecipientsSheetId: MailSettings.RecipientsSheetId
+                    }}
                     validate={ValidateForm} render={({ handleSubmit }) => (
                         <form onSubmit={handleSubmit} className="p-fluid">
                             <Field name="GMassAPIKey" render={({ input, meta }) => (
@@ -155,6 +159,20 @@ function MailsSettingsForm() {
                                         <label htmlFor="GMassAPIKey" 
                                             className={classNames({ 'p-error': isFormFieldValid(meta) })}>
                                             Klucz GMassAPI*
+                                        </label>
+                                    </span>
+                                    {getFormErrorMessage(meta)}
+                                </div>
+                            )} />
+                            <Field name="RecipientsSheetId" render={({ input, meta }) => (
+                                <div className="field">
+                                    <span className="p-float-label p-input-icon-right defaultSiteInputField"
+                                        style={{borderColor: isFormFieldValid(meta) ? "#e24c4c" : "#183153" }}>
+                                        <InputText id="RecipientsSheetId" {...input} autoFocus 
+                                            className={classNames({ 'p-invalid': isFormFieldValid(meta) })} />
+                                        <label htmlFor="RecipientsSheetId" 
+                                            className={classNames({ 'p-error': isFormFieldValid(meta) })}>
+                                            Google Sheet z odbiorcami kampani*
                                         </label>
                                     </span>
                                     {getFormErrorMessage(meta)}

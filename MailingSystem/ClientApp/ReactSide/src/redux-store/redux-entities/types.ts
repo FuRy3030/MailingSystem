@@ -109,14 +109,17 @@ export interface IOverview {
 
 export interface SettingsMailsForm {
     GMassAPIKey: string;
+    RecipientsSheetId: string;
 };
 
 export interface SettingsMailsFormErrors {
     GMassAPIKey: string;
+    RecipientsSheetId: string;
 };
 
 export interface IUserConfiguration {
     UserMailsSettings: {
         GMassAPIKey: string;
+        RecipientsSheetId: string;
     };
 };

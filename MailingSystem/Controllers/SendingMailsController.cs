@@ -40,54 +40,108 @@ namespace MailingSystem.Controllers
                 {
                     var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
                     var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
-                    string RecipientsString = "";
 
-                    GoogleSheetForAttachments NewAttachmentsSheet = new GoogleSheetForAttachments(
-                        SentMailModel.Name + " Recipient Sheet",
-                        "14ItApZKT8sqz8AvPibAVsnik5LYnKLXhQyo_FKnXTnk",
-                        SentMailModel.Recipients,
-                        "FajnyPDF.pdf"
-                    );
-
-                    NewAttachmentsSheet.FillSheet();
-
-                    foreach (string Recipient in SentMailModel.Recipients)
+                    using (var Config = new ConfigurationDbContext())
                     {
-                        RecipientsString = RecipientsString + Recipient + ", ";
-                    }
-                    RecipientsString = RecipientsString.Substring(0, RecipientsString.Length - 2);
+                        MailsUserSettings? UserMailConfig = Config.MailsSettings
+                            .Where(Config => Config.Email == UserEmail)
+                            .FirstOrDefault();
 
-                    var CreateCampaignRequest = new HttpRequestMessage(HttpMethod.Post,
-                        "https://api.gmass.co/api/campaigndrafts?apikey=b1d02e85-33cf-4d4e-90e0-17a4b9efca81");
-                    CreateCampaignRequest.Headers.Add("User-Agent", "MailySpace");
+                        int CampaignId = -1;
 
-                    var ContentBody = new
-                    {
-                        subject = SentMailModel.Topic,
-                        message = SentMailModel.Content,
-                        messageType = "html",
-                        emailAddresses = RecipientsString
-                    };
-                    string JSONContentBody = JsonConvert.SerializeObject(ContentBody);
+                        if (UserMailConfig != null && UserMailConfig.RecipientsSheetId != "")
+                        {
+                            GoogleSheetForAttachments NewAttachmentsSheet = new GoogleSheetForAttachments(
+                                ClientFactory,
+                                SentMailModel.Name + " Recipient Sheet",
+                                UserMailConfig.RecipientsSheetId,
+                                SentMailModel.Recipients,
+                                "Prezentacja.pdf"
+                            );
 
-                    CreateCampaignRequest.Content = new StringContent(
-                        JSONContentBody,
-                        Encoding.UTF8,
-                        MediaTypeNames.Application.Json
-                    );
+                            NewAttachmentsSheet.FillSheet();
+                            string ListAdresses = await NewAttachmentsSheet.GetSheetCodeForCampaign(UserEmail);
 
-                    var CurrentClient = ClientFactory.CreateClient();
-                    var Response = await CurrentClient.SendAsync(CreateCampaignRequest);
+                            var CreateCampaignRequest = new HttpRequestMessage(HttpMethod.Post,
+                                $"https://api.gmass.co/api/campaigndrafts?apikey={UserMailConfig.GMassAPIKey}");
+                            CreateCampaignRequest.Headers.Add("User-Agent", "MailySpace");
 
-                    CreateCampaignDraftModel? CurrentCampaignDraft =
-                        await Response.Content.ReadFromJsonAsync<CreateCampaignDraftModel>();
+                            var ContentBody = new
+                            {
+                                subject = SentMailModel.Topic,
+                                message = SentMailModel.Content,
+                                messageType = "html",
+                                listAddress = ListAdresses
+                            };
+                            string JSONContentBody = JsonConvert.SerializeObject(ContentBody);
 
-                    if (CurrentCampaignDraft != null &&
-                        CurrentCampaignDraft.campaignDraftId != null)
-                    {
-                        MailOperations MailOperations = new MailOperations(ClientFactory);
-                        int CamaignId = await MailOperations.SendCampaign(CurrentCampaignDraft.campaignDraftId, 
-                            SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps);
+                            CreateCampaignRequest.Content = new StringContent(
+                                JSONContentBody,
+                                Encoding.UTF8,
+                                MediaTypeNames.Application.Json
+                            );
+
+                            var CurrentClient = ClientFactory.CreateClient();
+                            var Response = await CurrentClient.SendAsync(CreateCampaignRequest);
+
+                            CreateCampaignDraftModel? CurrentCampaignDraft =
+                                await Response.Content.ReadFromJsonAsync<CreateCampaignDraftModel>();
+
+                            if (CurrentCampaignDraft != null &&
+                                CurrentCampaignDraft.campaignDraftId != null)
+                            {
+                                MailOperations MailOperations = new MailOperations(ClientFactory);
+                                CampaignId = await MailOperations.SendCampaign(CurrentCampaignDraft.campaignDraftId,
+                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps);
+                            }
+                        }
+                        else if (UserMailConfig != null && UserMailConfig.RecipientsSheetId == "")
+                        {
+                            string RecipientsString = "";
+
+                            foreach (string Recipient in SentMailModel.Recipients)
+                            {
+                                RecipientsString = RecipientsString + Recipient + ", ";
+                            }
+                            RecipientsString = RecipientsString.Substring(0, RecipientsString.Length - 2);
+
+                            var CreateCampaignRequest = new HttpRequestMessage(HttpMethod.Post,
+                                $"https://api.gmass.co/api/campaigndrafts?apikey={UserMailConfig.GMassAPIKey}");
+                            CreateCampaignRequest.Headers.Add("User-Agent", "MailySpace");
+
+                            var ContentBody = new
+                            {
+                                subject = SentMailModel.Topic,
+                                message = SentMailModel.Content,
+                                messageType = "html",
+                                emailAddresses = RecipientsString
+                            };
+                            string JSONContentBody = JsonConvert.SerializeObject(ContentBody);
+
+                            CreateCampaignRequest.Content = new StringContent(
+                                JSONContentBody,
+                                Encoding.UTF8,
+                                MediaTypeNames.Application.Json
+                            );
+
+                            var CurrentClient = ClientFactory.CreateClient();
+                            var Response = await CurrentClient.SendAsync(CreateCampaignRequest);
+
+                            CreateCampaignDraftModel? CurrentCampaignDraft =
+                                await Response.Content.ReadFromJsonAsync<CreateCampaignDraftModel>();
+
+                            if (CurrentCampaignDraft != null &&
+                                CurrentCampaignDraft.campaignDraftId != null)
+                            {
+                                MailOperations MailOperations = new MailOperations(ClientFactory);
+                                CampaignId = await MailOperations.SendCampaign(CurrentCampaignDraft.campaignDraftId,
+                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps);
+                            }
+                        }
+                        else
+                        {
+                            return BadRequest("Error");
+                        }
 
                         using (var Context = new MailsDbContext())
                         {
@@ -110,11 +164,11 @@ namespace MailingSystem.Controllers
                             }
 
                             SentMailCampaign NewCampaign = new SentMailCampaign(
-                                UserEmail, 
-                                SentMailModel.Topic, 
-                                SentMailModel.Content, 
-                                CamaignId, 
-                                SentMailModel.Name, 
+                                UserEmail,
+                                SentMailModel.Topic,
+                                SentMailModel.Content,
+                                CampaignId,
+                                SentMailModel.Name,
                                 SentMailModel.FollowUpsNumber
                             );
 
@@ -130,7 +184,7 @@ namespace MailingSystem.Controllers
                                 StatusCode = 200
                             };
                         }
-                    }
+                    }                      
                 }
 
                 return BadRequest("Error");
