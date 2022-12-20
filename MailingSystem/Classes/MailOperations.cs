@@ -37,10 +37,10 @@ namespace MailingSystem.Classes
         }
 
         public async Task<int> SendCampaign(string CampaignId, string CampaignName, int FollowUpsNumber, 
-            List<FollowUpModel> FollowUps)
+            List<FollowUpModel> FollowUps, string GMassAPIKey)
         {
             var SendCampaignRequest = new HttpRequestMessage(HttpMethod.Post,
-                $"https://api.gmass.co/api/campaigns/{CampaignId}?apikey=b1d02e85-33cf-4d4e-90e0-17a4b9efca81");
+                $"https://api.gmass.co/api/campaigns/{CampaignId}?apikey={GMassAPIKey}");
             SendCampaignRequest.Headers.Add("User-Agent", "MailySpace");
 
             switch (FollowUpsNumber)

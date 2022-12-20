@@ -109,7 +109,7 @@ namespace MailingSystem.GoogleAPIIntegration
                 }
 
                 var GetListOfAdresses = new HttpRequestMessage(HttpMethod.Post,
-                    $"https://api.gmass.co/api/lists?apikey={UserMailConfig.RecipientsSheetId}");
+                    $"https://api.gmass.co/api/lists?apikey={UserMailConfig.GMassAPIKey}");
                 GetListOfAdresses.Headers.Add("User-Agent", "MailySpace");
 
                 var ContentBody = new

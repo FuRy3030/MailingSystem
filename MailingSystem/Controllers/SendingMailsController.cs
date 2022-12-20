@@ -92,7 +92,8 @@ namespace MailingSystem.Controllers
                             {
                                 MailOperations MailOperations = new MailOperations(ClientFactory);
                                 CampaignId = await MailOperations.SendCampaign(CurrentCampaignDraft.campaignDraftId,
-                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps);
+                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps, 
+                                    UserMailConfig.GMassAPIKey);
                             }
                         }
                         else if (UserMailConfig != null && UserMailConfig.RecipientsSheetId == "")
@@ -135,7 +136,8 @@ namespace MailingSystem.Controllers
                             {
                                 MailOperations MailOperations = new MailOperations(ClientFactory);
                                 CampaignId = await MailOperations.SendCampaign(CurrentCampaignDraft.campaignDraftId,
-                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps);
+                                    SentMailModel.Name, SentMailModel.FollowUpsNumber, SentMailModel.FollowUps, 
+                                    UserMailConfig.GMassAPIKey);
                             }
                         }
                         else
