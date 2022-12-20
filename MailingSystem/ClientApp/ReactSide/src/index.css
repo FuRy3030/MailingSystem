@@ -535,6 +535,10 @@ body::-webkit-scrollbar-thumb {
   margin-right: 1.25vw;
 }
 
+.form-field-margin {
+  margin-bottom: 5.75vh;
+}
+
 /* Fixes */
 
 .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {

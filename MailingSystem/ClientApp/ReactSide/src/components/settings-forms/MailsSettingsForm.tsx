@@ -50,6 +50,10 @@ function MailsSettingsForm() {
             Errors.GMassAPIKey = 'Klucz do twojego API jest wymagany do korzystania z aplikacji';
         }
 
+        if (FormData.RecipientsSheetId.length != 0 && FormData.RecipientsSheetId.length != 44) {
+            Errors.RecipientsSheetId = 'Niepoprawne Id arkusza';
+        }
+
         type ObjectKey = keyof typeof Errors;
         const Keys: ObjectKey[] = [];
 
@@ -151,7 +155,7 @@ function MailsSettingsForm() {
                     validate={ValidateForm} render={({ handleSubmit }) => (
                         <form onSubmit={handleSubmit} className="p-fluid">
                             <Field name="GMassAPIKey" render={({ input, meta }) => (
-                                <div className="field">
+                                <div className="field form-field-margin">
                                     <span className="p-float-label p-input-icon-right defaultSiteInputField"
                                         style={{borderColor: isFormFieldValid(meta) ? "#e24c4c" : "#183153" }}>
                                         <InputText id="GMassAPIKey" {...input} autoFocus 
@@ -172,7 +176,7 @@ function MailsSettingsForm() {
                                             className={classNames({ 'p-invalid': isFormFieldValid(meta) })} />
                                         <label htmlFor="RecipientsSheetId" 
                                             className={classNames({ 'p-error': isFormFieldValid(meta) })}>
-                                            Google Sheet z odbiorcami kampani*
+                                            Id Google Sheet'a z odbiorcami kampani*
                                         </label>
                                     </span>
                                     {getFormErrorMessage(meta)}
