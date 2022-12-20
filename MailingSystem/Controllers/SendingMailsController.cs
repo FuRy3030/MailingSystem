@@ -49,14 +49,15 @@ namespace MailingSystem.Controllers
 
                         int CampaignId = -1;
 
-                        if (UserMailConfig != null && UserMailConfig.RecipientsSheetId != "")
+                        if (UserMailConfig != null && UserMailConfig.RecipientsSheetId != "" && 
+                            SentMailModel.AttachmentFileName != "")
                         {
                             GoogleSheetForAttachments NewAttachmentsSheet = new GoogleSheetForAttachments(
                                 ClientFactory,
                                 SentMailModel.Name + " Recipient Sheet",
                                 UserMailConfig.RecipientsSheetId,
                                 SentMailModel.Recipients,
-                                "Prezentacja.pdf"
+                                SentMailModel.AttachmentFileName
                             );
 
                             NewAttachmentsSheet.FillSheet();

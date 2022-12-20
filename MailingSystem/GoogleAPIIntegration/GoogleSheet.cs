@@ -34,7 +34,7 @@ namespace MailingSystem.GoogleAPIIntegration
 
             var ClearRequestBody = new Google.Apis.Sheets.v4.Data.ClearValuesRequest();
             SpreadsheetsResource.ValuesResource.ClearRequest Request =
-                CurrentService.Spreadsheets.Values.Clear(ClearRequestBody, this.SheetId, "A:A");
+                CurrentService.Spreadsheets.Values.Clear(ClearRequestBody, this.SheetId, $"A1:ZZ");
 
             await Request.ExecuteAsync();
         }

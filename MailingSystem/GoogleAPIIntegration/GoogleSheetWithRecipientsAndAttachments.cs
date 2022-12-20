@@ -69,7 +69,7 @@ namespace MailingSystem.GoogleAPIIntegration
                     .Where(Config => Config.Email == UserEmail)
                     .FirstOrDefault();
 
-                if (UserMailConfig != null)
+                if (UserMailConfig == null)
                 {
                     throw new Exception("No Config");
                 }
@@ -103,7 +103,7 @@ namespace MailingSystem.GoogleAPIIntegration
                     .Where(Config => Config.Email == UserEmail)
                     .FirstOrDefault();
 
-                if (UserMailConfig != null)
+                if (UserMailConfig == null)
                 {
                     throw new Exception("No Config");
                 }

@@ -11,7 +11,8 @@ namespace MailingSystem.Models
         public string Name { get; set; }
         public int FollowUpsNumber { get; set; }
         public List<FollowUpModel> FollowUps { get; set; }
-}
+        public string AttachmentFileName { get; set; }
+    }
 
     public class FollowUpModel
     {

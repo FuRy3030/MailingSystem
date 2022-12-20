@@ -9,12 +9,18 @@
     align-items: center;
     font-size: clamp(10px, 1.3vw, 55px);
     padding: 0.9vh 1vw;
-    margin-left: auto;
+    margin-left: 17vw;
     font-weight: 800;
     margin-right: 1.5vw;
-    margin-top: 3.5vh;
 }
 
 .SendMailButton > svg {
     margin-left: 0.75vw;
+}
+
+.SubmitCampaignSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5vh;
 }

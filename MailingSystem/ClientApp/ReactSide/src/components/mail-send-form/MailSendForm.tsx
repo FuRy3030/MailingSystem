@@ -17,9 +17,10 @@ import { UIActions } from '../../redux-store/ui';
 import ConfirmModal from '../confirm-modal/ConfirmModal';
 import React from 'react';
 import { DividerHorizontal } from '../divider/Divider';
-import { faReplyAll } from '@fortawesome/free-solid-svg-icons';
+import { faFileArrowUp, faReplyAll } from '@fortawesome/free-solid-svg-icons';
 import FollowUpForm from '../follow-up-form/FollowUpForm';
 import LoadingScreen from '../loading-screen/LoadingScreen';
+import { InputText } from 'primereact/inputtext';
 
 interface FollowUpEntity {
     DaySpan: number;
@@ -28,6 +29,7 @@ interface FollowUpEntity {
 }
 
 const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) => {
+    const [AttachmentFileName, setAttachmentFileName] = useState<string>("");
     const [isLoadingPageShowed, setIsLoadingPageShowed] = useState<boolean>(false);
     const [isConfirmationModalShowed, setIsConfirmationModalShowed] = useState<boolean>(false);
     const [FollowUpArray, setFollowUpArray] = useState<FollowUpEntity[]>([{
@@ -101,7 +103,8 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
                     Content: CurrentMail.Content,
                     Name: CamapignName,
                     FollowUpsNumber: FollowUpsCount,
-                    FollowUps: FollowUpArray
+                    FollowUps: FollowUpArray,
+                    AttachmentFileName: AttachmentFileName
                 })
             };
 
@@ -186,6 +189,10 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
         }
     }, [CurrentMail.Content, CurrentMail.Topic]);
 
+    const HandleAttachmentFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAttachmentFileName(event.currentTarget.value);
+    };
+
     return (
         <React.Fragment>
             {CurrentMail.Recipients.length > 0 && 
@@ -247,10 +254,17 @@ const MailSendForm = React.forwardRef<HTMLDivElement, {}>(({}, MailSendFormRef) 
                                 HandleFollowUpChange={HandleFollowUpChange} />
                         })}
                     </div>}
-                    <Button variant="primary" className={`site-button ${styles.SendMailButton}`}
-                        onClick={HandleClickSendEmail}>
-                        Wyślij Maila <FontAwesomeIcon icon={faPaperPlane} />
-                    </Button>
+                    <div className={styles.SubmitCampaignSection}>
+                        <span className="p-float-label p-input-icon-right defaultSiteInputField">
+                            <FontAwesomeIcon icon={faFileArrowUp} />
+                            <InputText id="fileName" defaultValue={""} onChange={HandleAttachmentFileNameChange} />
+                            <label htmlFor="fileName">(Opcjonalnie) Nazwa Załącznika</label>
+                        </span>
+                        <Button variant="primary" className={`site-button ${styles.SendMailButton}`}
+                            onClick={HandleClickSendEmail}>
+                            Wyślij Maila <FontAwesomeIcon icon={faPaperPlane} />
+                        </Button>
+                    </div>
                 </div>
             </div>}
             <ConfirmModal Title={'Brak tematu lub treści'} ButtonText={'Wyślij'}

@@ -558,7 +558,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .p-scrollpanel-content {
-  overflow: hidden;
+  overflow: hidden !important;
   padding: 0px !important;
 }
 
