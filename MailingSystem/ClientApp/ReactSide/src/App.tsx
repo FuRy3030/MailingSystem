@@ -18,6 +18,7 @@ import TemplatesAdd from './subpages/TemplatesAdd';
 import TemplatesEdit from './subpages/TemplatesEdit';
 import Reminders from './subpages/Reminders';
 import SettingsPage from './pages/settings/SettingsPage';
+import MailsExtractor from './subpages/MailsExtractor';
 
 interface IGoogleUser {
   aud: string;
@@ -113,6 +114,7 @@ function App() {
           <Route path="/mails/templates/add" element={<TemplatesAdd />} />
           <Route path="/mails/templates/edit/:TemplateId" element={<TemplatesEdit />} />
           <Route path="/mails/reminders" element={<Reminders />} />
+          <Route path="/mails/web-extractor" element={<MailsExtractor />} />
         </Route>
       </Routes>
       <UpdateTokenModal />

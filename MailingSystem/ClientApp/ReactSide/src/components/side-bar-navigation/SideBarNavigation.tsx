@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartPie, faChevronCircleRight, faChevronRight, faEnvelopeOpenText, faGrip, faRightFromBracket, faSync } from "@fortawesome/free-solid-svg-icons";
+import { faChartPie, faChevronCircleRight, faCloudArrowDown, faEnvelopeOpenText, faGrip, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faBell, faEnvelope, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { MailsActions } from '../../redux-store/mail-data';
 import React, { useContext } from 'react';
@@ -76,12 +76,13 @@ function SideBarNavigation() {
                 <span>Statystyki</span>
                 <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </a>
-            <NavLink to="/mails/change-log" className={({ isActive }) => isActive ? 
+            <NavLink to="/mails/web-extractor" className={({ isActive }) => isActive ? 
                 `${styles.SideBarLink} ${styles.SideBarLinkActive}` : 
                 `${styles.SideBarLink}`}
             >
-                <FontAwesomeIcon icon={faSync} />
-                <span>Lista Zmian</span>
+                <span className={styles.SideBarBadge}>Beta</span>
+                <FontAwesomeIcon icon={faCloudArrowDown} />
+                <span>Mail Extractor</span>
                 <FontAwesomeIcon icon={faChevronCircleRight} className={styles.PseudoElementIcon} />
             </NavLink>
             <button className="LogoutButton" onClick={LogoutClickHandler}>

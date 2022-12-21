@@ -80,3 +80,14 @@
 .SideBarLinkActive .PseudoElementIcon {
     color: var(--blue-site-color);
 }
+
+.SideBarBadge {
+    position: absolute;
+    top: 0%;
+    right: -7.5%;
+    color: white;
+    background-color: var(--blue-site-color);
+    font-size: clamp(7px, 0.8vw, 22px);
+    padding: 0.5vh 0.7vw;
+    border-radius: 1.5vw;
+}
