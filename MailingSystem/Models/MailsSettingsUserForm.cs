@@ -4,5 +4,6 @@
     {
         public string GMassAPIKey { get; set; }
         public string RecipientsSheetId { get; set; }
+        public string HowManyWeeksAfterMailReadyForReminder { get; set; }
     }
 }

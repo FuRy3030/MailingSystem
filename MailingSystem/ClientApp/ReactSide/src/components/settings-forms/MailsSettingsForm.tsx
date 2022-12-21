@@ -43,7 +43,8 @@ function MailsSettingsForm() {
     const ValidateForm = (FormData: SettingsMailsForm) => {
         let Errors: SettingsMailsFormErrors = {
             GMassAPIKey: '',
-            RecipientsSheetId: ''
+            RecipientsSheetId: '',
+            HowManyWeeksAfterMailReadyForReminder: ''
         };
 
         if (!FormData.GMassAPIKey) {
@@ -52,6 +53,10 @@ function MailsSettingsForm() {
 
         if (FormData.RecipientsSheetId.length != 0 && FormData.RecipientsSheetId.length != 44) {
             Errors.RecipientsSheetId = 'Niepoprawne Id arkusza';
+        }
+
+        if (isNaN(parseInt(FormData.HowManyWeeksAfterMailReadyForReminder))) {
+            Errors.HowManyWeeksAfterMailReadyForReminder = 'Pole musi być liczbą całkowitą!';
         }
 
         type ObjectKey = keyof typeof Errors;
@@ -150,7 +155,8 @@ function MailsSettingsForm() {
                 </span>
                 <Form onSubmit={onSubmit} initialValues={{ 
                         GMassAPIKey: MailSettings.GMassAPIKey,
-                        RecipientsSheetId: MailSettings.RecipientsSheetId
+                        RecipientsSheetId: MailSettings.RecipientsSheetId,
+                        HowManyWeeksAfterMailReadyForReminder: MailSettings.AfterHowManyWeeksRemindersAppear
                     }}
                     validate={ValidateForm} render={({ handleSubmit }) => (
                         <form onSubmit={handleSubmit} className="p-fluid">
@@ -169,7 +175,7 @@ function MailsSettingsForm() {
                                 </div>
                             )} />
                             <Field name="RecipientsSheetId" render={({ input, meta }) => (
-                                <div className="field">
+                                <div className="field form-field-margin">
                                     <span className="p-float-label p-input-icon-right defaultSiteInputField"
                                         style={{borderColor: isFormFieldValid(meta) ? "#e24c4c" : "#183153" }}>
                                         <InputText id="RecipientsSheetId" {...input} autoFocus 
@@ -177,6 +183,20 @@ function MailsSettingsForm() {
                                         <label htmlFor="RecipientsSheetId" 
                                             className={classNames({ 'p-error': isFormFieldValid(meta) })}>
                                             Id Google Sheet'a z odbiorcami kampani*
+                                        </label>
+                                    </span>
+                                    {getFormErrorMessage(meta)}
+                                </div>
+                            )} />
+                            <Field name="HowManyWeeksAfterMailReadyForReminder" render={({ input, meta }) => (
+                                <div className="field">
+                                    <span className="p-float-label p-input-icon-right defaultSiteInputField"
+                                        style={{borderColor: isFormFieldValid(meta) ? "#e24c4c" : "#183153" }}>
+                                        <InputText id="HowManyWeeksAfterMailReadyForReminder" {...input} autoFocus 
+                                            className={classNames({ 'p-invalid': isFormFieldValid(meta) })} />
+                                        <label htmlFor="HowManyWeeksAfterMailReadyForReminder" 
+                                            className={classNames({ 'p-error': isFormFieldValid(meta) })}>
+                                            Po ilu tygodniach adres e-mail nadaje się do przypomnienia*
                                         </label>
                                     </span>
                                     {getFormErrorMessage(meta)}

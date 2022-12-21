@@ -19,7 +19,8 @@ export const GetSettings = createAsyncThunk(
                 const FormattedResponse = {
                     UserMailsSettings: {
                         GMassAPIKey: ParsedResponse.UserMailSettings.GMassAPIKey,
-                        RecipientsSheetId: ParsedResponse.UserMailSettings.RecipientsSheetId
+                        RecipientsSheetId: ParsedResponse.UserMailSettings.RecipientsSheetId,
+                        AfterHowManyWeeksRemindersAppear: ParsedResponse.UserMailSettings.AfterHowManyWeeksRemindersAppear
                     }
                 }
                 
@@ -29,7 +30,8 @@ export const GetSettings = createAsyncThunk(
                 return {
                     UserMailsSettings: {
                         GMassAPIKey: '',
-                        RecipientsSheetId: ''
+                        RecipientsSheetId: '',
+                        AfterHowManyWeeksRemindersAppear: 0
                     }
                 } as IUserConfiguration;
             }
@@ -38,7 +40,8 @@ export const GetSettings = createAsyncThunk(
             return {
                 UserMailsSettings: {
                     GMassAPIKey: '',
-                    RecipientsSheetId: ''
+                    RecipientsSheetId: '',
+                    AfterHowManyWeeksRemindersAppear: 0
                 }
             } as IUserConfiguration;
         }
@@ -59,7 +62,8 @@ const InitialUserConfigState: IUserConfigState = {
     UserConfiguration: {
         UserMailsSettings: {
             GMassAPIKey: 'NotLoaded',
-            RecipientsSheetId: 'NotLoaded'
+            RecipientsSheetId: 'NotLoaded',
+            AfterHowManyWeeksRemindersAppear: 0
         }
     },
     HTTPStates: {

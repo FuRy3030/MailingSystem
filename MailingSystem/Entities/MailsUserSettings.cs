@@ -21,18 +21,23 @@ namespace MailingSystem.Entities
         [MaxLength(55)]
         public string RecipientsSheetId { get; set; }
 
+        [Required]
+        public int ReminderMailsHowManyWeeksAfter { get; set; }
+
         public MailsUserSettings()
         {
             Email = "";
             GMassAPIKey = "";
             RecipientsSheetId = "";
+            ReminderMailsHowManyWeeksAfter = 0;
         }
 
-        public MailsUserSettings(string email, string gMassAPIKey, string sheetId)
+        public MailsUserSettings(string email, string gMassAPIKey, string sheetId, int reminderMailsTime)
         {
             Email = email;
             GMassAPIKey = gMassAPIKey;
             RecipientsSheetId = sheetId;
+            ReminderMailsHowManyWeeksAfter = reminderMailsTime;
         }
     }
 }

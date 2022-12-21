@@ -41,13 +41,16 @@ namespace MailingSystem.Controllers
                         {
                             FoundEntity.GMassAPIKey = MailsSettingsUserForm.GMassAPIKey;
                             FoundEntity.RecipientsSheetId = MailsSettingsUserForm.RecipientsSheetId;
+                            FoundEntity.ReminderMailsHowManyWeeksAfter = 
+                                Int32.Parse(MailsSettingsUserForm.HowManyWeeksAfterMailReadyForReminder);
 
                             await Context.SaveChangesAsync();
                         }
                         else
                         {
                             MailsUserSettings NewSettings = new MailsUserSettings(UserEmail,
-                                MailsSettingsUserForm.GMassAPIKey, MailsSettingsUserForm.RecipientsSheetId);
+                                MailsSettingsUserForm.GMassAPIKey, MailsSettingsUserForm.RecipientsSheetId,
+                                Int32.Parse(MailsSettingsUserForm.HowManyWeeksAfterMailReadyForReminder));
 
                             Context.Add(NewSettings);
                             await Context.SaveChangesAsync();
@@ -92,7 +95,8 @@ namespace MailingSystem.Controllers
                             .Select(Settings => new
                             {
                                 GMassAPIKey = Settings.GMassAPIKey,
-                                RecipientsSheetId = Settings.RecipientsSheetId
+                                RecipientsSheetId = Settings.RecipientsSheetId,
+                                AfterHowManyWeeksRemindersAppear = Settings.ReminderMailsHowManyWeeksAfter
                             })
                             .FirstOrDefault();
 

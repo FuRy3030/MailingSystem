@@ -163,7 +163,9 @@ namespace MailingSystem.Controllers
                             .ToList<MailCompleteStatisticsModel>();
 
                         var MailsWithStatisticsBasic = MailsWithStatistics
-                            .OrderBy(Mail => Mail.DateOfLastEmailSent)
+                            .Where(Mail => Mail.DateOfLastEmailSent <=
+                                DateTime.UtcNow.AddDays(-7 * UserMailConfig.ReminderMailsHowManyWeeksAfter))
+                            .OrderBy(Mail => Mail.DateOfLastEmailSent)                          
                             .Select(Mail => new
                             {
                                 MailAddress = Mail.MailAddress,
@@ -176,7 +178,8 @@ namespace MailingSystem.Controllers
                             .ToList();
 
                         var MailsWithStatisticsSmallActivity = MailsWithStatistics
-                            .Where(Mail => Mail.HasReplied != true && Mail.HasClickedLink != true)                           
+                            .Where(Mail => Mail.HasReplied != true && Mail.HasClickedLink != true &&
+                                Mail.DateOfLastEmailSent <= DateTime.UtcNow.AddDays(-7 * UserMailConfig.ReminderMailsHowManyWeeksAfter))                           
                             .OrderBy(Mail => Mail.DateOfLastEmailSent).ThenBy(Mail => Mail.DateOfLastOpen)
                             .Select(Mail => new
                             {
@@ -188,7 +191,8 @@ namespace MailingSystem.Controllers
                             .ToList();
 
                         var MailsWithStatisticsEngaged = MailsWithStatistics
-                            .Where(Mail => Mail.HasReplied == true || Mail.HasClickedLink == true)
+                            .Where(Mail => Mail.HasReplied == true || Mail.HasClickedLink == true &&
+                                Mail.DateOfLastEmailSent <= DateTime.UtcNow.AddDays(-7 * UserMailConfig.ReminderMailsHowManyWeeksAfter))
                             .OrderBy(Mail => Mail.DateOfLastEmailSent).ThenBy(Mail => Mail.DateOfLastReply)
                             .Select(Mail => new
                             {

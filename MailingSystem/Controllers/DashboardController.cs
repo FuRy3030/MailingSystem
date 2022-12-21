@@ -35,14 +35,25 @@ namespace MailingSystem.Controllers
                     var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
                     var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
 
+                    using (var Config = new ConfigurationDbContext())
                     using (var Context = new MailsDbContext())
                     {
+                        MailsUserSettings? UserMailConfig = Config.MailsSettings
+                            .Where(Config => Config.Email == UserEmail)
+                            .FirstOrDefault();
+
+                        if (UserMailConfig == null)
+                        {
+                            return BadRequest("Config Error");
+                        }
+
                         Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pl-PL");
                         List<ChartData> UserMailsByWeekData = new List<ChartData>();
                         List<ChartData> TeamMailsByWeekData = new List<ChartData>();
 
                         var SuggestedMails = Context.OrganizationMails
-                            .Where(Mail => Mail.UserVerificatiorName == Username)
+                            .Where(Mail => Mail.UserVerificatiorName == Username &&
+                                Mail.DateOfLastEmailSent <= DateTime.UtcNow.AddDays(-7 * UserMailConfig.ReminderMailsHowManyWeeksAfter))
                             .OrderBy(Mail => Mail.DateOfLastEmailSent)
                             .Select(Mail => new
                             {
