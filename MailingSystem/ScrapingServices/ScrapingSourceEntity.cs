@@ -8,7 +8,7 @@
         public List<string> SingleOfferURLs { get; set; }
 
         public abstract Task<List<string>> GetURLsWithOffers();
-        public abstract Task<List<string>> ScrapeEmailsFromOffers();
+        public abstract Task<List<ScrapedEmailEntity>> ScrapeEmailsFromOffers();
 
         public ScrapingSourceEntity(string name, IHttpClientFactory clientFactory)
         {

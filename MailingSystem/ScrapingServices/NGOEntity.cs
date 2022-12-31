@@ -53,9 +53,9 @@ namespace MailingSystem.ScrapingServices
             return URLs;
         }
 
-        public override async Task<List<string>> ScrapeEmailsFromOffers()
+        public override async Task<List<ScrapedEmailEntity>> ScrapeEmailsFromOffers()
         {
-            List<string> Emails = new List<string>();
+            List<ScrapedEmailEntity> EmailEntities = new List<ScrapedEmailEntity>();
             HttpClient CurrentClient = ClientFactory.CreateClient();
 
             foreach (string URL in this.SingleOfferURLs)
@@ -75,27 +75,32 @@ namespace MailingSystem.ScrapingServices
                     .Select(Node => Node.NextSibling.NextSibling.GetAttributeValue("data-encrypted", ""))
                     .ToList();
 
-                foreach (string EncryptedEmail in EncryptedEmails)
+                var CompanyNames = HtmlDocument.DocumentNode.Descendants("div")
+                    .Where(Node => Node.InnerText == "Ogłoszeniodawca:")
+                    .Select(Node => Node.NextSibling.NextSibling.InnerText.Trim())
+                    .ToList();
+
+                for (int j = 0; j < EncryptedEmails.Count; j++)
                 {
                     List<int> IndexesInEncryptedEmail = new List<int>();
-                    for (int i = EncryptedEmail.IndexOf('\''); i > -1; i = EncryptedEmail.IndexOf('\'', i + 1))
+                    for (int i = EncryptedEmails[j].IndexOf('\''); i > -1; i = EncryptedEmails[j].IndexOf('\'', i + 1))
                     {
                         IndexesInEncryptedEmail.Add(i);
                     }
 
-                    string EncryptionKey = EncryptedEmail.Substring(IndexesInEncryptedEmail[0] + 1,
+                    string EncryptionKey = EncryptedEmails[j].Substring(IndexesInEncryptedEmail[0] + 1,
                         IndexesInEncryptedEmail[1] - IndexesInEncryptedEmail[0] - 1);
-                    string EncryptedEmailCode = EncryptedEmail.Substring(IndexesInEncryptedEmail[2] + 1,
+                    string EncryptedEmailCode = EncryptedEmails[j].Substring(IndexesInEncryptedEmail[2] + 1,
                         IndexesInEncryptedEmail[3] - IndexesInEncryptedEmail[2] - 1);
 
                     string Email = StringDecode(EncryptionKey, EncryptedEmailCode);
 
-                    Emails.Add(Email);
+                    EmailEntities.Add(new ScrapedEmailEntity(Email, CompanyNames[j]));
                 }
                 CurrentClient.DefaultRequestHeaders.Remove("User-Agent");
             }
 
-            return Emails;
+            return EmailEntities;
         }
 
         private string StringDecode(string Key, string EncryptedEmail)
