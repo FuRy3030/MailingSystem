@@ -70,6 +70,9 @@ function MailBasePage() {
     const IsSuccessSnackbarDefaultVisible = useAppSelector((state) => {
         return state.UI.SnackbarsStates.SuccessDefaultIsVisible
     });
+    const IsErrorSnackbarDefaultVisible = useAppSelector((state) => {
+        return state.UI.SnackbarsStates.ErrorDefaultIsVisible
+    });
 
     const IsSuccessSnackbarVisible = useAppSelector((state) => {
         return state.UI.SnackbarsStates.RecentMails.SuccessSnackbarIsVisible
@@ -93,6 +96,9 @@ function MailBasePage() {
 
     const updateIsSnackbarSuccessDefaultVisible = (isVisible: boolean) => {
         Dispatch(UIActions.setDefaultSnackbarVisibility({type: 'Success', isVisible: isVisible}));
+    };
+    const updateIsSnackbarErrorDefaultVisible = (isVisible: boolean) => {
+        Dispatch(UIActions.setDefaultSnackbarVisibility({type: 'Error', isVisible: isVisible}));
     };
 
     const updateIsSnackbarSuccessVisible = (isVisible: boolean) => {
@@ -147,6 +153,9 @@ function MailBasePage() {
             <AdjustableSnackbar type={'success'} title={'Zapisano Zmiany'} isOpen={IsSuccessSnackbarDefaultVisible}
                 content={'Twoje zmiany zostały zapisane i zsynchronizowane. Możesz teraz dodać / modyfikować kolejne elementy lub zasoby.'} 
                 updateStateInStore={updateIsSnackbarSuccessDefaultVisible} />
+            <AdjustableSnackbar type={'error'} title={'Wystąpił błąd!'} isOpen={IsErrorSnackbarDefaultVisible}
+                content={'Operacja niestety nie powiodła się z powodu nieznanego błędu. Spróbuj ponownie później.'} 
+                updateStateInStore={updateIsSnackbarErrorDefaultVisible} />
             <AdjustableSnackbar type={'success'} title={'Zapisano Zmiany'} isOpen={IsSuccessSnackbarVisible}
                 content={'Twoje zmiany zostały zapisane i zsynchronizowane. Możesz teraz dodać kolejne elementy.'} 
                 updateStateInStore={updateIsSnackbarSuccessVisible} />

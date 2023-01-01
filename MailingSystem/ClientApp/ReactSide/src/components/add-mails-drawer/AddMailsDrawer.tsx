@@ -126,12 +126,11 @@ const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(
                         isVisible: true
                     }));
 
-                    console.log(data);
                     const ValidatedEmailsResponse = {
                         NewUniqueEmails: new List<IRecentEmail>(data.NewMails),
                         RepeatedEmails: new List<IRecentEmail>(data.MailsRepeated),
                     };
-                    console.log(ValidatedEmailsResponse.NewUniqueEmails);
+
                     setValidatedEmails(ValidatedEmailsResponse);
                     setStateOfResultsBox('success');
 
@@ -153,8 +152,7 @@ const AddMailsDrawer = React.forwardRef<HTMLDivElement, MailsDrawerProps>(
                     NewMails.forEach(Email => {
                         Dispatch(MailsActions.AddRecentMail(Email));
                     });
-                }).catch((err) => {
-                    console.log('aaa');
+                }).catch((err) => {                  
                     setStateOfResultsBox('error');
                     Dispatch(UIActions.setRecentMailsSnackbarVisibility({
                         type: 'Error', 

@@ -1,10 +1,7 @@
 import styles from './MailsDataTable.module.css';
 
-import AuthContext from '../../context-store/auth-context';
-
-import { useEffect, useContext, useState, useMemo } from 'react';
-import { useAppDispatch } from '../../hooks/Hooks';
-import { GetMailsStatistics, MailsActions } from '../../redux-store/mail-data';
+import { useEffect, useState, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 
 import { 
     GridRowsProp, 
@@ -17,6 +14,7 @@ import {
     GridToolbarExport,
     GridSelectionModel
 } from '@mui/x-data-grid';
+import { IExtractedMail } from '../../redux-store/redux-entities/types';
 
 function AdjustedToolbar() {
     return (
@@ -29,52 +27,69 @@ function AdjustedToolbar() {
     );
 };
 
-function MailsDataTableStatistics(props: any) {
-    const Ctx = useContext(AuthContext);
+function ExtractedMailsDataTable(props: any) {
     const Dispatch = useAppDispatch();
+    const ExtractedMails = useAppSelector(state => state.Mails.ExtractedMails);
     const FirstMailId: number | undefined = useMemo(() => {
-        return props.MailAggregateStatistics[0] ? props.MailAggregateStatistics[0].id : undefined;
-    }, [props.MailAggregateStatistics[0]]);
+        return ExtractedMails[0] ? ExtractedMails[0].id : undefined;
+    }, [ExtractedMails[0]]);
 
     const [TableRows, setTableRows] = useState<GridRowsProp>([]);
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
     useEffect(() => {
-        if (props.MailAggregateStatistics === null || props.MailAggregateStatistics === undefined || 
-            props.MailAggregateStatistics.length == 0) 
-        {
-            let isSend: boolean = false;
-            if (Ctx?.accessToken.token != undefined && Ctx?.accessToken.token != '' && isSend == false) {
-                Dispatch(GetMailsStatistics(Ctx?.accessToken.token));
-            }      
-            else if (isSend == false) {
-                const TokenObject: string | null = sessionStorage.getItem('accessToken');
-                if (TokenObject != null) {
-                    Dispatch(GetMailsStatistics((JSON.parse(TokenObject)).token));
-                }
-            }
-            
-            return () => {
-                isSend = true;
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        setTableRows([...(props.MailAggregateStatistics)]);
+        setTableRows([...(ExtractedMails)]);
     }, [FirstMailId]);
 
     useEffect(() => {
-        const RecipientsEmails: Array<string> = [];
-        selectionModel.forEach(IndexModel => {
-            const MailAdress = TableRows.find(Mail => Mail.id == IndexModel);
+        const SelectedEmails: Array<IExtractedMail> = [];
 
-            if (MailAdress) {
-                RecipientsEmails.push(MailAdress.MailAddress);
+        selectionModel.forEach(IndexModel => {
+            const SelectedTableEntity = TableRows.find(Row => Row.id == IndexModel);
+
+            if (SelectedTableEntity) {
+                SelectedEmails.push({
+                    id: SelectedTableEntity.id,
+                    MailAdress: SelectedTableEntity.MailAddress,
+                    CompanyName: SelectedTableEntity.CompanyName,
+                    DoesEmailExists: SelectedTableEntity.DoesEmailExists
+                } as unknown as IExtractedMail);
             }
         });
-        Dispatch(MailsActions.UpdateRecipients(RecipientsEmails));
+
+        props.UpdateSelectedNewEmails(SelectedEmails);
     }, [selectionModel]);
+
+    const Columns: GridColumns = [
+        { 
+            field: 'MailAddress', 
+            headerName: 'Email', 
+            flex: 2, 
+            type: 'string',
+            minWidth: 275,
+            headerClassName: styles.DataTableHeader,
+            headerAlign: 'center'
+        },      
+        { 
+            field: 'CompanyName', 
+            headerName: 'Nazwa Firmy', 
+            flex: 1.5, 
+            type: 'string',
+            minWidth: 200,
+            headerClassName: styles.DataTableHeader,
+            headerAlign: 'center'
+        },
+        { 
+            field: 'DoesEmailExists', 
+            headerName: 'Czy adres już istnieje', 
+            flex: 1, 
+            type: 'boolean',
+            minWidth: 125,
+            headerClassName: styles.DataTableHeader,
+            headerAlign: 'center',
+            align: 'center'
+        }
+    ];
 
     return (
         <div className={styles.DataTableWrapper}>
@@ -87,14 +102,13 @@ function MailsDataTableStatistics(props: any) {
                     },
                 }}
                 rows={TableRows} 
-                columns={props.Columns} 
+                columns={Columns} 
                 components={{Toolbar: AdjustedToolbar}}
                 checkboxSelection={true}
                 onSelectionModelChange={(newSelectionModel) => {
                     setSelectionModel(newSelectionModel);
                 }}
                 selectionModel={selectionModel}
-                experimentalFeatures={{newEditingApi: true}}
                 sx={{
                     boxShadow: '0px 0px 7px -1px rgb(248, 249, 250)',
                     border: '1px solid rgb(225, 225, 231)',
@@ -111,4 +125,4 @@ function MailsDataTableStatistics(props: any) {
     );
 };
 
-export default MailsDataTableStatistics;
+export default ExtractedMailsDataTable;

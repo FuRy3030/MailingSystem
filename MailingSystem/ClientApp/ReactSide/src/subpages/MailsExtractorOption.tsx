@@ -1,14 +1,52 @@
 import styles from './Subpages.module.css';
 
-import React from 'react';
-import { useAppSelector } from '../hooks/Hooks';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/Hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DividerHorizontal } from '../components/divider/Divider';
-import { faGears } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelopeCircleCheck, faGears } from '@fortawesome/free-solid-svg-icons';
 import ExtractorConfigurationForm from '../components/auto-check-forms/ExtractorConfigurationForm';
+import ExtractedMailsDataTable from '../components/mails-data-table/ExtractedMailsDataTable';
+import { IExtractedMail } from '../redux-store/redux-entities/types';
+import { Button } from 'react-bootstrap';
+import AddMailsToDatabaseFromExtractor from '../api/AddMailsToDatabaseFromExtractor';
+import { UIActions } from '../redux-store/ui';
 
 function MailsExtractorOption() {
+    const [SelectedNewEmails, setSelectedNewEmails] = useState<Array<IExtractedMail>>([]);
     const DrawerHeight = useAppSelector((state) => state.Measurements.AddMailsDrawerHeight);
+    const Dispatch = useAppDispatch();
+
+    const UpdateSelectedEmails = (SelectedEmails: Array<IExtractedMail>) => {
+        setSelectedNewEmails(SelectedEmails);
+    };
+
+    const AddNewSelectedMails = async (event: React.SyntheticEvent<HTMLButtonElement>) => {
+        Dispatch(UIActions.setDefaultSnackbarVisibility({
+            type: 'Success', 
+            isVisible: false
+        }));
+        
+        Dispatch(UIActions.setDefaultSnackbarVisibility({
+            type: 'Error', 
+            isVisible: false
+        }));
+
+        const IsAPIResultSuccessful: boolean = await AddMailsToDatabaseFromExtractor(SelectedNewEmails);
+
+        if (IsAPIResultSuccessful == true) {
+            Dispatch(UIActions.setDefaultSnackbarVisibility({
+                type: 'Success', 
+                isVisible: true
+            }));
+        }
+        else {
+            Dispatch(UIActions.setDefaultSnackbarVisibility({
+                type: 'Error', 
+                isVisible: true
+            }));
+        }
+    };
     
     return (
         <React.Fragment>
@@ -23,6 +61,11 @@ function MailsExtractorOption() {
                     </p>
                     <DividerHorizontal />
                     <ExtractorConfigurationForm />
+                    <ExtractedMailsDataTable UpdateSelectedNewEmails={UpdateSelectedEmails} />
+                    <Button variant="primary" className={`site-button ${styles.BigSiteButton}`}
+                        onClick={AddNewSelectedMails}>
+                        Dodaj Adresy E-mail <FontAwesomeIcon icon={faEnvelopeCircleCheck} />
+                    </Button>
                 </div>
             </div>
         </React.Fragment>

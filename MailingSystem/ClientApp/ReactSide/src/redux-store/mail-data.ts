@@ -8,7 +8,8 @@ import {
     IMailStatisticsSmallActivity, 
     IOverview,
     ISuggestedMail,
-    IChartData
+    IChartData,
+    IExtractedMail
 } from './redux-entities/types';
 import Config from '../config/config';
 
@@ -237,6 +238,7 @@ interface IMailsData {
     MailBuilder: IMailBuilder;
     RecentMails: Array<IRecentEmail>;
     MailStatistics: IMailAggregateStatistics;
+    ExtractedMails: Array<IExtractedMail>;
     HTTPStates: {
         GetRecentMails: {
             isLoading: boolean;
@@ -289,6 +291,7 @@ const InitialMailsState: IMailsData = {
         MailsWithStatisticsEngaged: new Array<IMailStatisticsEngaged>(),
         MailsWithStatisticsSmallActivity: new Array<IMailStatisticsSmallActivity>()
     },
+    ExtractedMails: new Array<IExtractedMail>(),
     HTTPStates: {
         GetRecentMails: {
             isLoading: false,
@@ -360,6 +363,9 @@ const MailsSlice = createSlice({
         UpdateCampaignFollowUpsNumber(State, Action: PayloadAction<number>) {
             State.CurrentCampaignConiguration.FollowUps = Action.payload;
         },
+        AddExtractedMail(State, Action: PayloadAction<IExtractedMail>) {
+			State.ExtractedMails = [Action.payload, ...State.ExtractedMails];
+		}
 	},
     extraReducers: (builder) => {
         builder.addCase(GetRecentMails.pending, (state) => {

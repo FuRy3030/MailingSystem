@@ -3,10 +3,12 @@ using Azure.Core;
 using MailingSystem.Classes;
 using MailingSystem.Contexts;
 using MailingSystem.Entities;
+using MailingSystem.MailServices;
 using MailingSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
@@ -122,6 +124,73 @@ namespace MailingSystem.Controllers
                         ContentType = "application/json",
                         StatusCode = 200
                     };
+                }
+
+                return BadRequest("Something Went Wrong");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("addwithcompany")]
+        public async Task<ActionResult> AddNewMailsWithCompanies([FromBody] AddMailsWithCompanyModel Model)
+        {
+            try
+            {
+                List<OrganizationMail> NewMails = new List<OrganizationMail>();
+                var Handler = new JwtSecurityTokenHandler();
+                var JsonToken = Handler.ReadToken(Model.AccessToken);
+                var DecodedToken = JsonToken as JwtSecurityToken;
+
+                if (DecodedToken != null && Model.MailsWithCompanies.Count > 0)
+                {
+                    var RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+
+                    using (var Context = new MailsDbContext())
+                    {                       
+                        foreach (MailWithCompany MailWithCompany in Model.MailsWithCompanies)
+                        {
+                            if (!string.IsNullOrEmpty(MailWithCompany.MailAddress))
+                            {
+                                string TrimmedEmail = MailWithCompany.MailAddress.Trim();
+
+                                bool IfExists = MailService.CheckIfMailExists(TrimmedEmail);
+
+                                if (IfExists == false)
+                                {
+                                    MailStatistics CurrentMailStatistics = new MailStatistics(true);
+
+                                    OrganizationMail CurrentMail = new OrganizationMail(
+                                        TrimmedEmail,
+                                        MailWithCompany.CompanyName,
+                                        RealName,
+                                        Username,
+                                        0,
+                                        DateTime.UtcNow,
+                                        CurrentMailStatistics
+                                    );
+
+                                    NewMails.Add(CurrentMail);
+                                }
+                            }
+                        }
+
+                        await Context.AddRangeAsync(NewMails);
+                        await Context.SaveChangesAsync();
+
+                        var ResponseResult = JsonConvert.SerializeObject(NewMails);
+                        return new ContentResult()
+                        {
+                            Content = ResponseResult,
+                            ContentType = "application/json",
+                            StatusCode = 200
+                        };
+                    }
                 }
 
                 return BadRequest("Something Went Wrong");

@@ -6,17 +6,24 @@ import { faMagnifyingGlassChart } from '@fortawesome/free-solid-svg-icons';
 import { Form, Field } from 'react-final-form';
 import { classNames } from 'primereact/utils';
 import { InputText } from 'primereact/inputtext';
-import { MailExtractorConfigurationForm, MailExtractorConfigurationFormErrors, SettingsMailsForm, SettingsMailsFormErrors } from '../../redux-store/redux-entities/types';
-import React, { useState } from 'react';
+import { IExtractedMail, MailExtractorConfigurationForm, MailExtractorConfigurationFormErrors, SettingsMailsForm, SettingsMailsFormErrors } from '../../redux-store/redux-entities/types';
+import React, { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Config from '../../config/config';
 import { UIActions } from '../../redux-store/ui';
 import { Dropdown } from 'primereact/dropdown';
 import { useParams } from 'react-router-dom';
 import { AvaliableExtractionOptions, SourceOption } from '../autocompletes/BigAutoCompleteExtractor';
+import AuthContext from '../../context-store/auth-context';
+import { useAppDispatch } from '../../hooks/Hooks';
+import { MailsActions } from '../../redux-store/mail-data';
+import LoadingScreen from '../loading-screen/LoadingScreen';
 
 function ExtractorConfigurationForm() {
+    const Ctx = useContext(AuthContext);
+    const Dispatch = useAppDispatch();
     const [EmploymentType, setEmploymentType] = useState<number>(0);
+    const [isLoadingPageShowed, setIsLoadingPageShowed] = useState<boolean>(false);
     const { OptionKey } = useParams();
     let ChosenOption: SourceOption | undefined;
 
@@ -59,52 +66,53 @@ function ExtractorConfigurationForm() {
         }
     };
 
-    const onSubmit = (FormData: MailExtractorConfigurationForm, Form: any) => {
+    const onSubmit = async (FormData: MailExtractorConfigurationForm, Form: any) => {
         try {
+            setIsLoadingPageShowed(true);
+
             const requestOptions = {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json', 
                     'Authorization': `Bearer ${Ctx?.accessToken.token}` 
                 },
-                body: JSON.stringify(FormData)
+                body: JSON.stringify({
+                    ExtractorSource: OptionKey,
+                    PageNumber: parseInt(FormData.PageNumber),
+                    MailSource: EmploymentType
+                })
             };
 
-            fetch(`${Config.sourceURL}/Configuration/updatemailssettings?Token=${Ctx?.accessToken.token}`, requestOptions)
-                .then(ServerResponse => ServerResponse.text())
-                .then(TextResponse => {
-                    Dispatch(UIActions.setConfigSnackbarVisibility({
-                        type: 'Error', 
-                        isVisible: false
-                    }));
+            const Response = await fetch(`${Config.sourceURL}/MailExtractor/scrapenewmails`, requestOptions);
 
-                    Dispatch(UIActions.setConfigSnackbarVisibility({
-                        type: 'Success', 
-                        isVisible: false
-                    }));
+            if (Response.ok) {
+                const ParsedResponse = await Response.json();
 
-                    if (TextResponse == 'Success') {
-                        Dispatch(UIActions.setConfigSnackbarVisibility({
-                            type: 'Success', 
-                            isVisible: true
-                        }));
-                    }
-                    else {
-                        Dispatch(UIActions.setConfigSnackbarVisibility({
-                            type: 'Error', 
-                            isVisible: true
-                        }));
-                    }
-                })
-                .catch(() => {
-                    Dispatch(UIActions.setConfigSnackbarVisibility({
-                        type: 'Error', 
-                        isVisible: true
-                    }));
+                const ExtractedMails: IExtractedMail[] = ParsedResponse.map((Mail: any, index: number) => {
+                    return { 
+                        id: index,  
+                        MailAddress: Mail.Email,
+                        CompanyName: Mail.CompanyName,
+                        DoesEmailExists: Mail.DoesEmailExists
+                    } as IExtractedMail
                 });
+
+                ExtractedMails.forEach((Mail: IExtractedMail) => {
+                    Dispatch(MailsActions.AddExtractedMail(Mail));
+                });
+            }
+            else {
+                Dispatch(UIActions.setDefaultSnackbarVisibility({
+                    type: 'Error', 
+                    isVisible: true
+                }));
+            }
+
+            setIsLoadingPageShowed(false);
         }
         catch {
-            Dispatch(UIActions.setConfigSnackbarVisibility({
+            setIsLoadingPageShowed(false);
+            Dispatch(UIActions.setDefaultSnackbarVisibility({
                 type: 'Error', 
                 isVisible: true
             }));
@@ -157,6 +165,7 @@ function ExtractorConfigurationForm() {
                 }}>
                 Znajdź Maile <FontAwesomeIcon icon={faMagnifyingGlassChart} />
             </Button>
+            {isLoadingPageShowed && <LoadingScreen Text={'Zbieramy adresy e-mail z sieci. To może chwilę potrwać...'} />}
         </div>
     );
 };

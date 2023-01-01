@@ -3,6 +3,7 @@ import { createSlice, PayloadAction  } from '@reduxjs/toolkit';
 interface IUIState {
     SnackbarsStates: {
         SuccessDefaultIsVisible: boolean;
+        ErrorDefaultIsVisible: boolean;
         RecentMails: {
             SuccessSnackbarIsVisible: boolean;
             ErrorSnackbarIsVisible: boolean;
@@ -33,6 +34,7 @@ interface IUIState {
 const InitialUIState: IUIState = { 
     SnackbarsStates: {
         SuccessDefaultIsVisible: false,
+        ErrorDefaultIsVisible: false,
         RecentMails: {
             SuccessSnackbarIsVisible: false,
             ErrorSnackbarIsVisible: false,
@@ -68,6 +70,9 @@ const UISlice = createSlice({
             switch (Action.payload.type) {
                 case 'Success':
                     State.SnackbarsStates.SuccessDefaultIsVisible = Action.payload.isVisible;
+                    break;
+                case 'Error':
+                    State.SnackbarsStates.ErrorDefaultIsVisible = Action.payload.isVisible;
                     break;
             }
         },

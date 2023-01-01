@@ -134,3 +134,10 @@ export interface MailExtractorConfigurationForm {
 export interface MailExtractorConfigurationFormErrors {
     PageNumber: string;
 };
+
+export interface IExtractedMail {
+    id: number;
+    MailAddress: string;
+    CompanyName: string;
+    DoesEmailExists: boolean;
+};

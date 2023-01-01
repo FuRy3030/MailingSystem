@@ -62,18 +62,6 @@ function MailsDataTableSuggestions() {
         setTableRows([...SuggestedMails]);
     }, [FirstMailId]);
 
-    // useEffect(() => {
-    //     const RecipientsEmails: Array<string> = [];
-    //     selectionModel.forEach(IndexModel => {
-    //         const MailAdress = TableRows.find(Mail => Mail.id == IndexModel);
-
-    //         if (MailAdress) {
-    //             RecipientsEmails.push(MailAdress.MailAddress);
-    //         }
-    //     });
-    //     Dispatch(MailsActions.UpdateRecipients(RecipientsEmails));
-    // }, [selectionModel]);
-
     const Columns: GridColumns = [
         { 
             field: 'MailAddress', 
