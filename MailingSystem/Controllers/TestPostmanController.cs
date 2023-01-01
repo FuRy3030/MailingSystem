@@ -24,12 +24,7 @@ namespace MailingSystem.Controllers
             try
             {
                 NGOEntity TestEntity = new NGOEntity("NGO", ClientFactory);
-                TestEntity.URLsWithOfferLists = new List<string>()
-                {
-                    "https://ogloszenia.ngo.pl/wolontariat/oferuje"
-                };
-
-                await TestEntity.GetURLsWithOffers();
+                await TestEntity.GetURLsWithOffers(MailSource.Work, 1);
 
                 var ResponseResult = JsonConvert.SerializeObject(await TestEntity.ScrapeEmailsFromOffers());
                 return new ContentResult()

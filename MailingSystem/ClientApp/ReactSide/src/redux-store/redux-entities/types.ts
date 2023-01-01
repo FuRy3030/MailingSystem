@@ -126,3 +126,11 @@ export interface IUserConfiguration {
         AfterHowManyWeeksRemindersAppear: number;
     };
 };
+
+export interface MailExtractorConfigurationForm {
+    PageNumber: string;
+};
+
+export interface MailExtractorConfigurationFormErrors {
+    PageNumber: string;
+};

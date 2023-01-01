@@ -1,0 +1,33 @@
+.FormWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vh;
+}
+
+.ConfigurationForm {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.FlexField {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.ExtractMailsButton {
+    display: flex;
+    align-items: center;
+    font-size: clamp(10px, 1.3vw, 55px);
+    padding: 0.9vh 1vw;
+    margin-left: auto;
+    font-weight: 800;
+    margin-right: 1vw;
+    margin-top: 3vh;
+}
+
+.ExtractMailsButton > svg {
+    margin-left: 0.75vw;
+}

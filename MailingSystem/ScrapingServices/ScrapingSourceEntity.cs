@@ -1,19 +1,25 @@
 ﻿namespace MailingSystem.ScrapingServices
 {
+    public enum MailSource
+    {
+        Work = 0,
+        Apprenticeship = 1,
+        Volunteering = 2
+    }
+
     public abstract class ScrapingSourceEntity
     {
         protected IHttpClientFactory ClientFactory;
         public string Name { get; set; }
-        public List<string> URLsWithOfferLists { get; set; }
+        public static readonly List<string>? URLsWithOfferLists;
         public List<string> SingleOfferURLs { get; set; }
 
-        public abstract Task<List<string>> GetURLsWithOffers();
+        public abstract Task<List<string>> GetURLsWithOffers(MailSource Source, int PageNumber);
         public abstract Task<List<ScrapedEmailEntity>> ScrapeEmailsFromOffers();
 
         public ScrapingSourceEntity(string name, IHttpClientFactory clientFactory)
         {
             Name = name;
-            URLsWithOfferLists = new List<string>();
             SingleOfferURLs = new List<string>();
             ClientFactory = clientFactory;
         }

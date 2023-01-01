@@ -12,7 +12,58 @@ type SourceOption = {
         Icon: IconDefinition;
         Text: string;
     } [];
+    EmploymentTypes: {
+        Name: string;
+        value: number;
+    } [];
+    EnumValue: number;
 };
+
+const Options: SourceOption[] = [
+    {
+        Name: 'NGO | Organizacje pozarządowe',
+        LinkToImg: '/images/ngo-logo.png',
+        Details: [
+            {
+                Icon: faHandshakeAngle,
+                Text: 'Wolontariat'
+            },
+            {
+                Icon: faGraduationCap,
+                Text: 'Staż'
+            },
+            {
+                Icon: faBriefcase,
+                Text: 'Praca'
+            }
+        ],
+        EmploymentTypes: [
+            { Name: 'Praca', value: 0 },
+            { Name: 'Staż / Praktyki', value: 1 },
+            { Name: 'Wolontariat', value: 2 }
+        ],
+        EnumValue: 0
+    },
+    {
+        Name: 'UJ | Akademickie Biuro Karier',
+        LinkToImg: '/images/uj-logo.png',
+        Details: [
+            {
+                Icon: faGraduationCap,
+                Text: 'Staż'
+            },
+            {
+                Icon: faBriefcase,
+                Text: 'Praca'
+            }
+        ],
+        EmploymentTypes: [
+            { Name: 'Praca', value: 0 },
+            { Name: 'Staż / Praktyki', value: 1 }
+        ],
+        EnumValue: 1
+    }
+];
 
 const ListItem = (props: any) => {
     return (
@@ -31,43 +82,9 @@ const ListItem = (props: any) => {
     );
 }
 
-function BigAutoComplete() {
+function BigAutoCompleteExtractor(props: any) {
     const [SelectedOption, setSelectedOption] = useState<any>(null);
     const [FilteredOptions, setFilteredOptions] = useState<SourceOption[]>([]);
-    const Options: SourceOption[] = [
-        {
-            Name: 'NGO | Organizacje pozarządowe',
-            LinkToImg: '/images/ngo-logo.png',
-            Details: [
-                {
-                    Icon: faHandshakeAngle,
-                    Text: 'Wolontariat'
-                },
-                {
-                    Icon: faGraduationCap,
-                    Text: 'Staż'
-                },
-                {
-                    Icon: faBriefcase,
-                    Text: 'Praca'
-                }
-            ]
-        },
-        {
-            Name: 'UJ | Akademickie Biuro Karier',
-            LinkToImg: '/images/uj-logo.png',
-            Details: [
-                {
-                    Icon: faGraduationCap,
-                    Text: 'Staż'
-                },
-                {
-                    Icon: faBriefcase,
-                    Text: 'Praca'
-                }
-            ]
-        }
-    ];
 
     const SearchExtractionMethod = (event: { query: string }) => {
         setTimeout(() => {
@@ -88,6 +105,7 @@ function BigAutoComplete() {
 
     const HandleChangeEvent = (event: any) => {
         setSelectedOption(event.value);
+        props.HandleExternalChangeEvent(event.value);
     };
 
     return (
@@ -111,4 +129,6 @@ function BigAutoComplete() {
     );
 };
 
-export default BigAutoComplete;
+export default BigAutoCompleteExtractor;
+export const AvaliableExtractionOptions = Options;
+export type { SourceOption };

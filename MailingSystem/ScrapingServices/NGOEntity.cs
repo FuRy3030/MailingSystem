@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using MailingSystem.MailServices;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -8,6 +9,13 @@ namespace MailingSystem.ScrapingServices
 {
     public class NGOEntity : ScrapingSourceEntity
     {
+        public static readonly List<string> URLsWithOfferLists = new List<string>
+        {
+            "https://ogloszenia.ngo.pl/praca-staz/dam-prace?page=",
+            "https://ogloszenia.ngo.pl/praca-staz/oferuje-staz?page=",
+            "https://ogloszenia.ngo.pl/wolontariat/oferuje?page="
+        };
+
         public NGOEntity(string name, IHttpClientFactory clientFactory) : 
             base(name, clientFactory) 
         {
@@ -15,39 +23,38 @@ namespace MailingSystem.ScrapingServices
             ClientFactory = clientFactory;
         }
 
-        public override async Task<List<string>> GetURLsWithOffers()
+        public override async Task<List<string>> GetURLsWithOffers(MailSource Source, 
+            int PageNumber)
         {
             List<string> URLs = new List<string>();
             HttpClient CurrentClient = ClientFactory.CreateClient();
 
-            foreach (string URL in this.URLsWithOfferLists)
+            Random RandomService = new Random();
+            int RandomHeaderIndex = RandomService.Next(0, 17);
+
+            CurrentClient.DefaultRequestHeaders.Add("User-Agent", 
+                NGOEntity.UserAgentList[RandomHeaderIndex]);
+            string WebsiteHTMLDoc = await CurrentClient.GetStringAsync(
+                URLsWithOfferLists[(int)Source] + PageNumber.ToString());
+
+            HtmlDocument HtmlDocument = new HtmlDocument();
+            HtmlDocument.LoadHtml(WebsiteHTMLDoc);
+
+            var OffersLinks = HtmlDocument.DocumentNode.Descendants("h3")
+                .Where(Node => Node.GetAttributeValue("class", "").Contains("lh-title"))
+                .Select(Node => Node.Descendants("a")
+                    .Select(Link => Link.GetAttributeValue("href", "")))
+                .ToList();
+
+            foreach (var OfferLink in OffersLinks)
             {
-                Random RandomService = new Random();
-                int RandomHeaderIndex = RandomService.Next(0, 17);
-
-                CurrentClient.DefaultRequestHeaders.Add("User-Agent", 
-                    NGOEntity.UserAgentList[RandomHeaderIndex]);
-                string WebsiteHTMLDoc = await CurrentClient.GetStringAsync(URL);
-
-                HtmlDocument HtmlDocument = new HtmlDocument();
-                HtmlDocument.LoadHtml(WebsiteHTMLDoc);
-
-                var OffersLinks = HtmlDocument.DocumentNode.Descendants("h3")
-                    .Where(Node => Node.GetAttributeValue("class", "").Contains("lh-title"))
-                    .Select(Node => Node.Descendants("a")
-                        .Select(Link => Link.GetAttributeValue("href", "")))
-                    .ToList();
-
-                foreach (var OfferLink in OffersLinks)
+                if (OfferLink.FirstOrDefault() != null)
                 {
-                    if (OfferLink.FirstOrDefault() != null)
-                    {
-                        URLs.Add(OfferLink.FirstOrDefault());
-                    }                   
-                }
-
-                CurrentClient.DefaultRequestHeaders.Remove("User-Agent");
+                    URLs.Add(OfferLink.FirstOrDefault());
+                }                   
             }
+
+            CurrentClient.DefaultRequestHeaders.Remove("User-Agent");
 
             this.SingleOfferURLs = URLs;
             return URLs;
@@ -95,7 +102,9 @@ namespace MailingSystem.ScrapingServices
 
                     string Email = StringDecode(EncryptionKey, EncryptedEmailCode);
 
-                    EmailEntities.Add(new ScrapedEmailEntity(Email, CompanyNames[j]));
+                    bool IfEmailExists = MailService.CheckIfMailExists(Email);
+
+                    EmailEntities.Add(new ScrapedEmailEntity(Email, CompanyNames[j], IfEmailExists));
                 }
                 CurrentClient.DefaultRequestHeaders.Remove("User-Agent");
             }

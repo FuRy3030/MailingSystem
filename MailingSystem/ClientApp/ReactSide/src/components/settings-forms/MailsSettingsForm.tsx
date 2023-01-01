@@ -19,7 +19,6 @@ function MailsSettingsForm() {
     const MailSettings = useAppSelector((state) => state.UserConfig.UserConfiguration.UserMailsSettings);
     const Ctx = useContext(AuthContext);
     const Dispatch = useAppDispatch();
-    console.log(MailSettings);
 
     useEffect(() => {
         if (MailSettings.GMassAPIKey == 'NotLoaded') {
