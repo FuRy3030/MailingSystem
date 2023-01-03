@@ -27,7 +27,7 @@ namespace MailingSystem.Contexts
                    .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("appsettings.json")
                    .Build();
-                var ConnectionString = Configuration.GetConnectionString("AuthConnectionString");
+                var ConnectionString = Configuration.GetConnectionString("DataConnectionString");
                 optionsBuilder.UseSqlServer(ConnectionString).UseExceptionProcessor();
             }
         }

@@ -59,9 +59,11 @@ function MailBasePage() {
         }
     }, []);
 
-    if (MailSettings.GMassAPIKey == '') {
-        setIsConfirmationModalShowed(true);
-    }
+    useEffect(() => {
+        if (MailSettings.GMassAPIKey == '') {
+            setIsConfirmationModalShowed(true);
+        }
+    }, [MailSettings.GMassAPIKey]);
 
     const UpdateContentWrapper = (areResultsVisible: boolean) => {
         setIsDrawerResultVisible(areResultsVisible);

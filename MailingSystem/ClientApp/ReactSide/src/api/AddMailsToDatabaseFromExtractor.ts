@@ -19,10 +19,11 @@ const AddMailsToDatabaseFromExtractor = async (NewSelectedMails: Array<IExtracte
                 'Authorization': `Bearer ${Ctx?.accessToken.token}` 
             },
             body: JSON.stringify({
-                NewExtractedEmails: NewSelectedMails.map((NewSelectedMail: IExtractedMail) => {
-                    NewSelectedMail.MailAddress,
-                    NewSelectedMail.CompanyName
-                }),
+                NewExtractedEmails: NewSelectedMails.map((NewSelectedMail: IExtractedMail) => { 
+                    return {
+                        MailAddress: NewSelectedMail.MailAddress,
+                        CompanyName: NewSelectedMail.CompanyName
+                    }}),
                 AccessToken: Ctx?.accessToken.token
             })
         };
