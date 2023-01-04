@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import { AuthContextProvider } from './context-store/auth-context';
 import ReduxStore from './redux-store/store';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ root.render(
     <AuthContextProvider>
       <BrowserRouter>
         <Provider store={ReduxStore}>
-          <App />
+          <GoogleOAuthProvider clientId="104279093815-npg46ifu43hcogj2o1iovu4qbu1lph1t.apps.googleusercontent.com">
+            <App />
+          </GoogleOAuthProvider>
         </Provider>
       </BrowserRouter>
     </AuthContextProvider>

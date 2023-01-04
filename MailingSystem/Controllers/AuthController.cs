@@ -49,6 +49,7 @@ namespace MailingSystem.Controllers
 
                     ApplicationUser NewUser = new()
                     {
+                        PictureURL = GoogleUser.Picture,
                         RealName = RealName,
                         Email = GoogleUser.Email,
                         SecurityStamp = Guid.NewGuid().ToString(),
@@ -77,6 +78,7 @@ namespace MailingSystem.Controllers
                         GoogleUser.Email, PotentialUser.RealName);
                     DateTime ExpirationTime = DateTime.UtcNow.AddHours(1);
 
+                    PotentialUser.PictureURL = GoogleUser.Picture;
                     PotentialUser.RefreshToken = RefreshToken;
                     PotentialUser.LastAccessToken = AccessToken;
                     PotentialUser.LastAccessTokenExpirationTime = ExpirationTime;

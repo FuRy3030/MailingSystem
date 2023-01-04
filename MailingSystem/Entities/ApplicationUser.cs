@@ -6,6 +6,9 @@ namespace MailingSystem.Entities
     public class ApplicationUser : IdentityUser
     {
         [Required]
+        public string PictureURL { get; set; }
+
+        [Required]
         public string RealName { get; set; }
 
         [Required]
