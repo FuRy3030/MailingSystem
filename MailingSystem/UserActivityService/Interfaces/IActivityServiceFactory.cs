@@ -1,10 +1,10 @@
 ﻿using MailingSystem.Entities.BackupEntities;
 
-namespace MailingSystem.UserActivityService
+namespace MailingSystem.UserActivityService.Interfaces
 {
     public interface IActivityServiceFactory
     {
-        void CreateActivityLog(int EntityId, string PictureURL, string RealName, 
+        void CreateActivityLog(int EntityId, string PictureURL, string RealName,
             OperationType ActivityType);
     }
 }

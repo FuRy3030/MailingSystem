@@ -1,8 +1,11 @@
 ﻿using MailingSystem.Contexts;
 using MailingSystem.Entities;
+using MailingSystem.Entities.BackupEntities;
 using MailingSystem.Models;
+using MailingSystem.UserActivityService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,6 +16,13 @@ namespace MailingSystem.Controllers
     [Route("[controller]")]
     public class TemplatesController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> UserManager;
+
+        public TemplatesController(UserManager<ApplicationUser> userManager)
+        {
+            UserManager = userManager;
+        }
+
         [Authorize]
         [HttpPost]
         [Route("add")]
@@ -26,7 +36,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && TemplateModel.Name != "" && TemplateModel.Type != null)
                 {
-                    var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Context = new TemplatesDbContext())
                     {
@@ -41,6 +59,15 @@ namespace MailingSystem.Controllers
 
                         await Context.AddAsync(NewTemplate);
                         await Context.SaveChangesAsync();
+
+                        TemplateActivityFactory TemplateActivityFactory = new TemplateActivityFactory();
+                        ActivityService Service = new ActivityService(TemplateActivityFactory);
+                        Service.CreateActivityLog(
+                            NewTemplate.TemplateId,
+                            User.PictureURL,
+                            RealName,
+                            OperationType.Add
+                        );
 
                         var Response = new
                         {
@@ -90,7 +117,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && TemplateModel.Name != "" && TemplateModel.Type != null)
                 {
-                    var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Context = new TemplatesDbContext())
                     {
@@ -108,6 +143,15 @@ namespace MailingSystem.Controllers
                             CurrentTemplate.Topic = TemplateModel.Topic;
 
                             await Context.SaveChangesAsync();
+
+                            TemplateActivityFactory TemplateActivityFactory = new TemplateActivityFactory();
+                            ActivityService Service = new ActivityService(TemplateActivityFactory);
+                            Service.CreateActivityLog(
+                                CurrentTemplate.TemplateId,
+                                User.PictureURL,
+                                RealName,
+                                OperationType.Edit
+                            );
 
                             return new ContentResult()
                             {
@@ -140,7 +184,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && TemplateId != null)
                 {
-                    var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Context = new TemplatesDbContext())
                     {
@@ -152,6 +204,15 @@ namespace MailingSystem.Controllers
                         {
                             Context.Remove(FoundTemplateEntity);
                             await Context.SaveChangesAsync();
+
+                            TemplateActivityFactory TemplateActivityFactory = new TemplateActivityFactory();
+                            ActivityService Service = new ActivityService(TemplateActivityFactory);
+                            Service.CreateActivityLog(
+                                FoundTemplateEntity.TemplateId,
+                                User.PictureURL,
+                                RealName,
+                                OperationType.Delete
+                            );
 
                             return new ContentResult()
                             {

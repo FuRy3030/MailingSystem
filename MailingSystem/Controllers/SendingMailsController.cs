@@ -1,9 +1,12 @@
 ﻿using MailingSystem.Classes;
 using MailingSystem.Contexts;
 using MailingSystem.Entities;
+using MailingSystem.Entities.BackupEntities;
 using MailingSystem.GoogleAPIIntegration;
 using MailingSystem.Models;
+using MailingSystem.UserActivityService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -20,9 +23,12 @@ namespace MailingSystem.Controllers
     {
         private IHttpClientFactory ClientFactory;
 
-        public SendingMailsController(IHttpClientFactory clientFactory) 
+        private readonly UserManager<ApplicationUser> UserManager;
+
+        public SendingMailsController(IHttpClientFactory clientFactory, UserManager<ApplicationUser> userManager) 
         {
             ClientFactory = clientFactory;
+            UserManager = userManager;
         }
 
         [Authorize]
@@ -38,8 +44,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && SentMailModel.Recipients.Count > 0)
                 {
-                    var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
-                    var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Config = new ConfigurationDbContext())
                     {
@@ -179,6 +192,15 @@ namespace MailingSystem.Controllers
 
                             await Context.SentMailCampaigns.AddAsync(NewCampaign);
                             await Context.SaveChangesAsync();
+
+                            CampaignActivityFactory CampaignActivityFactory = new CampaignActivityFactory();
+                            ActivityService Service = new ActivityService(CampaignActivityFactory);
+                            Service.CreateActivityLog(
+                                NewCampaign.LocalId,
+                                User.PictureURL,
+                                RealName,
+                                OperationType.Add
+                            );
 
                             return new ContentResult()
                             {

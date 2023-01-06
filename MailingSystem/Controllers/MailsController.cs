@@ -3,8 +3,10 @@ using Azure.Core;
 using MailingSystem.Classes;
 using MailingSystem.Contexts;
 using MailingSystem.Entities;
+using MailingSystem.Entities.BackupEntities;
 using MailingSystem.MailServices;
 using MailingSystem.Models;
+using MailingSystem.UserActivityService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +48,8 @@ namespace MailingSystem.Controllers
             UserManager = userManager;
         }
 
-        private async Task<EmailsGroups> CheckWhichEmailsRepeat(List<string> Emails, string RealName, string Username)
+        private async Task<EmailsGroups> CheckWhichEmailsRepeat(List<string> Emails, string RealName, 
+            string Username, string PictureURL)
         {
             EmailsGroups CurrentCheckGroup = new EmailsGroups();
 
@@ -83,7 +86,7 @@ namespace MailingSystem.Controllers
                                 0,
                                 DateTime.UtcNow,
                                 CurrentMailStatistics
-                            );
+                            );                          
 
                             CurrentCheckGroup.NewMails.Add(CurrentMail);
                         }
@@ -92,6 +95,14 @@ namespace MailingSystem.Controllers
 
                 await Context.AddRangeAsync(CurrentCheckGroup.NewMails);
                 await Context.SaveChangesAsync();
+
+                MailActivityFactory MailActivityFactory = new MailActivityFactory();
+                ActivityService Service = new ActivityService(MailActivityFactory);
+
+                foreach (OrganizationMail Mail in CurrentCheckGroup.NewMails)
+                {
+                    Service.CreateActivityLog(Mail.MailId, PictureURL, RealName, OperationType.Add);
+                }
             }
 
             return CurrentCheckGroup;
@@ -110,20 +121,29 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && (AddMailsData.Emails != "" && AddMailsData.Emails != null))
                 {
-                    var UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
-                    var RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
-                    var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
                     var User = await UserManager.FindByEmailAsync(UserEmail);
 
                     List<string> Emails = AddMailsData.Emails.Split(',').ToList();
 
-                    var ResponseResult = JsonConvert.SerializeObject(await CheckWhichEmailsRepeat(Emails, RealName, Username));   // serialize to JSON
-                    return new ContentResult()
+                    if (User != null)
                     {
-                        Content = ResponseResult,
-                        ContentType = "application/json",
-                        StatusCode = 200
-                    };
+                        string ResponseResult = JsonConvert.SerializeObject(await CheckWhichEmailsRepeat(
+                            Emails, 
+                            RealName, 
+                            Username, 
+                            User.PictureURL
+                        ));   // serialize to JSON
+
+                        return new ContentResult()
+                        {
+                            Content = ResponseResult,
+                            ContentType = "application/json",
+                            StatusCode = 200
+                        };
+                    }                   
                 }
 
                 return BadRequest("Something Went Wrong");
@@ -148,8 +168,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && Model.MailsWithCompanies.Count > 0)
                 {
-                    var RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
-                    var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Context = new MailsDbContext())
                     {                       
@@ -183,7 +210,20 @@ namespace MailingSystem.Controllers
                         await Context.AddRangeAsync(NewMails);
                         await Context.SaveChangesAsync();
 
-                        var ResponseResult = JsonConvert.SerializeObject(NewMails);
+                        MailActivityFactory MailActivityFactory = new MailActivityFactory();
+                        ActivityService Service = new ActivityService(MailActivityFactory);
+
+                        foreach (OrganizationMail Mail in NewMails)
+                        {
+                            Service.CreateActivityLog(
+                                Mail.MailId, 
+                                User.PictureURL, 
+                                RealName, 
+                                OperationType.Add
+                            );
+                        }
+
+                        string ResponseResult = JsonConvert.SerializeObject(NewMails);
                         return new ContentResult()
                         {
                             Content = ResponseResult,
@@ -215,7 +255,7 @@ namespace MailingSystem.Controllers
                         .Select(Mail => Mail)
                         .ToList();
 
-                    var ResponseResult = JsonConvert.SerializeObject(SortedRecentMails);
+                    string ResponseResult = JsonConvert.SerializeObject(SortedRecentMails);
                     return new ContentResult()
                     {
                         Content = ResponseResult,
@@ -244,10 +284,21 @@ namespace MailingSystem.Controllers
                 if (DecodedToken != null && (RecentEmailModel.RecentEmail.MailAddress != null &&
                     RecentEmailModel.RecentEmail.UserWhoAdded != null))
                 {
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
+
                     using (var Context = new MailsDbContext())
                     {
                         OrganizationMail? CurrentMail = Context.OrganizationMails
-                            .Where(Mail => Mail.MailId == RecentEmailModel.RecentEmail.MailId)
+                            .Where(Mail => Mail.MailId == RecentEmailModel.RecentEmail.MailId && 
+                                Mail.UserVerificatiorName == Username)
                             .Select(Mail => Mail)
                             .FirstOrDefault();
 
@@ -269,12 +320,20 @@ namespace MailingSystem.Controllers
 
                             await Context.SaveChangesAsync();
 
+                            MailActivityFactory MailActivityFactory = new MailActivityFactory();
+                            ActivityService Service = new ActivityService(MailActivityFactory);
+                            Service.CreateActivityLog(
+                                CurrentMail.MailId,
+                                User.PictureURL,
+                                RealName,
+                                OperationType.Edit
+                            );
+
                             return new ContentResult()
                             {
                                 Content = "Success",
                                 ContentType = "application/json",
                                 StatusCode = 200,
-
                             };
                         }
                     }
@@ -301,7 +360,15 @@ namespace MailingSystem.Controllers
 
                 if (DecodedToken != null && MailId != null)
                 {
-                    var Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string UserEmail = DecodedToken.Claims.First(Claim => Claim.Type == "email").Value;
+                    string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
+                    string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
+                    var User = await UserManager.FindByEmailAsync(UserEmail);
+
+                    if (User == null)
+                    {
+                        return BadRequest("User not found!");
+                    }
 
                     using (var Context = new MailsDbContext())
                     {
@@ -313,6 +380,15 @@ namespace MailingSystem.Controllers
                         {
                             Context.Remove(FoundMailEntity);
                             await Context.SaveChangesAsync();
+
+                            MailActivityFactory MailActivityFactory = new MailActivityFactory();
+                            ActivityService Service = new ActivityService(MailActivityFactory);
+                            Service.CreateActivityLog(
+                                FoundMailEntity.MailId,
+                                User.PictureURL,
+                                RealName,
+                                OperationType.Delete
+                            );
 
                             return new ContentResult()
                             {

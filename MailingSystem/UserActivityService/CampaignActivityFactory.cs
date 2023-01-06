@@ -1,6 +1,7 @@
 ﻿using MailingSystem.Contexts;
 using MailingSystem.Entities;
 using MailingSystem.Entities.BackupEntities;
+using MailingSystem.UserActivityService.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailingSystem.UserActivityService
