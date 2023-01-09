@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import ActivityHistoryReducer from './activity-log';
 import MeasurementsReducer from './html-measurements';
 import MailsReducer from './mail-data';
 import UIReducer from './ui';
@@ -8,6 +9,7 @@ import UserConfig from './settings';
 
 const ReduxStore = configureStore({
   reducer: { 
+    ActivityHistory: ActivityHistoryReducer,
     Measurements: MeasurementsReducer,
     Mails: MailsReducer,
     UI: UIReducer,

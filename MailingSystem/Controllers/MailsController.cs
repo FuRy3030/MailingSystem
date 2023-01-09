@@ -378,9 +378,6 @@ namespace MailingSystem.Controllers
 
                         if (FoundMailEntity != null)
                         {
-                            Context.Remove(FoundMailEntity);
-                            await Context.SaveChangesAsync();
-
                             MailActivityFactory MailActivityFactory = new MailActivityFactory();
                             ActivityService Service = new ActivityService(MailActivityFactory);
                             Service.CreateActivityLog(
@@ -389,6 +386,9 @@ namespace MailingSystem.Controllers
                                 RealName,
                                 OperationType.Delete
                             );
+
+                            Context.Remove(FoundMailEntity);
+                            await Context.SaveChangesAsync();                         
 
                             return new ContentResult()
                             {

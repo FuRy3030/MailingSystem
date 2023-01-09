@@ -1,3 +1,5 @@
+import { Moment } from "moment-timezone";
+
 export interface IRecentEmail {
     id: number,
     MailId: number;
@@ -140,4 +142,63 @@ export interface IExtractedMail {
     MailAddress: string;
     CompanyName: string;
     DoesEmailExists: boolean;
+};
+
+enum LogType {
+    Campaign = 0,
+    Mail = 1,
+    Template = 2
+};
+
+enum ActivityType {
+    Add = 0,
+    Edit = 1,
+    Delete = 2
+};
+
+enum TemplateType {
+    Universal = 0,
+    ForMail = 1,
+    ForResponse = 2
+};
+
+export interface IMailActivityLog {
+    Id: number;
+    LogType: LogType;
+    PictureURL: string;
+    UserRealName: string;
+    EntityName: string;
+    ActivityType: ActivityType;
+    ActivityTime: string;
+};
+
+export interface ICampaignActivityLog {
+    Id: number;
+    LogType: LogType;
+    PictureURL: string;
+    UserRealName: string;
+    EntityName: string;
+    ActivityType: ActivityType;
+    ActivityTime: string;
+    NumberOfFollowUps: number;
+    EmailsString: string;
+};
+
+export interface ITemplateActivityLog {
+    Id: number;
+    LogType: LogType;
+    PictureURL: string;
+    UserRealName: string;
+    EntityName: string;
+    ActivityType: ActivityType;
+    ActivityTime: string;
+    Type: TemplateType;
+    Topic: string;
+    Content: string;
+};
+
+export interface IActivityHistory {
+    CampaignLogs: Array<ICampaignActivityLog>;
+    MailLogs: Array<IMailActivityLog>;
+    TemplateLogs: Array<ITemplateActivityLog>;
 };

@@ -202,9 +202,6 @@ namespace MailingSystem.Controllers
 
                         if (FoundTemplateEntity != null)
                         {
-                            Context.Remove(FoundTemplateEntity);
-                            await Context.SaveChangesAsync();
-
                             TemplateActivityFactory TemplateActivityFactory = new TemplateActivityFactory();
                             ActivityService Service = new ActivityService(TemplateActivityFactory);
                             Service.CreateActivityLog(
@@ -213,6 +210,9 @@ namespace MailingSystem.Controllers
                                 RealName,
                                 OperationType.Delete
                             );
+
+                            Context.Remove(FoundTemplateEntity);
+                            await Context.SaveChangesAsync();                          
 
                             return new ContentResult()
                             {

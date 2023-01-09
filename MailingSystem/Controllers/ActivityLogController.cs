@@ -13,7 +13,6 @@ namespace MailingSystem.Controllers
     [Route("[controller]")]
     public class ActivityLogController : ControllerBase
     {
-        [Authorize]
         [HttpGet]
         [Route("get")]
         public async Task GetHistory()

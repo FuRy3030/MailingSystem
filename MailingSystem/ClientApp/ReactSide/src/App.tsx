@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import LandingPage from './pages/landing-page/LandingPage';
@@ -16,6 +16,8 @@ import Reminders from './subpages/Reminders';
 import SettingsPage from './pages/settings/SettingsPage';
 import MailsExtractor from './subpages/MailsExtractor';
 import MailsExtractorOption from './subpages/MailsExtractorOption';
+import ActivityLogPage from './pages/activity-log-page/ActivityLogPage';
+import { useInitiateActivityLogLiveConnection } from './api/useInitiateActivityLogLiveConnection';
 
 function App() {
   const GoogleButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -26,6 +28,8 @@ function App() {
     setIsIntersecting(isCurrentlyIntersecting);
   };
 
+  useInitiateActivityLogLiveConnection();
+
   return (
     <div className="App">
       <NavigationBar isLandingScreenVisible={isIntersecting} />
@@ -34,6 +38,7 @@ function App() {
           <Route path="home" element={<LandingPage ref={GoogleButtonRef} updateNavBarStyle={updateNavBarStyle} />} />
         </Route>
         <Route path="/settings" element={<Protected> <SettingsPage /> </Protected>} />
+        <Route path="/activity" element={<Protected> <ActivityLogPage /> </Protected>} />
         <Route path="/mails" element={<Protected> <MailBasePage /> </Protected>}>
           <Route path="/mails/" element={<Dashboard />} />
           <Route path="/mails/home" element={<Dashboard />} />
@@ -53,3 +58,4 @@ function App() {
 }
 
 export default App;
+

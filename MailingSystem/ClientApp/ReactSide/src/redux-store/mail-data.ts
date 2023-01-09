@@ -42,8 +42,6 @@ export const GetRecentMails = createAsyncThunk(
                             .local().format('YYYY-MM-DD HH:mm:ss')
                     }
                 });
-
-                console.log(RecentMails);
                 
                 return RecentMails as Array<IRecentEmail>;
             }
