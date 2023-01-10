@@ -17,7 +17,7 @@ export const useInitiateActivityLogLiveConnection = () => {
             let ifCreated = false;
 
             if (!ifCreated) {
-                const ActivityLogWebSocket = new WebSocket(`${Config.webSocketURL}/ActivityLog/get`);
+                const ActivityLogWebSocket = new WebSocket(`${Config.webSocketURL}/ActivityLog/gethistory`);
     
                 ActivityLogWebSocket.onopen = () => {
                     ActivityLogWebSocket.send('');
