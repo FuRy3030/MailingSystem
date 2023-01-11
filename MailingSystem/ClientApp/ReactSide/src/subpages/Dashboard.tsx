@@ -14,7 +14,7 @@ import OverviewTilesAlt from '../components/overview-tiles/OverviewTilesAlt';
 import React from 'react';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 
-const ChartOptions = {
+export const ChartOptions = {
     maintainAspectRatio: false,
     aspectRatio: .6,
     plugins: {

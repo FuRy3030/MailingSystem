@@ -2,7 +2,7 @@
 {
     public abstract class StatisticsFacade
     {
-        public abstract IUserStatistics BuildStatisticsFacade();
+        public abstract IUserStatistics BuildStatisticsFacade(string Identifier, string PictureURL);
     }
 
     public class UsersStatisticsFacade : StatisticsFacade
@@ -21,7 +21,7 @@
             FacadeStatistics = new ActivityMailStatistics();
         }
 
-        public override IUserStatistics BuildStatisticsFacade()
+        public override IUserStatistics BuildStatisticsFacade(string Identifier, string PictureURL)
         {
             this.FacadeStatistics.TrackingStatistics = new TrackingStatistics();
             this.FacadeStatistics.ChartData = new List<ChartData>();
@@ -40,6 +40,8 @@
 
             this.FacadeStatistics.ChartData = this.ChartDataService.GetChartData();
             this.FacadeStatistics.MailCount = this.BasicStatisticsService.GetMailCount();
+            this.FacadeStatistics.Identifier = Identifier;
+            this.FacadeStatistics.PictureURL = PictureURL;
 
             return this.FacadeStatistics;
         }
@@ -61,7 +63,7 @@
             FacadeStatistics = new ActivityMailStatistics();
         }
 
-        public override IUserStatistics BuildStatisticsFacade()
+        public override IUserStatistics BuildStatisticsFacade(string Identifier, string PictureURL)
         {
             this.FacadeStatistics.TrackingStatistics = new TrackingStatistics();
             this.FacadeStatistics.ChartData = new List<ChartData>();
@@ -80,6 +82,8 @@
 
             this.FacadeStatistics.ChartData = this.ChartDataService.GetChartData();
             this.FacadeStatistics.MailCount = this.BasicStatisticsService.GetMailCount();
+            this.FacadeStatistics.Identifier = Identifier;
+            this.FacadeStatistics.PictureURL = PictureURL;
 
             return this.FacadeStatistics;
         }

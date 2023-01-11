@@ -38,7 +38,7 @@ const OverviewTileColor = [
 
 function OverviewTile(props: any) {
     return (
-        <div className={!props.isFullSize ? styles.OverviewTile : styles.OverviewTileFullSize} 
+        <div className={`${!props.isFullSize ? styles.OverviewTile : styles.OverviewTileFullSize} ${props.Class}`} 
             style={{backgroundColor: props.BackgroundColor}}>
             <FontAwesomeIcon className={styles.OverviewTileIcon} icon={props.Icon} 
                 style={{backgroundColor: props.IconBackground}} />
@@ -89,3 +89,5 @@ function OverviewTiles() {
 };
 
 export default OverviewTiles;
+
+export const OverviewTileComponent = OverviewTile;

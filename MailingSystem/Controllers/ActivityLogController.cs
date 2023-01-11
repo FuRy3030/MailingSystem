@@ -108,7 +108,7 @@ namespace MailingSystem.Controllers
                             BasicStatisticsTeam
                         );
 
-                        ActivityMailStatisticsList.Add(TeamStatistics.BuildStatisticsFacade());
+                        ActivityMailStatisticsList.Add(TeamStatistics.BuildStatisticsFacade("Wszyscy", "/Logo.svg"));
 
                         List<Task> AddUsersStatisticsTaskList = new List<Task>();
 
@@ -129,11 +129,12 @@ namespace MailingSystem.Controllers
                                     BasicStatistics
                                 );
 
-                                ActivityMailStatisticsList.Add(UserStatistics.BuildStatisticsFacade());
+                                ActivityMailStatisticsList.Add(
+                                    UserStatistics.BuildStatisticsFacade(User.RealName, User.PictureURL));
                             }));
                         }
 
-                        Task.WhenAll(AddUsersStatisticsTaskList);
+                        await Task.WhenAll(AddUsersStatisticsTaskList);
 
                         string ResponseResult = JsonConvert.SerializeObject(ActivityMailStatisticsList);
 

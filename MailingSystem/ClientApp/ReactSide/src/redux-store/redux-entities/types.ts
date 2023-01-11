@@ -202,3 +202,19 @@ export interface IActivityHistory {
     MailLogs: Array<IMailActivityLog>;
     TemplateLogs: Array<ITemplateActivityLog>;
 };
+
+export interface IAggregateStatisticsInstance {
+    MailCount: number;
+    Identifier: string;
+    PictureURL: string;
+    ChartData: {
+        Value: number;
+        DateLabel: string;
+    } [];
+    TrackingStatistics: {
+        UniqueCampaigns: number;
+        UniqueOpens: number;
+        UniqueClicks: number;
+        UniqueReplies: number;
+    };
+};

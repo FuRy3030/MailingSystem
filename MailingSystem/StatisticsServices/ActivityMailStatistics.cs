@@ -5,6 +5,8 @@
         public List<ChartData> ChartData { get; set; }
         public TrackingStatistics TrackingStatistics { get; set; }
         public int MailCount { get; set; }
+        public string Identifier { get; set; }
+        public string PictureURL { get; set; }
     }
 
     public class ChartData

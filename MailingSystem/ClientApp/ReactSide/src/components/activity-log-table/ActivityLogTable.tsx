@@ -6,9 +6,9 @@ import styles from './ActivityLogTable.module.css';
 import ActivityLogTableRow from './ActivityLogTableRow';
 
 function ActivityLogTable() {
-    const CampaignLogs = useAppSelector((state) => state.ActivityHistory.CampaignLogs);
-    const MailLogs = useAppSelector((state) => state.ActivityHistory.MailLogs);
-    const TemplateLogs = useAppSelector((state) => state.ActivityHistory.TemplateLogs);
+    const CampaignLogs = useAppSelector((state) => state.ActivityHistory.ActivityHistory.CampaignLogs);
+    const MailLogs = useAppSelector((state) => state.ActivityHistory.ActivityHistory.MailLogs);
+    const TemplateLogs = useAppSelector((state) => state.ActivityHistory.ActivityHistory.TemplateLogs);
 
     const ActivityLogHistoryTransformed: any[] = [...CampaignLogs, ...MailLogs, ...TemplateLogs];
 

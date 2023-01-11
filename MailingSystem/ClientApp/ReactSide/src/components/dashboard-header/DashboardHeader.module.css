@@ -10,6 +10,10 @@
     border: 1px solid rgb(246, 246, 249);
 }
 
+.DashboardHeaderActivity {
+    margin-bottom: clamp(10px, 3vh, 40px);
+}
+
 .DashboardHeaderWelcome {
     font-size: clamp(7px, 1.1vw, 28px);
     font-family: var(--standard-font);
@@ -20,6 +24,10 @@
     width: auto;
     text-align: start;
     margin-right: 1.5vw;
+}
+
+.DashboardHeaderWelcome span {
+    color: var(--blue-site-dark-color);
 }
 
 .DashboardHeaderMailsMonth {

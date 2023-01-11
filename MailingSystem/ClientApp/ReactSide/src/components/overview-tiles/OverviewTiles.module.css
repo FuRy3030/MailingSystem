@@ -5,6 +5,13 @@
     justify-content: space-between;
 }
 
+.OverviewTilesActivityLog {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .OverviewTilesHeader {
     display: flex;
     align-items: center;
@@ -45,6 +52,10 @@
     padding: clamp(7px, 1.75vh, 25px) clamp(10px, 1.5vw, 45px);
     border-radius: 2vw;
     cursor: default;
+}
+
+.OverviewTileActivityLog {
+    width: 22.5% !important;
 }
 
 .OverviewTileFullSize {

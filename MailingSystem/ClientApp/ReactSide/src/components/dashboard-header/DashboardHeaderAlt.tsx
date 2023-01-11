@@ -2,8 +2,6 @@ import styles from './DashboardHeader.module.css';
 
 import { faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AuthContext from '../../context-store/auth-context';
-import { useContext } from 'react';
 import { useAppSelector } from '../../hooks/Hooks';
 
 function DashboardHeaderAlt() {

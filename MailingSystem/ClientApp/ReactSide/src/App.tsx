@@ -16,8 +16,10 @@ import Reminders from './subpages/Reminders';
 import SettingsPage from './pages/settings/SettingsPage';
 import MailsExtractor from './subpages/MailsExtractor';
 import MailsExtractorOption from './subpages/MailsExtractorOption';
-import ActivityLogPage from './pages/activity-log-page/ActivityLogPage';
 import { useInitiateActivityLogLiveConnection } from './api/useInitiateActivityLogLiveConnection';
+import { useInitiateStatisticsLogLiveConnection } from './api/useInitiateStatisticsLogLiveConnection';
+import ActivityLogPageStatistics from './pages/activity-log-page/ActivityLogPageStatistics';
+import ActivityLogPageHistory from './pages/activity-log-page/ActivityLogPageHistory';
 
 function App() {
   const GoogleButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -29,6 +31,7 @@ function App() {
   };
 
   useInitiateActivityLogLiveConnection();
+  useInitiateStatisticsLogLiveConnection();
 
   return (
     <div className="App">
@@ -38,7 +41,8 @@ function App() {
           <Route path="home" element={<LandingPage ref={GoogleButtonRef} updateNavBarStyle={updateNavBarStyle} />} />
         </Route>
         <Route path="/settings" element={<Protected> <SettingsPage /> </Protected>} />
-        <Route path="/activity" element={<Protected> <ActivityLogPage /> </Protected>} />
+        <Route path="/activity/history" element={<Protected> <ActivityLogPageHistory /> </Protected>} />
+        <Route path="/activity/statistics" element={<Protected> <ActivityLogPageStatistics /> </Protected>} />
         <Route path="/mails" element={<Protected> <MailBasePage /> </Protected>}>
           <Route path="/mails/" element={<Dashboard />} />
           <Route path="/mails/home" element={<Dashboard />} />

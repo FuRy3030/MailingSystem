@@ -11,8 +11,19 @@
     -moz-box-shadow: 0px 0px 6px 0px rgba(205, 205, 205, 1);
     box-shadow: 0px 0px 6px 0px rgba(205, 205, 205, 1);
     padding: clamp(4px, 1.25vh, 14px) clamp(15px, 2.5vw, 58px);
+    margin: clamp(3.5px, 0.9vh, 12px) clamp(12px, 2vw, 45px);
     border-radius: 2.5vw;
     cursor: pointer;
+    transition: all 0.45s ease-in-out;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.AllMembersChip:hover {
+    -webkit-box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    -moz-box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    outline: 2px solid var(--blue-site-dark-color);
 }
 
 .AllMembersChip span {
@@ -32,4 +43,10 @@
     font-size: clamp(10px, 1.65vw, 38px);
     color: var(--blue-site-dark-color);
     margin-left: 2vw;
+}
+
+.Avatar {
+    width: 2.75vw !important;
+    height: auto !important;
+    margin-right: 2vw !important;
 }

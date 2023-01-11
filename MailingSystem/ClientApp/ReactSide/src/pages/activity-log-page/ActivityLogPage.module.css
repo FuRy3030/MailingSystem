@@ -1,0 +1,24 @@
+.StatisticsArea {
+    width: 100%;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin: 3vh 0px;
+}
+
+.ChartArea {
+    width: 100%;
+    border: none !important;
+    background-color: transparent !important;
+    margin: clamp(7.5px, 2vh, 30px) 0px clamp(15px, 4.5vh, 75px) 0px;
+}
+
+.ChartArea h2 {
+    font-size: clamp(13px, 2vw, 52px);
+    font-family: var(--standard-font);
+    font-weight: 800;
+    color: var(--dark-font-color);
+    margin-bottom: clamp(7px, 1.05vh, 35px);
+    cursor: default;
+    width: 100%;
+    text-align: start;
+}

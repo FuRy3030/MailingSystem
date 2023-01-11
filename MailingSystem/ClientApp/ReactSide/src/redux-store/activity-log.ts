@@ -3,13 +3,24 @@ import {
     IActivityHistory, 
     ICampaignActivityLog, 
     IMailActivityLog, 
-    ITemplateActivityLog 
+    ITemplateActivityLog,
+    IAggregateStatisticsInstance
 } from './redux-entities/types';
 
-const InitialHistoryState: IActivityHistory = { 
-    CampaignLogs: new Array<ICampaignActivityLog>,
-    MailLogs: new Array<IMailActivityLog>,
-    TemplateLogs: new Array<ITemplateActivityLog>
+interface ActivityLogState {
+    ActivityHistory: IActivityHistory;
+    TeamStatistics: Array<IAggregateStatisticsInstance>;
+    ActiveUserSelected: string;
+}
+
+const InitialHistoryState: ActivityLogState = { 
+    ActivityHistory: {
+        CampaignLogs: new Array<ICampaignActivityLog>,
+        MailLogs: new Array<IMailActivityLog>,
+        TemplateLogs: new Array<ITemplateActivityLog>
+    },
+    TeamStatistics: new Array<IAggregateStatisticsInstance>,
+    ActiveUserSelected: 'Wszyscy'
 };
 
 const ActivityHistorySlice = createSlice({
@@ -17,9 +28,15 @@ const ActivityHistorySlice = createSlice({
 	initialState: InitialHistoryState,
 	reducers: {
 		UpdateActivityHistory(State, Action: PayloadAction<IActivityHistory>) {
-            State.CampaignLogs = [...Action.payload.CampaignLogs];
-            State.MailLogs = [...Action.payload.MailLogs];
-            State.TemplateLogs = [...Action.payload.TemplateLogs];
+            State.ActivityHistory.CampaignLogs = [...Action.payload.CampaignLogs];
+            State.ActivityHistory.MailLogs = [...Action.payload.MailLogs];
+            State.ActivityHistory.TemplateLogs = [...Action.payload.TemplateLogs];
+        },
+        UpdateStatistics(State, Action: PayloadAction<Array<IAggregateStatisticsInstance>>) {
+            State.TeamStatistics = [...Action.payload];
+        },
+        UpdateActiveUser(State, Action: PayloadAction<string>) {
+            State.ActiveUserSelected = Action.payload;
         }
 	}
 });
