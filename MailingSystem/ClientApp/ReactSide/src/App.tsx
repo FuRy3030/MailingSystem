@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import LandingPage from './pages/landing-page/LandingPage';
@@ -16,8 +16,6 @@ import Reminders from './subpages/Reminders';
 import SettingsPage from './pages/settings/SettingsPage';
 import MailsExtractor from './subpages/MailsExtractor';
 import MailsExtractorOption from './subpages/MailsExtractorOption';
-import { useInitiateActivityLogLiveConnection } from './api/useInitiateActivityLogLiveConnection';
-import { useInitiateStatisticsLogLiveConnection } from './api/useInitiateStatisticsLogLiveConnection';
 import ActivityLogPageStatistics from './pages/activity-log-page/ActivityLogPageStatistics';
 import ActivityLogPageHistory from './pages/activity-log-page/ActivityLogPageHistory';
 
@@ -29,9 +27,6 @@ function App() {
   const updateNavBarStyle = (isCurrentlyIntersecting: boolean) => {
     setIsIntersecting(isCurrentlyIntersecting);
   };
-
-  useInitiateActivityLogLiveConnection();
-  useInitiateStatisticsLogLiveConnection();
 
   return (
     <div className="App">

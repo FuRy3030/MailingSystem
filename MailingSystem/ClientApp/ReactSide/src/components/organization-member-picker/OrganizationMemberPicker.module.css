@@ -1,7 +1,26 @@
 .OrganizationMemberPickerWrapper {
     display: flex;
     flex-wrap: wrap;
-    margin: clamp(10px, 2.5vh, 35px) 0px;
+    margin: clamp(12.5px, 3.75vh, 45px) 0px;
+    padding: clamp(10px, 2.5vh, 35px) clamp(11px, 2.5vw, 55px);
+    box-shadow: rgb(240, 240, 244) 0px 0px 6px;
+    -webkit-box-shadow: rgb(240, 240, 244) 0px 0px 6px;
+    -moz-box-shadow: rgb(240, 240, 244) 0px 0px 6px;
+    border-radius: 1.75vw;
+    background-color: white;
+}
+
+.OrganizationMemberPickerHeader {
+    font-size: clamp(12px, 2.125vw, 47px);
+    font-family: var(--standard-font);
+    font-weight: 900;
+    color: var(--dark-font-color);
+    margin-bottom: 2.15vh;
+    width: 100%;
+}
+
+.OrganizationMemberPickerHeader svg {
+    margin-right: 1.35vw;
 }
 
 .AllMembersChip {
@@ -26,10 +45,26 @@
     outline: 2px solid var(--blue-site-dark-color);
 }
 
+.AllMembersChipActive {
+    -webkit-box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    -moz-box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    box-shadow: 0px 0px 6px 0px var(--blue-site-dark-color);
+    outline: 2px solid var(--blue-site-dark-color);
+}
+
 .AllMembersChip span {
     font-size: clamp(9px, 1.5vw, 35px);
     font-family: var(--standard-font);
     font-weight: 1000;
+    color: var(--dark-font-color);
+    transition: all 0.45s ease-in-out;
+}
+
+.AllMembersChip:hover span {
+    color: var(--blue-site-dark-color);
+}
+
+.AllMembersChipActive span {
     color: var(--blue-site-dark-color);
 }
 
@@ -41,8 +76,17 @@
 
 .AllMembersChipIcon {
     font-size: clamp(10px, 1.65vw, 38px);
-    color: var(--blue-site-dark-color);
+    color: var(--dark-font-color);
     margin-left: 2vw;
+    transition: all 0.45s ease-in-out;
+}
+
+.AllMembersChip:hover .AllMembersChipIcon {
+    color: var(--blue-site-dark-color);
+}
+
+.AllMembersChipActive .AllMembersChipIcon {
+    color: var(--blue-site-dark-color);
 }
 
 .Avatar {

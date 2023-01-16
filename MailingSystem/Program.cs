@@ -53,6 +53,19 @@ builder.Services.AddAuthentication(options =>
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true
         };
+
+        Token.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     }
 );
 

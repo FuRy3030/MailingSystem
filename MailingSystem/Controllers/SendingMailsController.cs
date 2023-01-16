@@ -110,7 +110,7 @@ namespace MailingSystem.Controllers
                                     UserMailConfig.GMassAPIKey);
                             }
                         }
-                        else if (UserMailConfig != null && UserMailConfig.RecipientsSheetId == "")
+                        else if (UserMailConfig != null)
                         {
                             string RecipientsString = "";
 

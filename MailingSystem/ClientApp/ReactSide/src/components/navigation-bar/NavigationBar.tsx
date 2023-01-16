@@ -1,14 +1,15 @@
 import styles from './NavigationBar.module.css';
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAppDispatch } from '../../hooks/Hooks';
 import { MeasurementsActions } from '../../redux-store/html-measurements';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faEnvelopesBulk, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faChartSimple, faEnvelopesBulk, faGear } from "@fortawesome/free-solid-svg-icons";
 import UserAvatar from '../user-avatar/UserAvatar';
 import { useContext } from "react";
 import AuthContext from "../../context-store/auth-context";
 import { useNavigate } from 'react-router-dom';
+import UtilityLoad from '../utility-components/UtilityLoad';
 
 function NavigationBar(props: any) {
     const NavigationBarRef = useRef<HTMLDivElement | null>(null);
@@ -23,8 +24,16 @@ function NavigationBar(props: any) {
         };
     };
 
+    const ActivityHistoryClickHandler = () => {
+        Navigate("/activity/history");
+    };
+
     const OptionsClickHandler = () => {
         Navigate("/settings");
+    };
+
+    const StatisticsClickHandler = () => {
+        Navigate("/activity/statistics");
     };
 
     const MailsClickHandler = () => {
@@ -50,16 +59,22 @@ function NavigationBar(props: any) {
                 <span className={styles.NavBarLink} onClick={MailsClickHandler}>
                     Baza Maili <FontAwesomeIcon icon={faEnvelopesBulk} />
                 </span>
+                <span className={styles.NavBarLink} onClick={StatisticsClickHandler}>
+                    Statystyki Zespołu <FontAwesomeIcon icon={faChartSimple} />
+                </span>
                 {Ctx?.isLoggedIn == true ? 
                     <React.Fragment>
+                        <FontAwesomeIcon icon={faBell} className={styles.NavBarIcon} 
+                            onClick={ActivityHistoryClickHandler} />
                         <FontAwesomeIcon icon={faGear} className={styles.NavBarIcon} 
-                            style={{marginRight: '1vw'}} onClick={OptionsClickHandler} />
+                            onClick={OptionsClickHandler} />
                         <UserAvatar isLandingScreenVisible={props.isLandingScreenVisible} />                       
                     </React.Fragment>
                     : 
                     <></>
                 }
             </div>
+            {props.isLandingScreenVisible == false ? <UtilityLoad /> : <></>}
         </div>
     )
 }

@@ -3,6 +3,7 @@ using MailingSystem.ScrapingServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 
 namespace MailingSystem.Controllers
 {
@@ -23,8 +24,9 @@ namespace MailingSystem.Controllers
         {
             try
             {
-                NGOEntity TestEntity = new NGOEntity("NGO", ClientFactory);
+                UJEntity TestEntity = new UJEntity("NGO", ClientFactory);
                 await TestEntity.GetURLsWithOffers(MailSource.Work, 1);
+                HttpClient CurrentClient = ClientFactory.CreateClient();
 
                 var ResponseResult = JsonConvert.SerializeObject(await TestEntity.ScrapeEmailsFromOffers());
                 return new ContentResult()

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { 
     IRecentEmail, 
     IMailBuilder, 

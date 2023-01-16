@@ -1,30 +1,26 @@
-import { useContext } from "react";
 import Config from "../config/config";
-import AuthContext from "../context-store/auth-context";
-import { useAppDispatch } from "../hooks/Hooks";
-import { MailsActions } from "../redux-store/mail-data";
 import { IExtractedMail, IRecentEmail } from "../redux-store/redux-entities/types";
 
 const moment = require('moment-timezone');
 
-const AddMailsToDatabaseFromExtractor = async (NewSelectedMails: Array<IExtractedMail>) => {
-    const Ctx = useContext(AuthContext);
-    const Dispatch = useAppDispatch();
+const AddMailsToDatabaseFromExtractor = async (NewSelectedMails: Array<IExtractedMail>, Token: string) => {
+    const NewExtractedEmailsFormatted = NewSelectedMails.map((NewSelectedMail: IExtractedMail) => { 
+        return {
+            MailAddress: NewSelectedMail.MailAddress,
+            CompanyName: NewSelectedMail.CompanyName
+        }
+    });
 
     try {
         const requestOptions = {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${Ctx?.accessToken.token}` 
+                'Authorization': `Bearer ${Token}` 
             },
             body: JSON.stringify({
-                NewExtractedEmails: NewSelectedMails.map((NewSelectedMail: IExtractedMail) => { 
-                    return {
-                        MailAddress: NewSelectedMail.MailAddress,
-                        CompanyName: NewSelectedMail.CompanyName
-                    }}),
-                AccessToken: Ctx?.accessToken.token
+                NewExtractedEmails: NewExtractedEmailsFormatted,
+                AccessToken: Token
             })
         };
 
@@ -48,18 +44,23 @@ const AddMailsToDatabaseFromExtractor = async (NewSelectedMails: Array<IExtracte
                 }
             });
 
-            NewMails.forEach(Email => {
-                Dispatch(MailsActions.AddRecentMail(Email));
-            });
-
-            return true;
+            return {
+                Status: true,
+                Mails: NewMails
+            };
         }
         else {
-            return false;
+            return {
+                Status: false,
+                Mails: []
+            };
         }
     }
     catch {
-        return false;
+        return {
+            Status: false,
+            Mails: []
+        };
     }
 };
 

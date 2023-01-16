@@ -1,4 +1,5 @@
-﻿using MailingSystem.Entities;
+﻿using MailingSystem.Classes;
+using MailingSystem.Entities;
 using MailingSystem.StatisticsServices;
 using MailingSystem.UserActivityService;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.WebSockets;
 using System.Text;
@@ -23,6 +26,7 @@ namespace MailingSystem.Controllers
             UserManager = userManager;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("gethistory")]
         public async Task GetHistory()
@@ -48,6 +52,8 @@ namespace MailingSystem.Controllers
 
                         while (!WebSocketResult.CloseStatus.HasValue)
                         {
+                            Service.BuildActivityLogHistory();
+                            ResponseResult = JsonConvert.SerializeObject(Builder.GetHistory());
                             byte[] ServerResponse = Encoding.UTF8.GetBytes(ResponseResult);
 
                             await CurrentSocket.SendAsync(
@@ -81,6 +87,7 @@ namespace MailingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("getstatistics")]
         public async Task GetStatistics()
@@ -146,6 +153,39 @@ namespace MailingSystem.Controllers
 
                         while (!WebSocketResult.CloseStatus.HasValue)
                         {
+                            Users = UserManager.Users.ToList();
+                            ActivityMailStatisticsList = new List<IUserStatistics>
+                            {
+                                TeamStatistics.BuildStatisticsFacade("Wszyscy", "/Logo.svg")
+                            };
+
+                            AddUsersStatisticsTaskList = new List<Task>();
+
+                            foreach (ApplicationUser User in Users)
+                            {
+                                AddUsersStatisticsTaskList.Add(Task.Run(() =>
+                                {
+                                    TrackingStatisticsServiceLastMonth TrackingStatistics =
+                                        new TrackingStatisticsServiceLastMonth(User.Email, User.UserName);
+                                    ChartDataServicePastSevenWeeks ChartData =
+                                        new ChartDataServicePastSevenWeeks(User.Email);
+                                    BasicStatisticsServiceLastMonth BasicStatistics =
+                                        new BasicStatisticsServiceLastMonth(User.Email);
+
+                                    UsersStatisticsFacade UserStatistics = new UsersStatisticsFacade(
+                                        TrackingStatistics,
+                                        ChartData,
+                                        BasicStatistics
+                                    );
+
+                                    ActivityMailStatisticsList.Add(
+                                        UserStatistics.BuildStatisticsFacade(User.RealName, User.PictureURL));
+                                }));
+                            }
+
+                            await Task.WhenAll(AddUsersStatisticsTaskList);
+
+                            ResponseResult = JsonConvert.SerializeObject(ActivityMailStatisticsList);
                             byte[] ServerResponse = Encoding.UTF8.GetBytes(ResponseResult);
 
                             await CurrentSocket.SendAsync(

@@ -11,16 +11,31 @@ const moment = require('moment-timezone');
 export const useInitiateActivityLogLiveConnection = () => {
     const Ctx = useContext(AuthContext);
     const Dispatch = useAppDispatch();
+    let Token: string = "";
+
+    if (Ctx?.accessToken.token != undefined && Ctx?.accessToken.token != '') {
+        Token = Ctx?.accessToken.token;
+    }
+    else {
+        const TokenObject: string | null = sessionStorage.getItem('accessToken');
+        if (TokenObject) {
+            Token = (JSON.parse(TokenObject)).token;
+        }
+    }
 
     try {
         useEffect(() => {
             let ifCreated = false;
+            let SendingInterval: NodeJS.Timer;
 
-            if (!ifCreated) {
-                const ActivityLogWebSocket = new WebSocket(`${Config.webSocketURL}/ActivityLog/gethistory`);
+            if (!ifCreated && Token != '') {
+                const ActivityLogWebSocket = new WebSocket(`${Config.webSocketURL}/ActivityLog/gethistory?access_token=${Token}`);
     
                 ActivityLogWebSocket.onopen = () => {
-                    ActivityLogWebSocket.send('');
+                    ActivityLogWebSocket.send(Token);
+                    SendingInterval = setInterval(() => {
+                        ActivityLogWebSocket.send(Token);
+                    }, 5000);
                 }
         
                 ActivityLogWebSocket.onmessage = (response: any) => {
@@ -73,7 +88,7 @@ export const useInitiateActivityLogLiveConnection = () => {
                                 Content: Log.Content
                             } as ITemplateActivityLog
                         })
-                    }
+                    };
 
                     Dispatch(ActivityHistoryActions.UpdateActivityHistory(NewActivityHistory));
                 }
@@ -81,6 +96,9 @@ export const useInitiateActivityLogLiveConnection = () => {
 
             return () => {
                 ifCreated = true;
+                if (SendingInterval) {
+                    clearInterval(SendingInterval);
+                }
             }
         }, []);
     }

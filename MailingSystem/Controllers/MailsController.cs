@@ -166,7 +166,7 @@ namespace MailingSystem.Controllers
                 var JsonToken = Handler.ReadToken(Model.AccessToken);
                 var DecodedToken = JsonToken as JwtSecurityToken;
 
-                if (DecodedToken != null && Model.MailsWithCompanies.Count > 0)
+                if (DecodedToken != null && Model.NewExtractedEmails.Count > 0)
                 {
                     string RealName = DecodedToken.Claims.First(Claim => Claim.Type == "given_name").Value;
                     string Username = DecodedToken.Claims.First(Claim => Claim.Type == "unique_name").Value;
@@ -180,7 +180,7 @@ namespace MailingSystem.Controllers
 
                     using (var Context = new MailsDbContext())
                     {                       
-                        foreach (MailWithCompany MailWithCompany in Model.MailsWithCompanies)
+                        foreach (MailWithCompany MailWithCompany in Model.NewExtractedEmails)
                         {
                             if (!string.IsNullOrEmpty(MailWithCompany.MailAddress))
                             {

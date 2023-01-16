@@ -1,14 +1,16 @@
 import styles from './OrganizationMemberPicker.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faHandPointLeft, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/Hooks';
 import { Avatar } from '@mui/material';
 import React from 'react';
 import { ActivityHistoryActions } from '../../redux-store/activity-log';
+import { shallowEqual } from 'react-redux';
 
 function OrganizationMemberPicker() {
     const Dispatch = useAppDispatch();
+    const ActiveUser: string = useAppSelector((state) => state.ActivityHistory.ActiveUserSelected, shallowEqual);
     const OrganizationMembers: object[] = useAppSelector((state) => {
         return state.ActivityHistory.TeamStatistics.map((TeamStatistic) => {
             return {
@@ -32,21 +34,39 @@ function OrganizationMemberPicker() {
 
     return (
         <div className={styles.OrganizationMemberPickerWrapper}>
-            <div className={styles.AllMembersChip} onClick={HandleActiveUserChangeToWholeTeam}>
+            <h2 className={styles.OrganizationMemberPickerHeader}>
+                <FontAwesomeIcon icon={faPeopleGroup} />Dostępni Użytkownicy
+            </h2>
+            <div className={'Wszyscy' == ActiveUser ? 
+                `${styles.AllMembersChip} ${styles.AllMembersChipActive}`
+                :
+                `${styles.AllMembersChip}`} 
+                onClick={HandleActiveUserChangeToWholeTeam}
+            >
                 <img alt="Logo" src='/Logo.svg' className={styles.Logo} />
                 <span>Wszyscy</span>
-                <FontAwesomeIcon icon={faCheck} className={styles.AllMembersChipIcon} />           
+                <FontAwesomeIcon 
+                    icon={'Wszyscy' == ActiveUser ? faCheck : faHandPointLeft} 
+                    className={styles.AllMembersChipIcon} 
+                />           
             </div>
             {OrganizationMembers.map((Member: any, index: number) => {
                 return <div 
                     data-username={Member.Identifier} 
-                    className={styles.AllMembersChip} 
+                    className={Member.Identifier == ActiveUser ? 
+                        `${styles.AllMembersChip} ${styles.AllMembersChipActive}`
+                        :
+                        `${styles.AllMembersChip}`
+                    } 
                     key={index} 
                     onClick={HandleActiveUserChange}
                     >
                     <Avatar alt="Avatar" src={Member.PictureURL} className={styles.Avatar} />
                     <span>{Member.Identifier}</span>
-                    <FontAwesomeIcon icon={faCheck} className={styles.AllMembersChipIcon} />           
+                    <FontAwesomeIcon 
+                        icon={Member.Identifier == ActiveUser ? faCheck : faHandPointLeft} 
+                        className={styles.AllMembersChipIcon} 
+                    />            
                 </div>
             })}
         </div>

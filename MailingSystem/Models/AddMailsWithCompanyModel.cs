@@ -2,7 +2,7 @@
 {
     public class AddMailsWithCompanyModel
     {
-        public List<MailWithCompany> MailsWithCompanies { get; set; }
+        public List<MailWithCompany> NewExtractedEmails { get; set; }
         public string AccessToken { get; set; }
     }
 

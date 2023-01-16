@@ -34,6 +34,9 @@ namespace MailingSystem.Controllers
                         NewScrapedMails = await NGOScrapeServices.ScrapeEmailsFromOffers();
                         break;
                     case "1":
+                        UJEntity UJScrapeServices = new UJEntity("UJ", ClientFactory);
+                        await UJScrapeServices.GetURLsWithOffers(Model.MailSource, Model.PageNumber);
+                        NewScrapedMails = await UJScrapeServices.ScrapeEmailsFromOffers();
                         break;                  
                 }
 

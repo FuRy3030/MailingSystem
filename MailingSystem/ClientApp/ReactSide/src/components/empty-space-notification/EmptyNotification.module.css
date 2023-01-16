@@ -15,6 +15,10 @@
     margin-right: auto;
 }
 
+.EmptyNotificationSmall img {
+    width: 20% !important;
+}
+
 .EmptyNotification span {
     width: 100%;
     text-align: center;
@@ -22,4 +26,8 @@
     font-weight: 800;
     color: var(--dark-font-color);
     font-size: 1.35vw;
+}
+
+.EmptyNotificationSmall span {
+    font-size: 1.85vw;
 }

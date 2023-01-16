@@ -1,4 +1,5 @@
 ﻿using MailingSystem.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 
 namespace MailingSystem.Classes
@@ -75,6 +77,38 @@ namespace MailingSystem.Classes
             }
 
             return LowerCase ? Builder.ToString().ToLower() : Builder.ToString();
+        }
+
+        public static bool ValidateToken(string AuthToken)
+        {
+            JwtSecurityTokenHandler Handler = new JwtSecurityTokenHandler();
+            TokenValidationParameters ValidationParameters = AuthManagement.GetValidationParameters();
+
+            Handler.ValidateToken(AuthToken, ValidationParameters, out SecurityToken Token);
+            return true;
+        }
+
+        private static TokenValidationParameters GetValidationParameters()
+        {
+            IConfigurationRoot Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var Issuer = Configuration["Jwt:Issuer"];
+            var Audience = Configuration["Jwt:Audience"];
+
+            return new TokenValidationParameters()
+            {
+                ValidIssuer = Issuer,
+                ValidAudience = Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true,
+                ClockSkew = TimeSpan.Zero
+            };
         }
     }
 }

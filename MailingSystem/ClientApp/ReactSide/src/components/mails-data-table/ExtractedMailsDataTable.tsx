@@ -28,7 +28,6 @@ function AdjustedToolbar() {
 };
 
 function ExtractedMailsDataTable(props: any) {
-    const Dispatch = useAppDispatch();
     const ExtractedMails = useAppSelector(state => state.Mails.ExtractedMails);
     const FirstMailId: number | undefined = useMemo(() => {
         return ExtractedMails[0] ? ExtractedMails[0].id : undefined;
@@ -50,10 +49,10 @@ function ExtractedMailsDataTable(props: any) {
             if (SelectedTableEntity) {
                 SelectedEmails.push({
                     id: SelectedTableEntity.id,
-                    MailAdress: SelectedTableEntity.MailAddress,
+                    MailAddress: SelectedTableEntity.MailAddress,
                     CompanyName: SelectedTableEntity.CompanyName,
                     DoesEmailExists: SelectedTableEntity.DoesEmailExists
-                } as unknown as IExtractedMail);
+                } as IExtractedMail);
             }
         });
 
